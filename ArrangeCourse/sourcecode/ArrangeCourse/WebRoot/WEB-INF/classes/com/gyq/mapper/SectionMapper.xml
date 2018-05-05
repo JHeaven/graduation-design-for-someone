@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gyq.dao.SectionMapper" >
+  <resultMap id="BaseResultMap" type="com.gyq.model.Section" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sec_date" property="secDate" jdbcType="TIMESTAMP" />
+    <result column="sec_site" property="secSite" jdbcType="VARCHAR" />
+    <result column="room_id" property="roomId" jdbcType="INTEGER" />
+    <result column="room_name" property="roomName" jdbcType="VARCHAR" />
+    <result column="max_num" property="maxNum" jdbcType="INTEGER" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="le1_id" property="le1Id" jdbcType="INTEGER" />
+    <result column="le1_name" property="le1Name" jdbcType="VARCHAR" />
+    <result column="le1_tea" property="le1Tea" jdbcType="VARCHAR" />
+    <result column="le1_class" property="le1Class" jdbcType="VARCHAR" />
+    <result column="le2_id" property="le2Id" jdbcType="INTEGER" />
+    <result column="le2_name" property="le2Name" jdbcType="VARCHAR" />
+    <result column="le2_tea" property="le2Tea" jdbcType="VARCHAR" />
+    <result column="le2_class" property="le2Class" jdbcType="VARCHAR" />
+    <result column="le3_id" property="le3Id" jdbcType="INTEGER" />
+    <result column="le3_name" property="le3Name" jdbcType="VARCHAR" />
+    <result column="le3_tea" property="le3Tea" jdbcType="VARCHAR" />
+    <result column="le3_class" property="le3Class" jdbcType="VARCHAR" />
+    <result column="le4_id" property="le4Id" jdbcType="INTEGER" />
+    <result column="le4_name" property="le4Name" jdbcType="VARCHAR" />
+    <result column="le4_tea" property="le4Tea" jdbcType="VARCHAR" />
+    <result column="le4_class" property="le4Class" jdbcType="VARCHAR" />
+    <result column="le5_id" property="le5Id" jdbcType="INTEGER" />
+    <result column="le5_name" property="le5Name" jdbcType="VARCHAR" />
+    <result column="le5_tea" property="le5Tea" jdbcType="VARCHAR" />
+    <result column="le5_class" property="le5Class" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sec_date, sec_site, room_id, room_name, max_num, ps, deleted, le1_id, le1_name, 
+    le1_tea, le1_class, le2_id, le2_name, le2_tea, le2_class, le3_id, le3_name, le3_tea, 
+    le3_class, le4_id, le4_name, le4_tea, le4_class, le5_id, le5_name, le5_tea, le5_class
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from section
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectall" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from section
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from section
+    <if test=" _parameter != null">
+    	where id = #{_parameter,jdbcType=INTEGER}
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gyq.model.Section" >
+    insert into section (id, sec_date, sec_site, 
+      room_id, room_name, max_num, 
+      ps, deleted, le1_id, 
+      le1_name, le1_tea, le1_class, 
+      le2_id, le2_name, le2_tea, 
+      le2_class, le3_id, le3_name, 
+      le3_tea, le3_class, le4_id, 
+      le4_name, le4_tea, le4_class, 
+      le5_id, le5_name, le5_tea, 
+      le5_class)
+    values (#{id,jdbcType=INTEGER}, #{secDate,jdbcType=TIMESTAMP}, #{secSite,jdbcType=VARCHAR}, 
+      #{roomId,jdbcType=INTEGER}, #{roomName,jdbcType=VARCHAR}, #{maxNum,jdbcType=INTEGER}, 
+      #{ps,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}, #{le1Id,jdbcType=INTEGER}, 
+      #{le1Name,jdbcType=VARCHAR}, #{le1Tea,jdbcType=VARCHAR}, #{le1Class,jdbcType=VARCHAR}, 
+      #{le2Id,jdbcType=INTEGER}, #{le2Name,jdbcType=VARCHAR}, #{le2Tea,jdbcType=VARCHAR}, 
+      #{le2Class,jdbcType=VARCHAR}, #{le3Id,jdbcType=INTEGER}, #{le3Name,jdbcType=VARCHAR}, 
+      #{le3Tea,jdbcType=VARCHAR}, #{le3Class,jdbcType=VARCHAR}, #{le4Id,jdbcType=INTEGER}, 
+      #{le4Name,jdbcType=VARCHAR}, #{le4Tea,jdbcType=VARCHAR}, #{le4Class,jdbcType=VARCHAR}, 
+      #{le5Id,jdbcType=INTEGER}, #{le5Name,jdbcType=VARCHAR}, #{le5Tea,jdbcType=VARCHAR}, 
+      #{le5Class,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gyq.model.Section" >
+    insert into section
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="secDate != null" >
+        sec_date,
+      </if>
+      <if test="secSite != null" >
+        sec_site,
+      </if>
+      <if test="roomId != null" >
+        room_id,
+      </if>
+      <if test="roomName != null" >
+        room_name,
+      </if>
+      <if test="maxNum != null" >
+        max_num,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="le1Id != null" >
+        le1_id,
+      </if>
+      <if test="le1Name != null" >
+        le1_name,
+      </if>
+      <if test="le1Tea != null" >
+        le1_tea,
+      </if>
+      <if test="le1Class != null" >
+        le1_class,
+      </if>
+      <if test="le2Id != null" >
+        le2_id,
+      </if>
+      <if test="le2Name != null" >
+        le2_name,
+      </if>
+      <if test="le2Tea != null" >
+        le2_tea,
+      </if>
+      <if test="le2Class != null" >
+        le2_class,
+      </if>
+      <if test="le3Id != null" >
+        le3_id,
+      </if>
+      <if test="le3Name != null" >
+        le3_name,
+      </if>
+      <if test="le3Tea != null" >
+        le3_tea,
+      </if>
+      <if test="le3Class != null" >
+        le3_class,
+      </if>
+      <if test="le4Id != null" >
+        le4_id,
+      </if>
+      <if test="le4Name != null" >
+        le4_name,
+      </if>
+      <if test="le4Tea != null" >
+        le4_tea,
+      </if>
+      <if test="le4Class != null" >
+        le4_class,
+      </if>
+      <if test="le5Id != null" >
+        le5_id,
+      </if>
+      <if test="le5Name != null" >
+        le5_name,
+      </if>
+      <if test="le5Tea != null" >
+        le5_tea,
+      </if>
+      <if test="le5Class != null" >
+        le5_class,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="secDate != null" >
+        #{secDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="secSite != null" >
+        #{secSite,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=INTEGER},
+      </if>
+      <if test="roomName != null" >
+        #{roomName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxNum != null" >
+        #{maxNum,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="le1Id != null" >
+        #{le1Id,jdbcType=INTEGER},
+      </if>
+      <if test="le1Name != null" >
+        #{le1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le1Tea != null" >
+        #{le1Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le1Class != null" >
+        #{le1Class,jdbcType=VARCHAR},
+      </if>
+      <if test="le2Id != null" >
+        #{le2Id,jdbcType=INTEGER},
+      </if>
+      <if test="le2Name != null" >
+        #{le2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le2Tea != null" >
+        #{le2Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le2Class != null" >
+        #{le2Class,jdbcType=VARCHAR},
+      </if>
+      <if test="le3Id != null" >
+        #{le3Id,jdbcType=INTEGER},
+      </if>
+      <if test="le3Name != null" >
+        #{le3Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le3Tea != null" >
+        #{le3Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le3Class != null" >
+        #{le3Class,jdbcType=VARCHAR},
+      </if>
+      <if test="le4Id != null" >
+        #{le4Id,jdbcType=INTEGER},
+      </if>
+      <if test="le4Name != null" >
+        #{le4Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le4Tea != null" >
+        #{le4Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le4Class != null" >
+        #{le4Class,jdbcType=VARCHAR},
+      </if>
+      <if test="le5Id != null" >
+        #{le5Id,jdbcType=INTEGER},
+      </if>
+      <if test="le5Name != null" >
+        #{le5Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le5Tea != null" >
+        #{le5Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le5Class != null" >
+        #{le5Class,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gyq.model.Section" >
+    update section
+    <set >
+      <if test="secDate != null" >
+        sec_date = #{secDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="secSite != null" >
+        sec_site = #{secSite,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        room_id = #{roomId,jdbcType=INTEGER},
+      </if>
+      <if test="roomName != null" >
+        room_name = #{roomName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxNum != null" >
+        max_num = #{maxNum,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="le1Id != null" >
+        le1_id = #{le1Id,jdbcType=INTEGER},
+      </if>
+      <if test="le1Name != null" >
+        le1_name = #{le1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le1Tea != null" >
+        le1_tea = #{le1Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le1Class != null" >
+        le1_class = #{le1Class,jdbcType=VARCHAR},
+      </if>
+      <if test="le2Id != null" >
+        le2_id = #{le2Id,jdbcType=INTEGER},
+      </if>
+      <if test="le2Name != null" >
+        le2_name = #{le2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le2Tea != null" >
+        le2_tea = #{le2Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le2Class != null" >
+        le2_class = #{le2Class,jdbcType=VARCHAR},
+      </if>
+      <if test="le3Id != null" >
+        le3_id = #{le3Id,jdbcType=INTEGER},
+      </if>
+      <if test="le3Name != null" >
+        le3_name = #{le3Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le3Tea != null" >
+        le3_tea = #{le3Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le3Class != null" >
+        le3_class = #{le3Class,jdbcType=VARCHAR},
+      </if>
+      <if test="le4Id != null" >
+        le4_id = #{le4Id,jdbcType=INTEGER},
+      </if>
+      <if test="le4Name != null" >
+        le4_name = #{le4Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le4Tea != null" >
+        le4_tea = #{le4Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le4Class != null" >
+        le4_class = #{le4Class,jdbcType=VARCHAR},
+      </if>
+      <if test="le5Id != null" >
+        le5_id = #{le5Id,jdbcType=INTEGER},
+      </if>
+      <if test="le5Name != null" >
+        le5_name = #{le5Name,jdbcType=VARCHAR},
+      </if>
+      <if test="le5Tea != null" >
+        le5_tea = #{le5Tea,jdbcType=VARCHAR},
+      </if>
+      <if test="le5Class != null" >
+        le5_class = #{le5Class,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gyq.model.Section" >
+    update section
+    set sec_date = #{secDate,jdbcType=TIMESTAMP},
+      sec_site = #{secSite,jdbcType=VARCHAR},
+      room_id = #{roomId,jdbcType=INTEGER},
+      room_name = #{roomName,jdbcType=VARCHAR},
+      max_num = #{maxNum,jdbcType=INTEGER},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      le1_id = #{le1Id,jdbcType=INTEGER},
+      le1_name = #{le1Name,jdbcType=VARCHAR},
+      le1_tea = #{le1Tea,jdbcType=VARCHAR},
+      le1_class = #{le1Class,jdbcType=VARCHAR},
+      le2_id = #{le2Id,jdbcType=INTEGER},
+      le2_name = #{le2Name,jdbcType=VARCHAR},
+      le2_tea = #{le2Tea,jdbcType=VARCHAR},
+      le2_class = #{le2Class,jdbcType=VARCHAR},
+      le3_id = #{le3Id,jdbcType=INTEGER},
+      le3_name = #{le3Name,jdbcType=VARCHAR},
+      le3_tea = #{le3Tea,jdbcType=VARCHAR},
+      le3_class = #{le3Class,jdbcType=VARCHAR},
+      le4_id = #{le4Id,jdbcType=INTEGER},
+      le4_name = #{le4Name,jdbcType=VARCHAR},
+      le4_tea = #{le4Tea,jdbcType=VARCHAR},
+      le4_class = #{le4Class,jdbcType=VARCHAR},
+      le5_id = #{le5Id,jdbcType=INTEGER},
+      le5_name = #{le5Name,jdbcType=VARCHAR},
+      le5_tea = #{le5Tea,jdbcType=VARCHAR},
+      le5_class = #{le5Class,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

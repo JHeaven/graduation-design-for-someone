@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gyq.dao.CourseListMapper" >
+  <resultMap id="BaseResultMap" type="com.gyq.model.CourseList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="c_id" property="cId" jdbcType="INTEGER" />
+    <result column="c_name" property="cName" jdbcType="VARCHAR" />
+    <result column="c_type" property="cType" jdbcType="VARCHAR" />
+    <result column="t_id" property="tId" jdbcType="VARCHAR" />
+    <result column="t_name" property="tName" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="best_site" property="bestSite" jdbcType="VARCHAR" />
+    <result column="site" property="site" jdbcType="INTEGER" />
+    <result column="keshi" property="keshi" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, c_id, c_name, c_type, t_id, t_name, class_id, class_name, ps, deleted, num, best_site, 
+    site, keshi
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from course_list
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectall" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from course_list
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from course_list
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gyq.model.CourseList" >
+    insert into course_list (id, c_id, c_name, 
+      c_type, t_id, t_name, 
+      class_id, class_name, ps, 
+      deleted, num, best_site, 
+      site, keshi)
+    values (#{id,jdbcType=INTEGER}, #{cId,jdbcType=INTEGER}, #{cName,jdbcType=VARCHAR}, 
+      #{cType,jdbcType=VARCHAR}, #{tId,jdbcType=VARCHAR}, #{tName,jdbcType=VARCHAR}, 
+      #{classId,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR}, #{ps,jdbcType=VARCHAR}, 
+      #{deleted,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{bestSite,jdbcType=VARCHAR}, 
+      #{site,jdbcType=INTEGER}, #{keshi,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gyq.model.CourseList" >
+    insert into course_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cId != null" >
+        c_id,
+      </if>
+      <if test="cName != null" >
+        c_name,
+      </if>
+      <if test="cType != null" >
+        c_type,
+      </if>
+      <if test="tId != null" >
+        t_id,
+      </if>
+      <if test="tName != null" >
+        t_name,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="bestSite != null" >
+        best_site,
+      </if>
+      <if test="site != null" >
+        site,
+      </if>
+      <if test="keshi != null" >
+        keshi,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cId != null" >
+        #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="cName != null" >
+        #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cType != null" >
+        #{cType,jdbcType=VARCHAR},
+      </if>
+      <if test="tId != null" >
+        #{tId,jdbcType=VARCHAR},
+      </if>
+      <if test="tName != null" >
+        #{tName,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="bestSite != null" >
+        #{bestSite,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null" >
+        #{site,jdbcType=INTEGER},
+      </if>
+      <if test="keshi != null" >
+        #{keshi,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gyq.model.CourseList" >
+    update course_list
+    <set >
+      <if test="cId != null" >
+        c_id = #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="cName != null" >
+        c_name = #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cType != null" >
+        c_type = #{cType,jdbcType=VARCHAR},
+      </if>
+      <if test="tId != null" >
+        t_id = #{tId,jdbcType=VARCHAR},
+      </if>
+      <if test="tName != null" >
+        t_name = #{tName,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="bestSite != null" >
+        best_site = #{bestSite,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null" >
+        site = #{site,jdbcType=INTEGER},
+      </if>
+      <if test="keshi != null" >
+        keshi = #{keshi,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gyq.model.CourseList" >
+    update course_list
+    set c_id = #{cId,jdbcType=INTEGER},
+      c_name = #{cName,jdbcType=VARCHAR},
+      c_type = #{cType,jdbcType=VARCHAR},
+      t_id = #{tId,jdbcType=VARCHAR},
+      t_name = #{tName,jdbcType=VARCHAR},
+      class_id = #{classId,jdbcType=INTEGER},
+      class_name = #{className,jdbcType=VARCHAR},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      best_site = #{bestSite,jdbcType=VARCHAR},
+      site = #{site,jdbcType=INTEGER},
+      keshi = #{keshi,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
