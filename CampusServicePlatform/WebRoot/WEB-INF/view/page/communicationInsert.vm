@@ -1,0 +1,131 @@
+
+
+
+<!-- 返回 -->
+<!-- 返回 -->
+<h3 class="mail-title">
+	<a href="#/communication">
+	在线云笔记</a>
+	<i class="entypo-right-open"></i> <a href="#/communication">返回列表</a>
+	<span class="count"></span>
+</h3>
+
+
+<div class="row">
+			<div class="col-md-12">
+			
+				<div class="panel panel-default panel-shadow" data-collapsed="0"><!-- to apply shadow add class "panel-shadow" -->
+					
+					<!-- panel head -->
+					<div class="panel-heading">
+						<div class="panel-title">新增云笔记</div>
+						
+						<div class="panel-options">
+						</div>
+					</div>
+					
+					<!-- panel body -->
+					<div class="panel-body">
+						<!--
+							<iframe src="article/articleInsertIframe/${sectionId}" width="100%" height="560px" frameborder="no"></iframe>
+						-->
+						<form id="wenzhangForm">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button class="btn btn-success" type="button">键入标题</button>
+									</span>
+									
+									<input type="text" class="form-control" name="comtitle" id="comtitle">
+								</div>
+								<br>
+								<div>
+									
+									<input name="comsectionId" id="comsectionId" value="${sectionId}" hidden="hidden"/>
+                                    <textarea name="comcontent" id="comcontent" rows="10" cols="80"></textarea>
+                                    
+									<script>
+                                        // Replace the <textarea id="content"> with a CKEditor
+                                        // instance, using default configuration.
+                        
+                                    </script>
+                                
+								</div>
+								<br>
+								<div>
+									<input type="text" value="校园,服务,平台" class="form-control tagsinput" name="labelpart" id="comlabelpart"/>
+                                </div>
+								
+								<div>
+									<button type="button" class="btn btn-orange" style="width:100%;" onclick="childFrameClick1();">发表话题</button>
+                                </div>
+                            </div>
+							
+                        </div>
+						</form>
+					</div>
+					
+				</div>
+			
+			</div>
+		</div>
+	
+	<!-- JavaScripts initializations and stuff -->
+	
+	<script>
+		var myeditor1 = CKEDITOR.replace( 'comcontent' );
+		// Tagsinput
+	
+		var test1 = function(){
+			var chun = myeditor1.document.getBody().getText();//取得纯文本  
+			var htmlwenben = myeditor1.document.getBody().getHtml();//取得html文本
+			alert(chun);
+			alert(htmlwenben);
+		}
+		
+		var childFrameClick1 = function(){
+			var content = myeditor1.document.getBody().getHtml();
+			var title = $('#comtitle').val();
+			var labelpart = $('#comlabelpart').val();
+			var sectionId = $('#comsectionId').val();
+			
+			//alert(content);
+			//alert(title);
+			//alert(labelpart);
+			//alert(sectionId);
+			
+			
+			if(content.length == 0){
+				toastr.error('你还没有填写内容呢！',null,notificationOpts);
+				return ;
+			}
+			if(title.length == 0){
+				toastr.error('你还没有填写标题呢！',null,notificationOpts);
+				return ;
+			}
+			if(labelpart.length == 0){
+				toastr.error('你还没有填写标签呢！',null,notificationOpts);	
+				return ;
+			}
+			
+			
+			$.ajax({
+    				cache: true,
+                    type: "POST",
+                    url: "/CampusServicePlatform/article/doArticleInsert",
+                    data: {content:content,title:title,labelpart:labelpart,sectionId:sectionId},
+                    async: false,
+                    error: function(request) {
+                        toastr.error('话题发表出错！',null,notificationOpts);
+                    },
+                    success: function(data) {
+						toastr.success('话题发表成功！',null,notificationOpts);
+						window.parent.blackfunction();
+                    }
+			});
+			
+		}
+		
+		
+    </script>

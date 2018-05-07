@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tsq.dao.QuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.tsq.model.Question" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ask_id" property="askId" jdbcType="INTEGER" />
+    <result column="ans_id" property="ansId" jdbcType="INTEGER" />
+    <result column="ask_time" property="askTime" jdbcType="TIMESTAMP" />
+    <result column="ans_time" property="ansTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.tsq.model.QuestionWithBLOBs" extends="BaseResultMap" >
+    <result column="ask" property="ask" jdbcType="LONGVARCHAR" />
+    <result column="ans" property="ans" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ask_id, ans_id, ask_time, ans_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    ask, ans
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectByUserId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from question
+    <if test="_parameter != null">
+        where ask_id = #{_parameter,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from question
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tsq.model.QuestionWithBLOBs" >
+    insert into question (id, ask_id, ans_id, 
+      ask_time, ans_time, ask, 
+      ans)
+    values (#{id,jdbcType=INTEGER}, #{askId,jdbcType=INTEGER}, #{ansId,jdbcType=INTEGER}, 
+      #{askTime,jdbcType=TIMESTAMP}, #{ansTime,jdbcType=TIMESTAMP}, #{ask,jdbcType=LONGVARCHAR}, 
+      #{ans,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tsq.model.QuestionWithBLOBs" >
+    insert into question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="askId != null" >
+        ask_id,
+      </if>
+      <if test="ansId != null" >
+        ans_id,
+      </if>
+      <if test="askTime != null" >
+        ask_time,
+      </if>
+      <if test="ansTime != null" >
+        ans_time,
+      </if>
+      <if test="ask != null" >
+        ask,
+      </if>
+      <if test="ans != null" >
+        ans,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="askId != null" >
+        #{askId,jdbcType=INTEGER},
+      </if>
+      <if test="ansId != null" >
+        #{ansId,jdbcType=INTEGER},
+      </if>
+      <if test="askTime != null" >
+        #{askTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ansTime != null" >
+        #{ansTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ask != null" >
+        #{ask,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="ans != null" >
+        #{ans,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tsq.model.QuestionWithBLOBs" >
+    update question
+    <set >
+      <if test="askId != null" >
+        ask_id = #{askId,jdbcType=INTEGER},
+      </if>
+      <if test="ansId != null" >
+        ans_id = #{ansId,jdbcType=INTEGER},
+      </if>
+      <if test="askTime != null" >
+        ask_time = #{askTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ansTime != null" >
+        ans_time = #{ansTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ask != null" >
+        ask = #{ask,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="ans != null" >
+        ans = #{ans,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tsq.model.QuestionWithBLOBs" >
+    update question
+    set ask_id = #{askId,jdbcType=INTEGER},
+      ans_id = #{ansId,jdbcType=INTEGER},
+      ask_time = #{askTime,jdbcType=TIMESTAMP},
+      ans_time = #{ansTime,jdbcType=TIMESTAMP},
+      ask = #{ask,jdbcType=LONGVARCHAR},
+      ans = #{ans,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tsq.model.Question" >
+    update question
+    set ask_id = #{askId,jdbcType=INTEGER},
+      ans_id = #{ansId,jdbcType=INTEGER},
+      ask_time = #{askTime,jdbcType=TIMESTAMP},
+      ans_time = #{ansTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,92 @@
+$(function(){
+	var oul = $('.wrap ul');
+	var ali = $('.wrap ul li');	
+	//var numLi = $('.wrap ul li');
+	var aliWidth = $('.wrap ul li').eq(0).width();
+	var _now = 0;	//这个是控制数字样式的计数器
+	var _now2 = 0;	//这个是控制图片运动距离的计数器
+	var timeId;
+	var aimg = $('.wrap ul img');
+	var op = $('.wrap p');
+	var click_prev = $(".click_prev");
+	var click_next = $(".click_next");
+	
+	oul.width(ali.length*aliWidth);
+	
+	click_prev.click(function(e){
+		e.preventDefault()
+		slider('p');
+		
+	});
+	click_next.click(function(e){
+		e.preventDefault()
+		slider('n');
+	});
+	/**
+	 * [slider description] 图片运动的函数
+	 * @return {[type]} [description] 无返回值
+	 */
+	function slider(flag){
+		if ( 'p' == flag ){
+			if(_now==0){
+				ali.eq(ali.size()-1).css({
+						'position':'relative',
+						'left': 0
+				});
+				_now=ali.size()-1;
+				_now2=ali.size();
+			}else{
+				_now--;
+			}			
+			_now2--;
+			oul.animate({'left':-aliWidth*_now2},268,function(){
+				if(_now==ali.size()-1){
+					ali.eq(ali.size()-1).css('position','static');
+					oul.css('left',-oul.width()+aliWidth);
+					_now2=ali.size()-1;
+				}
+			});				
+		}else{
+			if(_now==ali.size()-1){
+				ali.eq(0).css({
+						'position':'relative',
+						'left': oul.width()
+				});
+				_now=0;
+			}else{
+				_now++;
+			}
+
+			_now2++;
+			
+			oul.animate({'left':-aliWidth*_now2},268,function(){
+				if(_now==0){
+					ali.eq(0).css('position','static');
+					oul.css('left',0);
+					_now2=0;
+				}
+			});		
+		}		
+		ali.eq(_now).addClass('current').parent('a').siblings().children('li').removeClass();
+
+		var imgAlt = aimg.eq(_now).attr('alt');
+		op.html(imgAlt);
+	}
+	timeId = setInterval(slider,3000);
+
+	/*$('.wrap').mouseover(function(){
+		clearInterval(timeId);
+	});
+
+	$('.wrap').mouseout(function(){
+		timeId = setInterval(slider,1500);
+	});*/
+
+	
+	// $('.wrap').hover(function(){
+			// clearInterval(timeId);
+		// },function(){
+			// timeId = setInterval(slider,1500);
+		// });
+	
+});

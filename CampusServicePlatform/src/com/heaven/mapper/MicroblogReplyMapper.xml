@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.MicroblogReplyMapper" >
+  <resultMap id="BaseResultMap" type="com.heaven.model.MicroblogReply" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="twitter_id" property="twitterId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+    <result column="push_count" property="pushCount" jdbcType="INTEGER" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="com.heaven.model.MicroblogReply" id="BaseResultMapwithuser" extends="BaseResultMap">
+  	<association property="user" javaType="com.heaven.model.User">
+    	<id column="userid" property="id" jdbcType="INTEGER" />
+    	<result column="image" property="image" jdbcType="VARCHAR" />
+    	<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    	<result column="image" property="image" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, twitter_id, user_id, out_time, push_count, isdelete, content
+  </sql>
+  <!-- 按id查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from microblog_reply
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 所有 -->
+  <select id="selectAll" resultMap="BaseResultMapwithuser">
+    select 
+    microblog_reply.Id, microblog_reply.twitter_id, microblog_reply.user_id, microblog_reply.out_time, microblog_reply.push_count, microblog_reply.isdelete, microblog_reply.content,
+    user.id as userid , user.nick_name ,user.image 
+    from microblog_reply,user
+    where microblog_reply.user_id = user.id
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from microblog_reply
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.heaven.model.MicroblogReply" >
+    insert into microblog_reply (twitter_id, user_id, 
+      out_time, push_count, isdelete, 
+      content)
+    values ( #{twitterId,jdbcType=INTEGER} , #{userId,jdbcType=INTEGER}, 
+      #{outTime,jdbcType=TIMESTAMP}, #{pushCount,jdbcType=INTEGER}, #{isdelete,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heaven.model.MicroblogReply" >
+    insert into microblog_reply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="twitterId != null" >
+        twitter_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="outTime != null" >
+        out_time,
+      </if>
+      <if test="pushCount != null" >
+        push_count,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="twitterId != null" >
+        #{twitterId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushCount != null" >
+        #{pushCount,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.MicroblogReply" >
+    update microblog_reply
+    <set >
+      <if test="twitterId != null" >
+        twitter_id = #{twitterId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushCount != null" >
+        push_count = #{pushCount,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heaven.model.MicroblogReply" >
+    update microblog_reply
+    set twitter_id = #{twitterId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      push_count = #{pushCount,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

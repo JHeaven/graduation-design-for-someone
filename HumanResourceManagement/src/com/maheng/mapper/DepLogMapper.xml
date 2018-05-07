@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maheng.dao.DepLogMapper" >
+  <resultMap id="BaseResultMap" type="com.maheng.model.DepLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="original" property="original" jdbcType="VARCHAR" />
+    <result column="now" property="now" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, date, staff_id, original, now, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dep_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- all -->
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+	staff.`name`,
+	dep_log.id,
+	dep_log.date,
+	dep_log.staff_id,
+	dep_log.original,
+	dep_log.now,
+	dep_log.remark
+	FROM
+	staff
+	INNER JOIN dep_log ON dep_log.staff_id = staff.id 
+    <if test="_parameter != null" >
+    	where dep_log.staff_id = #{_parameter,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dep_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.maheng.model.DepLog" >
+    insert into dep_log (id, date, staff_id, 
+      original, now, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, #{staffId,jdbcType=INTEGER}, 
+      #{original,jdbcType=VARCHAR}, #{now,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.maheng.model.DepLog" >
+    insert into dep_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+      <if test="original != null" >
+        original,
+      </if>
+      <if test="now != null" >
+        now,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="original != null" >
+        #{original,jdbcType=VARCHAR},
+      </if>
+      <if test="now != null" >
+        #{now,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maheng.model.DepLog" >
+    update dep_log
+    <set >
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffId != null" >
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="original != null" >
+        original = #{original,jdbcType=VARCHAR},
+      </if>
+      <if test="now != null" >
+        now = #{now,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maheng.model.DepLog" >
+    update dep_log
+    set date = #{date,jdbcType=TIMESTAMP},
+      staff_id = #{staffId,jdbcType=INTEGER},
+      original = #{original,jdbcType=VARCHAR},
+      now = #{now,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

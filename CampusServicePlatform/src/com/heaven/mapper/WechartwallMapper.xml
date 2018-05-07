@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.WechartwallMapper">
+	<resultMap id="BaseResultMap" type="com.heaven.model.Wechartwall">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="activity_id" property="activityId" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+		<result column="open_id" property="openId" jdbcType="VARCHAR" />
+		<result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="BaseResultMapByName" type="com.heaven.model.Wechartwall"
+		extends="BaseResultMap">
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="head" property="head" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, activity_id, content, out_time, open_id, isdelete
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from wechartwall
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<!-- 第一次取值 -->
+	<select id="selectByFirst" resultMap="BaseResultMapByName">
+		SELECT
+		ifnull(`user`.nick_name, '游客') as username,
+		wechartwall.content,
+		wechartwall.activity_id,
+		wechartwall.id,
+		wechartwall.out_time,
+		wechartwall.open_id,
+		wechartwall.isdelete,
+		ifnull(`user`.image,'assets/images/head/none.jpg') as head
+		FROM
+		wechartwall
+		LEFT JOIN wechart ON wechartwall.open_id = wechart.open_Id
+		LEFT JOIN `user` ON wechart.user_id = `user`.id
+		ORDER BY out_time desc limit 4
+	</select>
+
+	<!-- 循环取值 -->
+	<select id="selectByNext" resultMap="BaseResultMapByName"
+		parameterType="java.lang.Integer">
+		SELECT
+		ifnull(`user`.nick_name, '游客') as username,
+		wechartwall.content,
+		wechartwall.activity_id,
+		wechartwall.id,
+		wechartwall.out_time,
+		wechartwall.open_id,
+		wechartwall.isdelete,
+		ifnull(`user`.image,'assets/images/head/none.jpg') as head
+		FROM
+		wechartwall
+		LEFT JOIN wechart ON wechartwall.open_id = wechart.open_Id
+		LEFT JOIN `user` ON wechart.user_id = `user`.id
+		where wechartwall.id > #{id,jdbcType=INTEGER}
+		ORDER BY out_time desc limit 4
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from wechartwall
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.heaven.model.Wechartwall">
+		insert into wechartwall (activity_id, content,
+		out_time, open_id, isdelete
+		)
+		values ( #{activityId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},
+		#{outTime,jdbcType=TIMESTAMP}, #{openId,jdbcType=VARCHAR},
+		#{isdelete,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.heaven.model.Wechartwall">
+		insert into wechartwall
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="activityId != null">
+				activity_id,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="outTime != null">
+				out_time,
+			</if>
+			<if test="openId != null">
+				open_id,
+			</if>
+			<if test="isdelete != null">
+				isdelete,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="activityId != null">
+				#{activityId,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="outTime != null">
+				#{outTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="openId != null">
+				#{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="isdelete != null">
+				#{isdelete,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.Wechartwall">
+		update wechartwall
+		<set>
+			<if test="activityId != null">
+				activity_id = #{activityId,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="outTime != null">
+				out_time = #{outTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="openId != null">
+				open_id = #{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="isdelete != null">
+				isdelete = #{isdelete,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.heaven.model.Wechartwall">
+		update wechartwall
+		set activity_id = #{activityId,jdbcType=INTEGER},
+		content = #{content,jdbcType=VARCHAR},
+		out_time = #{outTime,jdbcType=TIMESTAMP},
+		open_id = #{openId,jdbcType=VARCHAR},
+		isdelete = #{isdelete,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

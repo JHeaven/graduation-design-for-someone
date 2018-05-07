@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sd.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.sd.model.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="login_name" property="loginName" jdbcType="NVARCHAR" />
+    <result column="login_password" property="loginPassword" jdbcType="NVARCHAR" />
+    <result column="user_type" property="userType" jdbcType="NVARCHAR" />
+    <result column="user_section" property="userSection" jdbcType="NVARCHAR" />
+    <result column="register_date" property="registerDate" jdbcType="TIMESTAMP" />
+    <result column="last_date" property="lastDate" jdbcType="TIMESTAMP" />
+    <result column="photo" property="photo" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, login_name, login_password, user_type, user_section, register_date, last_date, 
+    photo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- login -->
+  <select id="login" resultMap="BaseResultMap" parameterType="com.sd.model.User" >
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where
+    login_name = #{loginName,jdbcType=NVARCHAR}
+    <if test="loginPassword != null" >
+    and
+    login_password = #{loginPassword,jdbcType=NVARCHAR}
+    </if>
+  </select>
+  
+  <!-- all -->
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from users
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from users
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sd.model.User" >
+    insert into users (id, login_name, login_password, 
+      user_type, user_section, register_date, 
+      last_date, photo)
+    values (#{id,jdbcType=INTEGER}, #{loginName,jdbcType=NVARCHAR}, #{loginPassword,jdbcType=NVARCHAR}, 
+      #{userType,jdbcType=NVARCHAR}, #{userSection,jdbcType=NVARCHAR}, #{registerDate,jdbcType=TIMESTAMP}, 
+      #{lastDate,jdbcType=TIMESTAMP}, #{photo,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sd.model.User" >
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="loginName != null" >
+        login_name,
+      </if>
+      <if test="loginPassword != null" >
+        login_password,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="userSection != null" >
+        user_section,
+      </if>
+      <if test="registerDate != null" >
+        register_date,
+      </if>
+      <if test="lastDate != null" >
+        last_date,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=NVARCHAR},
+      </if>
+      <if test="loginPassword != null" >
+        #{loginPassword,jdbcType=NVARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=NVARCHAR},
+      </if>
+      <if test="userSection != null" >
+        #{userSection,jdbcType=NVARCHAR},
+      </if>
+      <if test="registerDate != null" >
+        #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastDate != null" >
+        #{lastDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sd.model.User" >
+    update users
+    <set >
+      <if test="loginName != null" >
+        login_name = #{loginName,jdbcType=NVARCHAR},
+      </if>
+      <if test="loginPassword != null" >
+        login_password = #{loginPassword,jdbcType=NVARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=NVARCHAR},
+      </if>
+      <if test="userSection != null" >
+        user_section = #{userSection,jdbcType=NVARCHAR},
+      </if>
+      <if test="registerDate != null" >
+        register_date = #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastDate != null" >
+        last_date = #{lastDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sd.model.User" >
+    update users
+    set login_name = #{loginName,jdbcType=NVARCHAR},
+      login_password = #{loginPassword,jdbcType=NVARCHAR},
+      user_type = #{userType,jdbcType=NVARCHAR},
+      user_section = #{userSection,jdbcType=NVARCHAR},
+      register_date = #{registerDate,jdbcType=TIMESTAMP},
+      last_date = #{lastDate,jdbcType=TIMESTAMP},
+      photo = #{photo,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

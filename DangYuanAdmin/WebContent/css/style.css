@@ -1,0 +1,314 @@
+/*----- fonts imported ----- */
+
+
+*{
+	margin:0;
+	padding:0;
+}
+body{
+	font-family: 'Droid Sans', arial, serif;
+	background:#ffffff;
+	color:#1d1d1d;
+}
+h1,h2,h3,h4,h5,h6{
+	display:block;
+	font-family: 'Droid Serif', arial, serif;
+	color:#2d2d2d;
+}
+h1{
+	font-size:18px;
+	border-top:1px solid #dddddd;
+	padding:5px;
+}
+h2{
+	font-size:16px;
+	padding:5px;
+}
+img{
+	border:none;
+}
+a{
+	color:#ae2d00;
+	text-decoration:none;
+	padding:5px;
+	outline:none;
+}
+a:hover{
+	color:#ff4200;
+}
+/*----- Global #id's and .class's -----*/
+#wrap{
+	font-size:12px;
+}
+.clear-float{
+	clear:both;
+}
+ul{
+	list-style:none;
+}
+/*----- Header and Footer ------*/
+.header,
+.footer{
+	background:#f9f9f9;
+	border-bottom:1px solid #dddddd;
+}
+/*----- Header -----*/
+.header{
+}
+.logo{
+	float:left;
+	display:inline-block;
+}
+.logo,
+.logo img{
+	width:150px;
+	height:50px;
+}
+.logo a{
+	padding:0;
+}
+.button{
+	float:right;
+	margin:12px 5px 5px 0;
+}
+.button a,
+.footer a{
+	display:inline-block;
+	background:#f9f9f9 url(../images/glossy.png) repeat-x;
+	color:#aaaaaa;
+	border:1px solid #dddddd;
+	padding:5px 10px;
+	-moz-border-radius:0.4em;
+	-webkit-border-radius:0.4em;
+	border-radius:0.4em;
+	}
+.button a:hover,
+.footer a:hover{
+	color:#8d8d8d;
+	background:#eeeeee url(../images/glossy.png) repeat-x;
+}
+.nav{
+	text-align:center;
+	border-top:1px solid #dddddd;
+	background:#f2f2f2;
+	padding:10px 10px 5px 10px;
+}
+.nav ul{
+	background:#f9f9f9 url(../images/glossy.png) repeat-x;
+	border:1px solid #dddddd;
+	-moz-border-radius:0.8em;
+	-webkit-border-radius:0.8em;
+	border-radius:0.8em;
+	-moz-box-shadow:0px 0px 5px #dddddd;
+	-webkit-box-shadow:0px 0px 5px #dddddd;
+	box-shadow:0px 0px 5px #dddddd;
+}
+.nav li{
+	text-transform:capitalize;
+	display:block;
+	border-bottom:1px solid #dddddd;
+}
+.nav li:last-child{
+	border:none;
+}
+.nav a{
+	display:block;
+	padding:10px;
+	color:#5d5d5d;
+}
+.nav a:hover{
+	color:#2d2d2d;
+}
+.nav li ul li{
+	display:inline-block;
+	border:none;
+}
+.nav li ul{
+	background:none;
+	border:none;
+	-moz-box-shadow:none;
+	-webkit-box-shadow:none;
+	box-shadow:none;
+}
+/*----- Content -----*/
+.content{
+	padding:10px;
+}
+.post{
+	padding:5px;
+}
+.post h2{
+	padding-left:0;
+}
+.post .text,
+.post .submit,
+.post label{
+	font-size:14px;
+	background:#f9f9f9;
+	border:1px solid #dddddd;
+	color:#5d5d5d;
+	width:100%;
+	height:25px;
+	margin:5px 0;
+}
+.post label,
+.post .submit{
+	font-size:12px;
+}
+.post label{
+	border:none;
+}
+.post .submit{
+	background:#f2f2f2 url(../images/glossy2.png) repeat-x;
+	-moz-border-radius:0.4em;
+	-webkit-border-radius:0.4em;
+	border-radius:0.4em;
+	width:auto;
+	height:30px;
+	padding:5px;
+	vertical-align:middle;
+	cursor:pointer;
+}
+.post-item{
+	border:2px solid #ffffff;
+	outline:1px solid #dddddd;
+	background:#f9f9f9 url(../images/glossy2.png) repeat-x;
+	padding:5px;
+	margin:10px 0 0 0;
+}
+.post-item p{
+	display:block;
+	padding:0 5px 5px 5px;
+	line-height:1.6em;
+	color:#5d5d5d;
+}
+.post-item h2{
+	margin:0 0 5px 0;
+	padding:0;
+}
+.post-image{
+	text-align:center;
+	margin:5px 0;
+}
+.post-image img{
+	background:#ffffff;
+	width:160px;
+	padding:5px;
+	border:1px dashed #dddddd;
+}
+.post-image img:hover{
+	background:#ff4200;
+	border:1px dashed #ffffff;
+}
+.post-nav{
+	margin:5px 0;
+	text-align:center;
+}
+.post-nav ul li{
+	border:none;
+	display:inline-block;
+	margin:5px 0 0 5px;
+}
+.post-nav ul li:hover{
+	background:none;
+}
+.post-nav ul li a{
+	outline:none;
+	background:#eeeeee url(../images/glossy2.png);
+	border:1px solid #dddddd;
+	display:block;
+	padding:5px;
+	-moz-border-radius:0.8em;
+	-webkit-border-radius:0.8em;
+	border-radius:0.8em;
+}
+.post-nav ul li a:hover{
+	color:#ff4800;
+}
+.post-item b{
+	margin:5px;
+}
+/*----- Grid View -----*/
+.grid{
+	padding-top:10px;
+}
+.grid img{
+	width:85px;
+	height:90px;
+}
+.grid li{
+	background:#f9f9f9 url(../images/glossy2.png) repeat-x;
+	display:inline-block;
+	border:1px solid #dddddd;
+	width:95px;
+	margin:5px;
+}
+.grid li:hover{
+	background:#ff4200;
+}
+.grid li:hover a,
+.grid li a:hover{
+	color:#1d1d1d;
+}
+.grid a{
+	display:block;
+	text-align:center;
+	padding:5px;
+	color:#2d2d2d;
+}
+.grid li a:nth-child(even){
+	padding-top:0;
+}
+/*----- List View -----*/
+.list{
+	padding-top:10px;
+	width:100%;
+}
+.list ul{
+	margin:5px;
+}
+.list li{
+	background:#f0f0f0 url(../images/glossy.png) repeat-x;
+	display:block;
+	border:1px solid #dddddd;
+	width:100%;
+	margin:5px 0 0 0;
+}
+.list-title{
+	display:block;
+	padding:5px;
+	color:#6d6d6d;
+}
+
+.list-art{
+	float:left;
+	padding:0 5px 5px 5px;
+}
+.list-art img{
+	display:block;
+	width:50px;
+	height:50px;
+	padding:5px;
+}
+.list-art a{
+	display:block;
+	padding:0;
+}
+.list-text p{
+	line-height:1.7em;
+	padding:0 10px 10px 10px;
+}
+/*----- Footer -----*/
+.footer{
+	border-top:1px solid #dddddd;
+	padding:5px;
+	margin-top:10px;
+}
+.footer p{
+	color:#6d6d6d;
+}
+/*----- By mobifreaks.com -----*/
+.by{
+	text-align:center;
+	padding:10px;
+}

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.FriendMapper" >
+  <resultMap id="BaseResultMap" type="com.heaven.model.Friend" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="from_id" property="fromId" jdbcType="INTEGER" />
+    <result column="to_id" property="toId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapWithUser" type="com.heaven.model.Friend" extends="BaseResultMap">
+  	<association property="user" javaType="com.heaven.model.User">
+    	<id column="userid" property="id" jdbcType="INTEGER" />
+    	<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    	<result column="level_site" property="levelSite" jdbcType="INTEGER" />
+    	<result column="register_day" property="registerDay" jdbcType="TIMESTAMP" />
+    	<result column="lastlogin_day" property="lastloginDay" jdbcType="TIMESTAMP" />
+    	<result column="image" property="image" jdbcType="VARCHAR" />
+    	<result column="score" property="score" jdbcType="INTEGER" />
+    	<result column="role" property="role" jdbcType="INTEGER" />
+    	<association property="userLevel" javaType="com.heaven.model.UserLevel">
+    		<id column="levelSite" property="id" jdbcType="INTEGER" />
+    		<result column="name" property="name" jdbcType="VARCHAR" />
+    	</association>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, from_id, to_id, status, isdelete
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMapWithUser" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from friend
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 查询所有好友申请-->
+  <select id="selectMeetMyFriend" resultMap="BaseResultMapWithUser" parameterType="java.lang.Integer" >
+    
+	select 
+    friend.Id, friend.from_id, friend.to_id, friend.status, friend.isdelete,
+	user.id as userid,user.nick_name , user.level_site,user_level.name,
+	user.register_day,user.lastlogin_day,user.score,user.image,user.role
+    from friend, user ,user_level
+    where user_level.id = user.level_site and from_id = user.id and to_id = #{toId,jdbcType=INTEGER} and friend.status = 0
+  </select>
+  
+  <!-- 查看我的所有好友-->
+  <select id="selectAllMyFriend" resultMap="BaseResultMapWithUser" parameterType="java.lang.Integer" >
+    
+    select 
+	friend.Id, friend.from_id, friend.to_id, friend.status, friend.isdelete,
+	user.id as userid,user.nick_name , user.level_site,user_level.name,
+	user.register_day,user.lastlogin_day,user.score,user.image,user.role
+	from friend, user ,user_level
+	where user_level.id = user.level_site and from_id = user.id and friend.status = 1 and to_id = #{toId,jdbcType=INTEGER}
+	
+	UNION
+	
+	select 
+	friend.Id, friend.from_id, friend.to_id, friend.status, friend.isdelete,
+	user.id as userid,user.nick_name , user.level_site,user_level.name,
+	user.register_day,user.lastlogin_day,user.score,user.image,user.role
+	from friend, user ,user_level
+	where user_level.id = user.level_site and to_id = user.id and friend.status = 1 and from_id = #{toId,jdbcType=INTEGER}
+    
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from friend
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.heaven.model.Friend" >
+    insert into friend (from_id, to_id, 
+      status, isdelete)
+    values ( #{fromId,jdbcType=INTEGER}, #{toId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{isdelete,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heaven.model.Friend" >
+    insert into friend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="fromId != null" >
+        from_id,
+      </if>
+      <if test="toId != null" >
+        to_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fromId != null" >
+        #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="toId != null" >
+        #{toId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.Friend" >
+    update friend
+    <set >
+      <if test="fromId != null" >
+        from_id = #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="toId != null" >
+        to_id = #{toId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heaven.model.Friend" >
+    update friend
+    set from_id = #{fromId,jdbcType=INTEGER},
+      to_id = #{toId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateState" parameterType="com.heaven.model.Friend" >
+    update friend
+    set status = #{status,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

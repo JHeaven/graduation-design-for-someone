@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.ArticleMapper">
+	<resultMap id="BaseResultMap" type="com.heaven.model.Article">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="section_id" property="sectionId" jdbcType="INTEGER" />
+		<result column="click_count" property="clickCount" jdbcType="INTEGER" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="is_good" property="isGood" jdbcType="INTEGER" />
+		<result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+		<result column="last_time" property="lastTime" jdbcType="TIMESTAMP" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+		<result column="labelpart" property="labelpart" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.heaven.model.Article"
+		extends="BaseResultMap">
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithUsers" type="com.heaven.model.Article"
+		extends="ResultMapWithBLOBs">
+		<association property="user" javaType="com.heaven.model.User">
+			<id column="userid" property="id" jdbcType="INTEGER" />
+			<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+			<result column="level_site" property="levelSite" jdbcType="INTEGER" />
+			<result column="register_day" property="registerDay" jdbcType="TIMESTAMP" />
+			<result column="lastlogin_day" property="lastloginDay"
+				jdbcType="TIMESTAMP" />
+			<result column="image" property="image" jdbcType="VARCHAR" />
+			<result column="score" property="score" jdbcType="INTEGER" />
+			<result column="role" property="role" jdbcType="INTEGER" />
+			<association property="userLevel" javaType="com.heaven.model.UserLevel">
+				<id column="levelSite" property="id" jdbcType="INTEGER" />
+				<result column="name" property="name" jdbcType="VARCHAR" />
+			</association>
+
+		</association>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, section_id, click_count, pic, title, is_good, out_time,
+		last_time, state,
+		isdelete, labelpart
+	</sql>
+	<sql id="Blob_Column_List">
+		content
+	</sql>
+	
+	<!-- 按id查询 -->
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithUsers"
+		parameterType="java.lang.Integer">
+		select
+		article.id, user_id, section_id, click_count, pic, title, is_good, out_time,
+		last_time, article.state,
+		article.isdelete, labelpart,content , user.id as userid,user.nick_name ,
+		user.level_site,user_level.name,user.register_day,user.lastlogin_day,user.score,user.image,user.role
+		from article , user ,user_level
+		WHERE article.user_id = user.id and user_level.id = user.level_site and
+		article.id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<!-- 查询所有-->
+	<select id="selectAll" resultMap="ResultMapWithUsers">
+		select
+		article.id, user_id, section_id, click_count, pic, title, is_good, out_time,
+		last_time, article.state,
+		article.isdelete, labelpart,content , user.id as userid,user.nick_name ,
+		user.level_site,user_level.name
+		from article , user ,user_level
+		WHERE article.user_id = user.id and user_level.id = user.level_site
+	</select>
+
+	<!-- 按条件分页查询 -->
+	<select id="selectAllByCondition" resultMap="ResultMapWithUsers">
+		select
+		article.id, user_id, section_id, click_count, pic, title, is_good, out_time,
+		last_time, article.state,
+		article.isdelete, labelpart,content , user.id as userid,user.nick_name ,
+		user.level_site,user_level.name,
+		user.register_day,user.lastlogin_day,user.score,user.image,user.role
+		from article , user ,user_level
+		WHERE article.user_id = user.id and user_level.id = user.level_site 
+		and article.section_id = #{condition.sectionId,jdbcType=INTEGER} 
+		and article.title like #{condition.title,jdbcType=INTEGER} 
+		and article.content like #{condition.content,jdbcType=INTEGER} 
+		and article.isdelete = 0 
+		order by out_time
+		desc LIMIT #{PageNo,jdbcType=INTEGER} , #{pageSize,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from article
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.heaven.model.Article">
+		insert into article ( user_id, section_id,
+		click_count, pic, title,
+		is_good, out_time, last_time,
+		state, isdelete, labelpart,
+		content)
+		values (#{userId,jdbcType=INTEGER}, #{sectionId,jdbcType=INTEGER},
+		#{clickCount,jdbcType=INTEGER}, #{pic,jdbcType=VARCHAR},
+		#{title,jdbcType=VARCHAR},
+		#{isGood,jdbcType=INTEGER}, #{outTime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=TIMESTAMP},
+		#{state,jdbcType=INTEGER}, #{isdelete,jdbcType=INTEGER},
+		#{labelpart,jdbcType=VARCHAR},
+		#{content,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.heaven.model.Article">
+		insert into article
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="sectionId != null">
+				section_id,
+			</if>
+			<if test="clickCount != null">
+				click_count,
+			</if>
+			<if test="pic != null">
+				pic,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="isGood != null">
+				is_good,
+			</if>
+			<if test="outTime != null">
+				out_time,
+			</if>
+			<if test="lastTime != null">
+				last_time,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="isdelete != null">
+				isdelete,
+			</if>
+			<if test="labelpart != null">
+				labelpart,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="sectionId != null">
+				#{sectionId,jdbcType=INTEGER},
+			</if>
+			<if test="clickCount != null">
+				#{clickCount,jdbcType=INTEGER},
+			</if>
+			<if test="pic != null">
+				#{pic,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="isGood != null">
+				#{isGood,jdbcType=INTEGER},
+			</if>
+			<if test="outTime != null">
+				#{outTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastTime != null">
+				#{lastTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="isdelete != null">
+				#{isdelete,jdbcType=INTEGER},
+			</if>
+			<if test="labelpart != null">
+				#{labelpart,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 按需更新 -->
+	<update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.Article">
+		update article
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="sectionId != null">
+				section_id = #{sectionId,jdbcType=INTEGER},
+			</if>
+			<if test="clickCount != null">
+				click_count = #{clickCount,jdbcType=INTEGER},
+			</if>
+			<if test="pic != null">
+				pic = #{pic,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="isGood != null">
+				is_good = #{isGood,jdbcType=INTEGER},
+			</if>
+			<if test="outTime != null">
+				out_time = #{outTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastTime != null">
+				last_time = #{lastTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="isdelete != null">
+				isdelete = #{isdelete,jdbcType=INTEGER},
+			</if>
+			<if test="labelpart != null">
+				labelpart = #{labelpart,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.heaven.model.Article">
+		update article
+		set user_id = #{userId,jdbcType=INTEGER},
+		section_id = #{sectionId,jdbcType=INTEGER},
+		click_count = #{clickCount,jdbcType=INTEGER},
+		pic = #{pic,jdbcType=VARCHAR},
+		title = #{title,jdbcType=VARCHAR},
+		is_good = #{isGood,jdbcType=INTEGER},
+		out_time = #{outTime,jdbcType=TIMESTAMP},
+		last_time = #{lastTime,jdbcType=TIMESTAMP},
+		state = #{state,jdbcType=INTEGER},
+		isdelete = #{isdelete,jdbcType=INTEGER},
+		labelpart = #{labelpart,jdbcType=VARCHAR},
+		content = #{content,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.heaven.model.Article">
+		update article
+		set user_id = #{userId,jdbcType=INTEGER},
+		section_id = #{sectionId,jdbcType=INTEGER},
+		click_count = #{clickCount,jdbcType=INTEGER},
+		pic = #{pic,jdbcType=VARCHAR},
+		title = #{title,jdbcType=VARCHAR},
+		is_good = #{isGood,jdbcType=INTEGER},
+		out_time = #{outTime,jdbcType=TIMESTAMP},
+		last_time = #{lastTime,jdbcType=TIMESTAMP},
+		state = #{state,jdbcType=INTEGER},
+		isdelete = #{isdelete,jdbcType=INTEGER},
+		labelpart = #{labelpart,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 多条件计算分类数量 -->
+	<select id="selectCountByCondition" resultType="java.lang.Integer" parameterType="com.heaven.model.Article">
+		select count(1) from article where 1=1 
+		
+		<if test="sectionId != null">
+			and article.section_id = #{sectionId,jdbcType=INTEGER}
+		</if>
+		
+		<if test="title != null">
+			and article.title like #{title,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="isdelete != null">
+			and article.isdelete = #{isdelete,jdbcType=INTEGER}
+		</if>
+		
+		<if test="content != null">
+			and article.content like #{content,jdbcType=LONGVARCHAR}
+		</if>
+	</select>
+</mapper>

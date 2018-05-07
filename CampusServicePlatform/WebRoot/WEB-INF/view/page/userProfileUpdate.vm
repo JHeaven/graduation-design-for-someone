@@ -1,0 +1,313 @@
+<h2>个人信息修改</h2>
+
+<div class="row">
+	<div class="col-md-12">
+		
+		<div class="panel panel-primary" data-collapsed="0">
+		
+			<div class="panel-heading">
+				<div class="panel-title">
+					请修改相应信息
+				</div>
+				<div class="panel-options">
+					<a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a>
+					<a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+					<a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+					<a href="#" data-rel="close"><i class="entypo-cancel"></i></a>
+				</div>
+			</div>
+			
+			<div class="panel-body" style="display: block;">
+				<form role="form" class="form-horizontal form-groups-bordered" id="wodexinxixiugai">
+	
+					<!--part-->
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="button">用户名</button>
+								</span>
+								<input type="text" class="form-control" value="${user.loginName}" disabled=true/>
+							</div>
+						</div>
+					</div>
+					
+					<!--part-->
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="button">昵称</button>
+								</span>
+								<input type="text" class="form-control" name="nickName" value="${user.nickName}"/>
+							</div>
+						</div>
+					</div>
+					
+					
+					<!--part-->
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="button">性别</button>
+								</span>
+								<select class="form-control" name="gender">
+    								<option value="1">男</option>
+    								
+    								<option value="2" #if(${user.gender} == 2) selected="selected" #end>女</option>
+                                </select>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					
+					<!--part-->
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="button">出生日期</button>
+								</span>
+								<input type="text" name="birthday" class="form-control datepicker" data-format="yyyy-mm-dd" value="$!date.format('yyyy-MM-dd',$user.birthday)" readonly="readonly">
+							</div>
+						</div>
+					</div>
+
+					<!--part-->
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="button">手机</button>
+								</span>
+								<input type="text" name="mobilePhone" value="${user.mobilePhone}" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					
+					
+					<!--part-->
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="button">QQ</button>
+								</span>
+								<input type="text" name="qq" value="${user.qq}" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					
+					
+					<!--part-->
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="button">角色</button>
+								</span>
+								<select disabled=true class="form-control">
+									<option value="1" >学生</option>
+									<option value="2" #if($user.role == 2) selected="selected" #end >教师</option>
+                                </select>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					#if($user.role == 1)
+    					<!--part-->
+    					<div class="form-group">
+    						<label class="col-sm-3 control-label"></label>
+    						<div class="col-sm-5">
+    							<div class="input-group">
+    								<span class="input-group-btn">
+    									<button class="btn btn-primary" type="button">学号</button>
+    								</span>
+    								<input type="text" name="stuNumber" value="$!{user.stuNumber}" class="form-control"/>
+    							</div>
+    						</div>
+    					</div>
+    					
+    					
+    					<!--part-->
+    					<div class="form-group">
+    						<label class="col-sm-3 control-label"></label>
+    						<div class="col-sm-5">
+    							<div class="input-group">
+    								<span class="input-group-btn">
+    									<button class="btn btn-primary" type="button">所在系别</button>
+    								</span>
+    								<select class="form-control" name="departmentId">
+    									#foreach($dep in $allDepartment)
+    										#if($user.departmentId ==$dep.id )
+    											<option value="${dep.id}" selected="selected">${dep.name}</option>
+    										#else
+    											<option value="${dep.id}">${dep.name}</option>
+    										#end
+    									#end
+                                    </select>
+    							</div>
+    						</div>
+    					</div>
+    					
+    					
+    					 
+    					
+    					<!--part-->
+    					<div class="form-group">
+    						<label class="col-sm-3 control-label"></label>
+    						<div class="col-sm-5">
+    							<div class="input-group">
+    								<span class="input-group-btn">
+    									<button class="btn btn-primary" type="button">所属专业</button>
+    								</span>
+    								<select class="form-control" name="majorId">
+    									#foreach($maj in $allMajor)
+    										#if($user.majorId ==$maj.id )
+    											<option value="${maj.id}" selected="selected">${maj.name}</option>
+    										#else
+    											<option value="${maj.id}">${maj.name}</option>
+    										#end
+    									#end
+                                    </select>
+    							</div>
+    						</div>
+    					</div>
+    					
+    					
+    					
+    					<!--part-->
+    					<div class="form-group">
+    						<label class="col-sm-3 control-label"></label>
+    						<div class="col-sm-5">
+    							<div class="input-group">
+    								<span class="input-group-btn">
+    									<button class="btn btn-primary" type="button">所在班级</button>
+    								</span>
+    								<select class="form-control" name="classroom">
+    									#foreach($class in $allClassroom)
+    										#if($user.classroom ==$class.id )
+    											<option value="${class.id}" selected="selected">${class.name}</option>
+    										#else
+    											<option value="${class.id}">${class.name}</option>
+    										#end
+    									#end
+                                    </select>
+    							</div>
+    						</div>
+    					</div>
+    					
+					#else
+
+    					<!--part-->
+    					<div class="form-group">
+    						<label class="col-sm-3 control-label"></label>
+    						<div class="col-sm-5">
+    							<div class="input-group">
+    								<span class="input-group-btn">
+    									<button class="btn btn-primary" type="button">教工号</button>
+    								</span>
+    								<input type="text" name="teaNumber" value="$!{user.teaNumber}" class="form-control"/>
+    							</div>
+    						</div>
+    					</div>
+    					
+						
+						<!--part-->
+    					<div class="form-group">
+    						<label class="col-sm-3 control-label"></label>
+    						<div class="col-sm-5">
+    							<div class="input-group">
+    								<span class="input-group-btn">
+    									<button class="btn btn-primary" type="button">所属部门</button>
+    								</span>
+    								<input type="text" name="business" value="$!{user.business}" class="form-control"/>
+    							</div>
+    						</div>
+    					</div>
+    					
+						
+						
+						
+						
+					#end
+					
+					<!--part-->
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="button">自我介绍</button>
+								</span>
+                                <textarea type="text" name="introduction" class="form-control">${user.introduction}</textarea>
+							</div>
+						</div>
+					</div>
+    					
+					
+					
+					
+					<!--part-->
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-5">
+							<button type="button" class="btn btn-red" onclick="xiugaixinxi();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</div>
+						
+				</form>
+				
+			</div>
+			
+		</div>
+	
+	</div>
+</div>
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="assets/js/daterangepicker/daterangepicker-bs3.css">
+<!-- Imported scripts on this page -->
+<script src="assets/js/bootstrap-datepicker.js"></script>
+<!-- JavaScripts initializations and stuff -->
+<script src="assets/js/neon-custom.js"></script>
+
+<script>
+var xiugaixinxi = function(){
+	$.ajax({
+		cache: true,
+        type: "POST",
+        url: "/CampusServicePlatform/user/douserProfileEdit",
+        data: $('#wodexinxixiugai').serialize(),
+        async: false,
+        error: function(request) {
+            alert('出错啦:'+request);
+        },
+        success: function(data) {
+			if(data == 'success'){
+				toastr.success('修改成功！',null,notificationOpts);
+			}else{
+				toastr.error('修改失败！',null,notificationOpts);
+			}
+			
+        }
+	});
+}
+</script>

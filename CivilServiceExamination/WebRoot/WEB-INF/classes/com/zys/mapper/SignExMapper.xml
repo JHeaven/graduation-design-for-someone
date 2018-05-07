@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.dao.SignExMapper" >
+  <resultMap id="BaseResultMap" type="com.zys.model.SignEx" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="ex" property="ex" jdbcType="INTEGER" />
+    <result column="belong" property="belong" jdbcType="INTEGER" />
+    <result column="ans" property="ans" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="ans_time" property="ansTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stu_id, ex, belong, ans, deleted, score, ans_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sign_ex
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectByUserIdAndBelong" resultMap="BaseResultMap" parameterType="com.zys.model.SignEx" >
+    select 
+    <include refid="Base_Column_List" />
+    from sign_ex
+    where stu_id = #{stuId,jdbcType=INTEGER} and belong = #{belong,jdbcType=INTEGER}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sign_ex
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zys.model.SignEx" >
+    insert into sign_ex (id, stu_id, ex, 
+      belong, ans, deleted, 
+      score, ans_time)
+    values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=INTEGER}, #{ex,jdbcType=INTEGER}, 
+      #{belong,jdbcType=INTEGER}, #{ans,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}, 
+      #{score,jdbcType=INTEGER}, #{ansTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zys.model.SignEx" >
+    insert into sign_ex
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stuId != null" >
+        stu_id,
+      </if>
+      <if test="ex != null" >
+        ex,
+      </if>
+      <if test="belong != null" >
+        belong,
+      </if>
+      <if test="ans != null" >
+        ans,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="ansTime != null" >
+        ans_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="ex != null" >
+        #{ex,jdbcType=INTEGER},
+      </if>
+      <if test="belong != null" >
+        #{belong,jdbcType=INTEGER},
+      </if>
+      <if test="ans != null" >
+        #{ans,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="ansTime != null" >
+        #{ansTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zys.model.SignEx" >
+    update sign_ex
+    <set >
+      <if test="stuId != null" >
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="ex != null" >
+        ex = #{ex,jdbcType=INTEGER},
+      </if>
+      <if test="belong != null" >
+        belong = #{belong,jdbcType=INTEGER},
+      </if>
+      <if test="ans != null" >
+        ans = #{ans,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="ansTime != null" >
+        ans_time = #{ansTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zys.model.SignEx" >
+    update sign_ex
+    set stu_id = #{stuId,jdbcType=INTEGER},
+      ex = #{ex,jdbcType=INTEGER},
+      belong = #{belong,jdbcType=INTEGER},
+      ans = #{ans,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER},
+      ans_time = #{ansTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

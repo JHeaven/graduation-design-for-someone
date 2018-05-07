@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></beans:bean>
+	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:bean class="org.springframework.http.converter.StringHttpMessageConverter">
+					<beans:property name = "supportedMediaTypes">
+						<beans:list>
+							<beans:value>text/plain;charset=UTF-8</beans:value>
+							<beans:value>application/json;charset=UTF-8</beans:value>
+						</beans:list>
+					</beans:property>
+				</beans:bean>
+				<beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+					<beans:property name="objectMapper">
+						<beans:bean id="jacksonObjectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+							<beans:property name="timeZone">
+								<beans:bean class="sun.util.calendar.ZoneInfo" factory-method="getTimeZone">
+							        <beans:constructor-arg type="java.lang.String" value="Asia/Shanghai"/>
+							    </beans:bean>
+							</beans:property> 
+						</beans:bean>
+					</beans:property>
+				</beans:bean>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+ 	<resources mapping="/resources/**" location="/resources/" />
+ 	<resources mapping="/resources/images/**" location="/resources/images/" />
+ 	<resources mapping="/modules/**" location="/modules/" />
+	<resources mapping="/app/**" location="/app/" />
+	<resources mapping="/ctrl/**" location="/ctrl/" />
+	<resources mapping="/directive/**" location="/directive/" />
+	<resources mapping="/templates/**" location="/templates/" />
+	
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/views/" />
+	</beans:bean>
+	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+	<beans:import resource="controllers.xml" />
+</beans:beans>

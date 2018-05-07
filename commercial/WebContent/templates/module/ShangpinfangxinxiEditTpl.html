@@ -1,0 +1,86 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+<div class="modal-header">
+	<div class="row">
+		<div class="col-sm-7">
+			<h4 class="modal-title">{{title}}</h4>
+		</div>
+		<div class="col-sm-5">
+			<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+</div>
+<div class="modal-body" style="margin: 5px;">
+	<form class="form-horizontal" role="form" novalidate name="myForm">
+		<input type="hidden" name="commercialID" ng-model="editForm.commercialID">
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">商品房类型：</label>
+			<div class="col-md-9">
+					<input type="text" name="commercialtype" class="form-control" placeholder="" ng-model="editForm.commercialtype" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">楼层：</label>
+			<div class="col-md-9">
+					<input type="text" name="commercialfloor" class="form-control" placeholder="" ng-model="editForm.commercialfloor" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">单元号：</label>
+			<div class="col-md-9">
+					<input type="text" name="commercialfloorUnitnumber" class="form-control" placeholder="" ng-model="editForm.commercialfloorUnitnumber" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">总面积：</label>
+			<div class="col-md-9">
+					<input type="text" name="commercialtotalArea" class="form-control" placeholder="" ng-model="editForm.commercialtotalArea" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">使用面积：</label>
+			<div class="col-md-9">
+					<input type="text" name="commercialtotalUseArea" class="form-control" placeholder="" ng-model="editForm.commercialtotalUseArea" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">m²价格：</label>
+			<div class="col-md-9">
+					<input type="text" name="commercialPrice" class="form-control" placeholder="" ng-model="editForm.commercialPrice" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">上架时间：</label>
+			<div class="col-md-9">
+					<p class="input-group input-group-sm">
+						<input type="text" class="form-control btn-sm" placeholder="日期" datepicker-localdate uib-datepicker-popup name="commercialDate" ng-model="editForm.commercialDate" is-open="commercialDateOpened" datepicker-options="{formatYear: 'yy',startingDay: 1}" ng-required="false" current-text="今天"  clear-text="清空" close-text="关闭" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default btn-sm" ng-click="commercialDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</p>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">房屋其他描述：</label>
+			<div class="col-md-9">
+					<input type="text" name="commercialConter" class="form-control" placeholder="" ng-model="editForm.commercialConter" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">是否卖出：</label>
+			<div class="col-md-9">
+					<input type="text" name="commercialtotalflag" class="form-control" placeholder="" ng-model="editForm.commercialtotalflag" required>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<div class="form-group">
+		<div class="col-md-offset-4 col-md-2 col-sm-offset-4 col-sm-2 col-xs-offset-4 col-xs-2">
+			<button type="submit" class="btn btn-primary" ng-click="save()" ng-disabled="myForm.$invalid">保存</button>
+		</div>
+		<div class="col-md-2 col-sm-2 col-xs-2">
+			<button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+		</div>
+	</div>
+</div>
+</div>

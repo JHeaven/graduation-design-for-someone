@@ -1,0 +1,289 @@
+<div class="row" id="microblogRouters" style="width:100%; height:590px;overflow-x:hidden;overflow-y:scroll">
+				<div class="col-md-12">
+								
+					
+					<!-- Search categories tabs -->
+					<ul class="nav nav-tabs right-aligned">
+						<li class="tab-title pull-left">
+							<div class="search-string">快来发表你的动态吧</strong></div>
+						</li>
+						
+						<li class="active">
+							<a>
+								最新动态
+							</a>
+						</li>
+						<li>
+							<a href="#/microblogSelectOfPop">最热门动态</a>
+						</li>
+						<li>
+							<a href="#/microblogSelectOfMy">我的动态</a>
+						</li>
+					</ul>
+					
+					<!-- Search search form -->
+					<form method="post" class="search-bar" id="dongtaiForm">
+						
+						<div class="input-group">
+							<textarea class="form-control wysihtml5" data-stylesheet-url="assets/css/wysihtml5-color.css" name="sample_wysiwyg" id="sample_wysiwyg"></textarea>
+							<br><div class="input-group-btn">
+								<button type="button" class="btn btn-lg btn-primary btn-icon" id="fabiaodongtai">
+									实名发表 
+									<i class="entypo-user"></i>
+								</button><br><hr>
+								<button type="button" class="btn btn-lg btn-primary btn-icon" id="nmfabiaodongtai">
+									匿名发表 
+									<i class="entypo-traffic-cone"></i>
+								</button>
+							</div>
+						</div>
+						
+					</form>
+					
+					
+					<!-- Search search form -->
+					<div class="search-results-panes">
+						
+						<div class="search-results-pane active" id="pages">
+							
+							
+    							#foreach($mic in ${micLatest})
+            						<div class="panel panel-primary">
+                    					<div class="panel-heading">
+                    						<div class="panel-title">
+    											#if($mic.hiddenName == 0)
+    												<a href="#/userOtherProfile/${mic.user.id}">
+    												<img src="${mic.user.image}" alt="" class="img-circle" width="28">$mic.user.nickName
+    											#else
+    												<a>
+    												<img src="assets/images/head/niming.jpg" alt="" class="img-circle" width="28">&nbsp;&nbsp;&nbsp;匿名用户
+    											#end
+    											&nbsp;&nbsp;发布于<i class="entypo-mic"></i> &nbsp;&nbsp;$!date.format('yyyy-MM-dd HH:mm:ss',$mic.outTime) </a>
+    										</div>
+                    						
+                    						<div class="panel-options">
+                    							<a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-3" class="bg" onclick="dianzan(${mic.id});">点赞（$mic.goodCount）</a>
+    											<a onclick="replyMic($mic.id);"><i class="entypo-reply"></i>回复</a>
+                    							<a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+												<a href="#" data-rel="close"><i class="entypo-eye" id="closemic-$mic.id"></i>不想看这一条</a>
+												#if($mic.userId == $usersession.id)<a onclick="delmic($mic.id);"><i class="entypo-cancel"></i>删除</a>#end
+                    						</div>
+                    					</div>
+                    					
+                    					<div class="panel-body with-table" style="display: block;"><table class="table table-bordered">
+                    						<thead>
+                    							<tr>
+                    								<th>$mic.content</th>
+                    							</tr>
+                    						</thead>
+                    						<tbody>
+												<tr>
+												<td>
+												#foreach($re in ${mic.thisReply})
+                    								<pre> <a href="#/userOtherProfile/${re.user.id}"><img src="${re.user.image}" class="img-circle" width="18">&nbsp;${re.user.nickName}</a>&nbsp;回复：&nbsp;${re.content}</pre>
+												#end
+												</td>
+												</tr>
+                    						</tbody>
+                    					</table></div>
+                    				</div>
+								#end
+								
+								
+								
+								
+					
+							
+							
+							
+							
+							<!-- Pager for search results -->
+							
+							<ul class="pager">
+								<li><a><h4> 您在$!date.format('HH:mm:ss',$thistime)看到此处</h4></a></li>
+							</ul>
+						</div>
+						
+						
+						
+					</div>
+					
+				</div>
+			</div>
+			
+  
+			<!-- JavaScripts initializations and stuff -->
+        	<!-- Demo Settings -->
+				<script>
+				
+            				
+            				
+            
+            		// Wysiwyg Editor
+            		if($.isFunction($.fn.wysihtml5))
+            		{
+            			$(".wysihtml5").each(function(i, el)
+            			{
+            				var $this = $(el),
+            					stylesheets = attrDefault($this, 'stylesheet-url', '')
+            
+            				$(".wysihtml5").wysihtml5({
+            					stylesheets: stylesheets.split(',')
+            				});
+            			});
+            		}
+
+				
+				
+				
+					$('#fabiaodongtai').click(function(){
+						var notnull = $('#sample_wysiwyg').val();
+						if(notnull.length !=0){
+    						$.ajax({
+                				cache: true,
+                                type: "POST",
+                                url: "microblog/microblogInsert",
+                                data: $('#dongtaiForm').serialize(),
+                                async: false,
+                                error: function(request) {
+                                    alert(request);
+									toastr.error('实名发表动态失败，请稍后再试！',null,notificationOpts);
+                                },
+                                success: function(data) {
+                                	$("#microblogSelectSection").html(data);
+    								toastr.success('你发表了一个动态！',null,notificationOpts);
+                                }
+    						});
+						}else{
+							toastr.warning('你怎么可以发表空的动态呢？',null,notificationOpts);
+						}
+					});
+					
+					
+					$('#nmfabiaodongtai').click(function(){
+						var notnull = $('#sample_wysiwyg').val();
+						if(notnull.length !=0){
+							$.ajax({
+                				cache: true,
+                                type: "POST",
+                                url: "microblog/microblogInsertnm",
+                                data: $('#dongtaiForm').serialize(),
+                                async: false,
+                                error: function(request) {
+                                    alert(request);
+                                },
+                                success: function(data) {
+                                	$("#microblogSelectSection").html(data);
+    								toastr.success('你匿名发表了一个动态！',null,notificationOpts);
+                                }
+    						});
+						}else{
+							toastr.warning('太敷衍了！就算是匿名也不能发表空的动态吧？',null,notificationOpts);
+						}
+						
+					});
+					
+					var dianzan = function(MicId){
+						$.ajax({
+            				cache: true,
+                            type: "GET",
+                            url: "microblog/microblogGoodCountInsert/"+MicId,
+                            async: false,
+                            error: function(request) {
+                                alert(request);
+								toastr.error('与服务器失去连接，请重试或联系管理员！',null,notificationOpts);
+                            },
+                            success: function(data) {
+								if(data == 'success'){
+									toastr.success('你点了个赞哟！',null,notificationOpts);
+								}else{
+									toastr.error('点赞失败！',null,notificationOpts);
+								}
+								
+                            }
+						});
+					}
+					
+					var replyMic = function(micId){
+						var replyCon= window.prompt("请输入回复内容");
+						if(replyCon!=null){
+							$.ajax({
+                				cache: true,
+                                type: "POST",
+                                url: "/CampusServicePlatform/microblogReply/insertMicReply",
+                                data: {"content":replyCon,"twitterId":micId},
+                                async: false,
+                                error: function(request) {
+                                    alert('出错啦:'+request);
+                                },
+                                success: function(data) {
+									if(data == 'success'){
+										toastr.success('回复成功！',null,notificationOpts);
+									}else{
+										toastr.error('回复失败，请重试！',null,notificationOpts);
+									}
+									//alert(data);
+                                }
+        					});
+						}
+					}
+					
+					var delmic = function(micId){
+						if(confirm("确定要删除动态吗？此操作不可恢复！")){
+							$.ajax({
+                				cache: true,
+                                type: "GET",
+                                url: "microblog/microblogDel/"+micId,
+                                async: false,
+                                error: function(request) {
+                                    //alert(request);
+    								toastr.error('与服务器失去连接，请重试或联系管理员！',null,notificationOpts);
+                                },
+                                success: function(data) {
+                                	if(data == 'success'){
+										toastr.warning('您删除了自己的一条动态！',null,notificationOpts);
+									}else{
+										toastr.error('删除失败，请重试！',null,notificationOpts);
+									}
+									$('#closemic-'+micId).click();
+                                }
+							});
+							
+							
+							
+						}
+					}
+                </script>
+				
+				<script>
+					var nextAjax = 1500;
+					var nextPage = 2;
+                	$('#microblogRouters').on('scroll',function(){
+                        // div 滚动了
+                        //alert('滚动了');
+						//toastr.success('滚动了！',null,notificationOpts);
+                        if ($('#microblogRouters').scrollTop() >= nextAjax) {
+                            // 滚动到底部了,15个滑倒底部
+							nextAjax = nextAjax+1200;
+                            toastr.info('正在加载下一页！',null,notificationOpts);
+							$.ajax({
+                				cache: true,
+                                type: "GET",
+                                url: "microblog/microblogSelectNext/"+nextPage,
+                                async: false,
+                                error: function(request) {
+									toastr.error('加载下一页失败！Error：'+request,null,notificationOpts);
+                                },
+                                success: function(data) {
+                                	$("#pages").append(data);
+									toastr.success('成功加载下一页！',null,notificationOpts);
+									nextPage = nextPage+1;
+                                }
+    						});
+							
+                        }
+                    });
+                </script>
+				
+				
+				

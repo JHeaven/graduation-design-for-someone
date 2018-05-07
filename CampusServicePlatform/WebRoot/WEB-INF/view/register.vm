@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Neon Admin Panel" />
+	<meta name="author" content="" />
+
+	<title>注册用户</title>
+
+	<link rel="stylesheet" href="assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
+	<link rel="stylesheet" href="assets/css/font-icons/entypo/css/entypo.css">
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/css/neon-core.css">
+	<link rel="stylesheet" href="assets/css/neon-theme.css">
+	<link rel="stylesheet" href="assets/css/neon-forms.css">
+	<link rel="stylesheet" href="assets/css/custom.css">
+	<script src="assets/js/jquery-1.11.0.min.js"></script>
+
+	<!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+
+</head>
+<body class="page-body login-page login-form-fall" data-url="">
+
+
+<!-- This is needed when you send requests via Ajax -->
+<script type="text/javascript">
+var baseurl = 'doregister';
+</script>
+	
+<div class="login-container">
+	
+	<div class="login-header login-caret">
+		
+		<div class="login-content">
+			
+			<a href="index.html" class="logo">
+				<img src="assets/images/logo@2x.png" width="120" alt="" />
+			</a>
+			
+			<p class="description">请认真填写一下信息，方可注册成功！</p>
+			
+			<!-- progress bar indicator -->
+			<div class="login-progressbar-indicator">
+				<h3>43%</h3>
+				<span>logging in...</span>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="login-progressbar">
+		<div></div>
+	</div>
+	
+	<div class="login-form">
+		
+		<div class="login-content">
+			
+			<form method="post" role="form" id="form_register">
+				
+				<div class="form-register-success">
+					<i class="entypo-check"></i>
+					<h3>您已成功注册.</h3>
+					<p>我们已经给您的邮箱发送了有关您账户的信息.</p>
+				</div>
+				
+				<div class="form-steps">
+					
+					<div class="step current" id="step-1">
+					
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="entypo-user"></i>用&nbsp;户&nbsp;名 
+								</div>
+								
+								<input type="text" class="form-control" name="loginName" id="loginName" placeholder="请填写登陆用户名" autocomplete="off"/>
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="entypo-user"></i>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码
+								</div>
+								
+								<input type="password" class="form-control" name="loginPass" id="loginPass" placeholder="请填写登陆密码" autocomplete="off" />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="entypo-user"></i>确认密码
+								</div>
+								
+								<input type="password" class="form-control" name="loginPass2" id="loginPass2" placeholder="请确认登陆密码" autocomplete="off" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="entypo-user"></i>昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称
+								</div>
+								
+								<input type="text" class="form-control" name="nickName" id="nickName" placeholder="请填写你的昵称" autocomplete="off" />
+							</div>
+						</div>
+						
+
+					
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="entypo-user"></i>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别
+								</div>
+								
+								<div class="radio">
+										<label>
+											<input name="gender" id="gender" value="0" checked="checked" type="radio"/>男生
+										</label>
+								</div>
+								<div class="radio">
+										<label>
+											<input name="gender" id="gender" value="1" checked="" type="radio"/>女生
+										</label>
+								</div>
+							</div>
+						</div>
+						
+						
+						
+						
+						<div class="form-group">
+							<button type="button" data-step="step-2" class="btn btn-primary btn-block btn-login">
+								<i class="entypo-right-open-mini"></i>
+								下一步
+							</button>
+						</div>
+						
+						<div class="form-group">
+							步骤 1 / 2
+						</div>
+					
+					</div>
+					
+					<div class="step" id="step-2">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="entypo-user-add"></i>
+								</div>
+								<select class="form-control" name="role">
+									<option value="1">学生</option>
+									<option value="2">老师</option>
+                                </select>
+							</div>
+						</div>
+					
+					
+						
+						
+						
+						<div class="form-group">
+							<button type="submit" class="btn btn-success btn-block btn-login">
+								<i class="entypo-right-open-mini"></i>
+								完成注册
+							</button>
+						</div>
+						
+						<div class="form-group">
+							步骤 2 / 2
+						</div>
+						
+					</div>
+					
+				</div>
+				
+			</form>
+			
+			
+			<div class="login-bottom-links">
+				
+				<a href="login" class="link">
+					<i class="entypo-lock"></i>
+					返回登陆界面
+				</a>
+				
+				<br />
+				
+				
+			</div>
+			
+		</div>
+		
+	</div>
+	
+</div>
+
+
+	<!-- Imported styles on this page -->
+	<link rel="stylesheet" href="assets/js/select2/select2-bootstrap.css">
+	<link rel="stylesheet" href="assets/js/select2/select2.css">
+	<link rel="stylesheet" href="assets/js/selectboxit/jquery.selectBoxIt.css">
+	<link rel="stylesheet" href="assets/js/daterangepicker/daterangepicker-bs3.css">
+	<link rel="stylesheet" href="assets/js/icheck/skins/minimal/_all.css">
+	<link rel="stylesheet" href="assets/js/icheck/skins/square/_all.css">
+	<link rel="stylesheet" href="assets/js/icheck/skins/flat/_all.css">
+	<link rel="stylesheet" href="assets/js/icheck/skins/futurico/futurico.css">
+	<link rel="stylesheet" href="assets/js/icheck/skins/polaris/polaris.css">
+
+	<!-- Bottom scripts (common) -->
+	<script src="assets/js/gsap/main-gsap.js"></script>
+	<script src="assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
+	<script src="assets/js/bootstrap.js"></script>
+	<script src="assets/js/joinable.js"></script>
+	<script src="assets/js/resizeable.js"></script>
+	<script src="assets/js/neon-api.js"></script>
+	<script src="assets/js/jquery.validate.min.js"></script>
+	<script src="assets/js/neon-register.js"></script>
+	<script src="assets/js/jquery.inputmask.bundle.min.js"></script>
+	<script src="assets/js/bootstrap-timepicker.min.js"></script>
+
+	
+	<!-- Imported scripts on this page -->
+	<script src="assets/js/select2/select2.min.js"></script>
+	<script src="assets/js/bootstrap-tagsinput.min.js"></script>
+	<script src="assets/js/typeahead.min.js"></script>
+	<script src="assets/js/selectboxit/jquery.selectBoxIt.min.js"></script>
+	<script src="assets/js/bootstrap-datepicker.js"></script>
+	<script src="assets/js/bootstrap-timepicker.min.js"></script>
+	<script src="assets/js/bootstrap-colorpicker.min.js"></script>
+	<script src="assets/js/daterangepicker/moment.min.js"></script>
+	<script src="assets/js/daterangepicker/daterangepicker.js"></script>
+	<script src="assets/js/jquery.multi-select.js"></script>
+	<script src="assets/js/icheck/icheck.min.js"></script>
+	<script src="assets/js/neon-chat.js"></script>
+
+	
+	
+	<!-- JavaScripts initializations and stuff -->
+	<script src="assets/js/neon-custom.js"></script>
+
+
+	<!-- Demo Settings -->
+	<script src="assets/js/neon-demo.js"></script>
+
+</body>
+</html>

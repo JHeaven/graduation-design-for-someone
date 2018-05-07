@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asz.dao.ResumeMapper" >
+  <resultMap id="BaseResultMap" type="com.asz.model.Resume" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="birth" property="birth" jdbcType="TIMESTAMP" />
+    <result column="sfz" property="sfz" jdbcType="VARCHAR" />
+    <result column="jiguan" property="jiguan" jdbcType="VARCHAR" />
+    <result column="zhengzhi" property="zhengzhi" jdbcType="VARCHAR" />
+    <result column="mingzu" property="mingzu" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="people_id" property="peopleId" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="xueli" property="xueli" jdbcType="VARCHAR" />
+    <result column="zhuanye" property="zhuanye" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="honor" property="honor" jdbcType="VARCHAR" />
+    <result column="scholarship" property="scholarship" jdbcType="VARCHAR" />
+    <result column="s_section" property="sSection" jdbcType="VARCHAR" />
+    <result column="tendence" property="tendence" jdbcType="VARCHAR" />
+    <result column="main_section" property="mainSection" jdbcType="VARCHAR" />
+    <result column="skill" property="skill" jdbcType="VARCHAR" />
+    <result column="ex1_from" property="ex1From" jdbcType="TIMESTAMP" />
+    <result column="ex2_from" property="ex2From" jdbcType="TIMESTAMP" />
+    <result column="ex3_from" property="ex3From" jdbcType="TIMESTAMP" />
+    <result column="ex4_from" property="ex4From" jdbcType="TIMESTAMP" />
+    <result column="ex1_cor" property="ex1Cor" jdbcType="VARCHAR" />
+    <result column="ex2_cor" property="ex2Cor" jdbcType="VARCHAR" />
+    <result column="ex3_cor" property="ex3Cor" jdbcType="VARCHAR" />
+    <result column="ex4_cor" property="ex4Cor" jdbcType="VARCHAR" />
+    <result column="ex1_section_res" property="ex1SectionRes" jdbcType="VARCHAR" />
+    <result column="ex2_section_res" property="ex2SectionRes" jdbcType="VARCHAR" />
+    <result column="ex3_section_res" property="ex3SectionRes" jdbcType="VARCHAR" />
+    <result column="ex4_section_res" property="ex4SectionRes" jdbcType="VARCHAR" />
+    <result column="ex1_to" property="ex1To" jdbcType="TIMESTAMP" />
+    <result column="ex2_to" property="ex2To" jdbcType="TIMESTAMP" />
+    <result column="ex3_to" property="ex3To" jdbcType="TIMESTAMP" />
+    <result column="ex4_to" property="ex4To" jdbcType="TIMESTAMP" />
+    <result column="cet" property="cet" jdbcType="VARCHAR" />
+    <result column="ncre" property="ncre" jdbcType="VARCHAR" />
+    <result column="hobby" property="hobby" jdbcType="VARCHAR" />
+    <result column="idea" property="idea" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.asz.model.Resume" extends="BaseResultMap" >
+    <result column="photo" property="photo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, sex, birth, sfz, jiguan, zhengzhi, mingzu, address, people_id, phone, email, 
+    xueli, zhuanye, school, honor, scholarship, s_section, tendence, main_section, skill, 
+    ex1_from, ex2_from, ex3_from, ex4_from, ex1_cor, ex2_cor, ex3_cor, ex4_cor, ex1_section_res, 
+    ex2_section_res, ex3_section_res, ex4_section_res, ex1_to, ex2_to, ex3_to, ex4_to, 
+    cet, ncre, hobby, idea, deleted, ps, status
+  </sql>
+  <sql id="Blob_Column_List" >
+    photo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from resume
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="all" resultMap="ResultMapWithBLOBs" >
+    SELECT
+	resume.id,
+	resume.`name`,
+	resume.sex,
+	resume.birth,
+	resume.sfz,
+	resume.jiguan,
+	resume.zhengzhi,
+	resume.mingzu,
+	resume.photo,
+	resume.address,
+	resume.people_id,
+	resume.phone,
+	resume.email,
+	resume.xueli,
+	resume.zhuanye,
+	resume.school,
+	resume.honor,
+	resume.scholarship,
+	resume.s_section,
+	resume.tendence,
+	resume.main_section,
+	resume.skill,
+	resume.ex1_from,
+	resume.ex2_from,
+	resume.ex3_from,
+	resume.ex4_from,
+	resume.ex1_cor,
+	resume.ex2_cor,
+	resume.ex3_cor,
+	resume.ex4_cor,
+	resume.ex1_section_res,
+	resume.ex2_section_res,
+	resume.ex3_section_res,
+	resume.ex4_section_res,
+	resume.ex1_to,
+	resume.ex2_to,
+	resume.ex3_to,
+	resume.ex4_to,
+	resume.cet,
+	resume.ncre,
+	resume.hobby,
+	resume.idea,
+	resume.deleted,
+	resume.ps,
+	resume.`status`
+	FROM
+	resume
+	INNER JOIN `user` ON resume.id = `user`.id
+	WHERE
+	`user`.site = 1
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from resume
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.asz.model.Resume" >
+    insert into resume (id, name, sex, birth, 
+      sfz, jiguan, zhengzhi, 
+      mingzu, address, people_id, 
+      phone, email, xueli, 
+      zhuanye, school, honor, 
+      scholarship, s_section, tendence, 
+      main_section, skill, ex1_from, 
+      ex2_from, ex3_from, ex4_from, 
+      ex1_cor, ex2_cor, ex3_cor, 
+      ex4_cor, ex1_section_res, ex2_section_res, 
+      ex3_section_res, ex4_section_res, ex1_to, 
+      ex2_to, ex3_to, ex4_to, 
+      cet, ncre, hobby, idea, 
+      deleted, ps, status, 
+      photo)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{birth,jdbcType=TIMESTAMP}, 
+      #{sfz,jdbcType=VARCHAR}, #{jiguan,jdbcType=VARCHAR}, #{zhengzhi,jdbcType=VARCHAR}, 
+      #{mingzu,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{peopleId,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{xueli,jdbcType=VARCHAR}, 
+      #{zhuanye,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{honor,jdbcType=VARCHAR}, 
+      #{scholarship,jdbcType=VARCHAR}, #{sSection,jdbcType=VARCHAR}, #{tendence,jdbcType=VARCHAR}, 
+      #{mainSection,jdbcType=VARCHAR}, #{skill,jdbcType=VARCHAR}, #{ex1From,jdbcType=TIMESTAMP}, 
+      #{ex2From,jdbcType=TIMESTAMP}, #{ex3From,jdbcType=TIMESTAMP}, #{ex4From,jdbcType=TIMESTAMP}, 
+      #{ex1Cor,jdbcType=VARCHAR}, #{ex2Cor,jdbcType=VARCHAR}, #{ex3Cor,jdbcType=VARCHAR}, 
+      #{ex4Cor,jdbcType=VARCHAR}, #{ex1SectionRes,jdbcType=VARCHAR}, #{ex2SectionRes,jdbcType=VARCHAR}, 
+      #{ex3SectionRes,jdbcType=VARCHAR}, #{ex4SectionRes,jdbcType=VARCHAR}, #{ex1To,jdbcType=TIMESTAMP}, 
+      #{ex2To,jdbcType=TIMESTAMP}, #{ex3To,jdbcType=TIMESTAMP}, #{ex4To,jdbcType=TIMESTAMP}, 
+      #{cet,jdbcType=VARCHAR}, #{ncre,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR}, #{idea,jdbcType=VARCHAR}, 
+      #{deleted,jdbcType=INTEGER}, #{ps,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.asz.model.Resume" >
+    insert into resume
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birth != null" >
+        birth,
+      </if>
+      <if test="sfz != null" >
+        sfz,
+      </if>
+      <if test="jiguan != null" >
+        jiguan,
+      </if>
+      <if test="zhengzhi != null" >
+        zhengzhi,
+      </if>
+      <if test="mingzu != null" >
+        mingzu,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="peopleId != null" >
+        people_id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="xueli != null" >
+        xueli,
+      </if>
+      <if test="zhuanye != null" >
+        zhuanye,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="honor != null" >
+        honor,
+      </if>
+      <if test="scholarship != null" >
+        scholarship,
+      </if>
+      <if test="sSection != null" >
+        s_section,
+      </if>
+      <if test="tendence != null" >
+        tendence,
+      </if>
+      <if test="mainSection != null" >
+        main_section,
+      </if>
+      <if test="skill != null" >
+        skill,
+      </if>
+      <if test="ex1From != null" >
+        ex1_from,
+      </if>
+      <if test="ex2From != null" >
+        ex2_from,
+      </if>
+      <if test="ex3From != null" >
+        ex3_from,
+      </if>
+      <if test="ex4From != null" >
+        ex4_from,
+      </if>
+      <if test="ex1Cor != null" >
+        ex1_cor,
+      </if>
+      <if test="ex2Cor != null" >
+        ex2_cor,
+      </if>
+      <if test="ex3Cor != null" >
+        ex3_cor,
+      </if>
+      <if test="ex4Cor != null" >
+        ex4_cor,
+      </if>
+      <if test="ex1SectionRes != null" >
+        ex1_section_res,
+      </if>
+      <if test="ex2SectionRes != null" >
+        ex2_section_res,
+      </if>
+      <if test="ex3SectionRes != null" >
+        ex3_section_res,
+      </if>
+      <if test="ex4SectionRes != null" >
+        ex4_section_res,
+      </if>
+      <if test="ex1To != null" >
+        ex1_to,
+      </if>
+      <if test="ex2To != null" >
+        ex2_to,
+      </if>
+      <if test="ex3To != null" >
+        ex3_to,
+      </if>
+      <if test="ex4To != null" >
+        ex4_to,
+      </if>
+      <if test="cet != null" >
+        cet,
+      </if>
+      <if test="ncre != null" >
+        ncre,
+      </if>
+      <if test="hobby != null" >
+        hobby,
+      </if>
+      <if test="idea != null" >
+        idea,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sfz != null" >
+        #{sfz,jdbcType=VARCHAR},
+      </if>
+      <if test="jiguan != null" >
+        #{jiguan,jdbcType=VARCHAR},
+      </if>
+      <if test="zhengzhi != null" >
+        #{zhengzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="mingzu != null" >
+        #{mingzu,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleId != null" >
+        #{peopleId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="xueli != null" >
+        #{xueli,jdbcType=VARCHAR},
+      </if>
+      <if test="zhuanye != null" >
+        #{zhuanye,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="honor != null" >
+        #{honor,jdbcType=VARCHAR},
+      </if>
+      <if test="scholarship != null" >
+        #{scholarship,jdbcType=VARCHAR},
+      </if>
+      <if test="sSection != null" >
+        #{sSection,jdbcType=VARCHAR},
+      </if>
+      <if test="tendence != null" >
+        #{tendence,jdbcType=VARCHAR},
+      </if>
+      <if test="mainSection != null" >
+        #{mainSection,jdbcType=VARCHAR},
+      </if>
+      <if test="skill != null" >
+        #{skill,jdbcType=VARCHAR},
+      </if>
+      <if test="ex1From != null" >
+        #{ex1From,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex2From != null" >
+        #{ex2From,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex3From != null" >
+        #{ex3From,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex4From != null" >
+        #{ex4From,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex1Cor != null" >
+        #{ex1Cor,jdbcType=VARCHAR},
+      </if>
+      <if test="ex2Cor != null" >
+        #{ex2Cor,jdbcType=VARCHAR},
+      </if>
+      <if test="ex3Cor != null" >
+        #{ex3Cor,jdbcType=VARCHAR},
+      </if>
+      <if test="ex4Cor != null" >
+        #{ex4Cor,jdbcType=VARCHAR},
+      </if>
+      <if test="ex1SectionRes != null" >
+        #{ex1SectionRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ex2SectionRes != null" >
+        #{ex2SectionRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ex3SectionRes != null" >
+        #{ex3SectionRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ex4SectionRes != null" >
+        #{ex4SectionRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ex1To != null" >
+        #{ex1To,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex2To != null" >
+        #{ex2To,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex3To != null" >
+        #{ex3To,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex4To != null" >
+        #{ex4To,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cet != null" >
+        #{cet,jdbcType=VARCHAR},
+      </if>
+      <if test="ncre != null" >
+        #{ncre,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null" >
+        #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="idea != null" >
+        #{idea,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.asz.model.Resume" >
+    update resume
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="birth != null" >
+        birth = #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sfz != null" >
+        sfz = #{sfz,jdbcType=VARCHAR},
+      </if>
+      <if test="jiguan != null" >
+        jiguan = #{jiguan,jdbcType=VARCHAR},
+      </if>
+      <if test="zhengzhi != null" >
+        zhengzhi = #{zhengzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="mingzu != null" >
+        mingzu = #{mingzu,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleId != null" >
+        people_id = #{peopleId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="xueli != null" >
+        xueli = #{xueli,jdbcType=VARCHAR},
+      </if>
+      <if test="zhuanye != null" >
+        zhuanye = #{zhuanye,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="honor != null" >
+        honor = #{honor,jdbcType=VARCHAR},
+      </if>
+      <if test="scholarship != null" >
+        scholarship = #{scholarship,jdbcType=VARCHAR},
+      </if>
+      <if test="sSection != null" >
+        s_section = #{sSection,jdbcType=VARCHAR},
+      </if>
+      <if test="tendence != null" >
+        tendence = #{tendence,jdbcType=VARCHAR},
+      </if>
+      <if test="mainSection != null" >
+        main_section = #{mainSection,jdbcType=VARCHAR},
+      </if>
+      <if test="skill != null" >
+        skill = #{skill,jdbcType=VARCHAR},
+      </if>
+      <if test="ex1From != null" >
+        ex1_from = #{ex1From,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex2From != null" >
+        ex2_from = #{ex2From,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex3From != null" >
+        ex3_from = #{ex3From,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex4From != null" >
+        ex4_from = #{ex4From,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex1Cor != null" >
+        ex1_cor = #{ex1Cor,jdbcType=VARCHAR},
+      </if>
+      <if test="ex2Cor != null" >
+        ex2_cor = #{ex2Cor,jdbcType=VARCHAR},
+      </if>
+      <if test="ex3Cor != null" >
+        ex3_cor = #{ex3Cor,jdbcType=VARCHAR},
+      </if>
+      <if test="ex4Cor != null" >
+        ex4_cor = #{ex4Cor,jdbcType=VARCHAR},
+      </if>
+      <if test="ex1SectionRes != null" >
+        ex1_section_res = #{ex1SectionRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ex2SectionRes != null" >
+        ex2_section_res = #{ex2SectionRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ex3SectionRes != null" >
+        ex3_section_res = #{ex3SectionRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ex4SectionRes != null" >
+        ex4_section_res = #{ex4SectionRes,jdbcType=VARCHAR},
+      </if>
+      <if test="ex1To != null" >
+        ex1_to = #{ex1To,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex2To != null" >
+        ex2_to = #{ex2To,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex3To != null" >
+        ex3_to = #{ex3To,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ex4To != null" >
+        ex4_to = #{ex4To,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cet != null" >
+        cet = #{cet,jdbcType=VARCHAR},
+      </if>
+      <if test="ncre != null" >
+        ncre = #{ncre,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null" >
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="idea != null" >
+        idea = #{idea,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.asz.model.Resume" >
+    update resume
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      sfz = #{sfz,jdbcType=VARCHAR},
+      jiguan = #{jiguan,jdbcType=VARCHAR},
+      zhengzhi = #{zhengzhi,jdbcType=VARCHAR},
+      mingzu = #{mingzu,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      people_id = #{peopleId,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      xueli = #{xueli,jdbcType=VARCHAR},
+      zhuanye = #{zhuanye,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      honor = #{honor,jdbcType=VARCHAR},
+      scholarship = #{scholarship,jdbcType=VARCHAR},
+      s_section = #{sSection,jdbcType=VARCHAR},
+      tendence = #{tendence,jdbcType=VARCHAR},
+      main_section = #{mainSection,jdbcType=VARCHAR},
+      skill = #{skill,jdbcType=VARCHAR},
+      ex1_from = #{ex1From,jdbcType=TIMESTAMP},
+      ex2_from = #{ex2From,jdbcType=TIMESTAMP},
+      ex3_from = #{ex3From,jdbcType=TIMESTAMP},
+      ex4_from = #{ex4From,jdbcType=TIMESTAMP},
+      ex1_cor = #{ex1Cor,jdbcType=VARCHAR},
+      ex2_cor = #{ex2Cor,jdbcType=VARCHAR},
+      ex3_cor = #{ex3Cor,jdbcType=VARCHAR},
+      ex4_cor = #{ex4Cor,jdbcType=VARCHAR},
+      ex1_section_res = #{ex1SectionRes,jdbcType=VARCHAR},
+      ex2_section_res = #{ex2SectionRes,jdbcType=VARCHAR},
+      ex3_section_res = #{ex3SectionRes,jdbcType=VARCHAR},
+      ex4_section_res = #{ex4SectionRes,jdbcType=VARCHAR},
+      ex1_to = #{ex1To,jdbcType=TIMESTAMP},
+      ex2_to = #{ex2To,jdbcType=TIMESTAMP},
+      ex3_to = #{ex3To,jdbcType=TIMESTAMP},
+      ex4_to = #{ex4To,jdbcType=TIMESTAMP},
+      cet = #{cet,jdbcType=VARCHAR},
+      ncre = #{ncre,jdbcType=VARCHAR},
+      hobby = #{hobby,jdbcType=VARCHAR},
+      idea = #{idea,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      ps = #{ps,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.asz.model.Resume" >
+    update resume
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      sfz = #{sfz,jdbcType=VARCHAR},
+      jiguan = #{jiguan,jdbcType=VARCHAR},
+      zhengzhi = #{zhengzhi,jdbcType=VARCHAR},
+      mingzu = #{mingzu,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      people_id = #{peopleId,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      xueli = #{xueli,jdbcType=VARCHAR},
+      zhuanye = #{zhuanye,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      honor = #{honor,jdbcType=VARCHAR},
+      scholarship = #{scholarship,jdbcType=VARCHAR},
+      s_section = #{sSection,jdbcType=VARCHAR},
+      tendence = #{tendence,jdbcType=VARCHAR},
+      main_section = #{mainSection,jdbcType=VARCHAR},
+      skill = #{skill,jdbcType=VARCHAR},
+      ex1_from = #{ex1From,jdbcType=TIMESTAMP},
+      ex2_from = #{ex2From,jdbcType=TIMESTAMP},
+      ex3_from = #{ex3From,jdbcType=TIMESTAMP},
+      ex4_from = #{ex4From,jdbcType=TIMESTAMP},
+      ex1_cor = #{ex1Cor,jdbcType=VARCHAR},
+      ex2_cor = #{ex2Cor,jdbcType=VARCHAR},
+      ex3_cor = #{ex3Cor,jdbcType=VARCHAR},
+      ex4_cor = #{ex4Cor,jdbcType=VARCHAR},
+      ex1_section_res = #{ex1SectionRes,jdbcType=VARCHAR},
+      ex2_section_res = #{ex2SectionRes,jdbcType=VARCHAR},
+      ex3_section_res = #{ex3SectionRes,jdbcType=VARCHAR},
+      ex4_section_res = #{ex4SectionRes,jdbcType=VARCHAR},
+      ex1_to = #{ex1To,jdbcType=TIMESTAMP},
+      ex2_to = #{ex2To,jdbcType=TIMESTAMP},
+      ex3_to = #{ex3To,jdbcType=TIMESTAMP},
+      ex4_to = #{ex4To,jdbcType=TIMESTAMP},
+      cet = #{cet,jdbcType=VARCHAR},
+      ncre = #{ncre,jdbcType=VARCHAR},
+      hobby = #{hobby,jdbcType=VARCHAR},
+      idea = #{idea,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      ps = #{ps,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mebx.dao.FilmMapper" >
+  <resultMap id="BaseResultMap" type="com.mebx.model.Film" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="REAL" />
+    <result column="flag_con" property="flagCon" jdbcType="VARCHAR" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="deteted" property="deteted" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.mebx.model.FilmWithBLOBs" extends="BaseResultMap" >
+    <result column="simple_say" property="simpleSay" jdbcType="LONGVARCHAR" />
+    <result column="head" property="head" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, score, flag_con, ps, deteted
+  </sql>
+  <sql id="Blob_Column_List" >
+    simple_say, head
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from film
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectall" resultMap="ResultMapWithBLOBs" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from film
+  </select>
+  
+  
+  <select id="selectHot" resultMap="ResultMapWithBLOBs" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from film
+    ORDER BY
+	film.score desc,
+	film.id desc
+	LIMIT 9
+  </select>
+  
+  
+  <select id="selectPage" resultMap="ResultMapWithBLOBs" parameterType="com.mebx.model.FilmWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from film
+    ORDER BY
+	film.id ASC
+	LIMIT #{form,jdbcType=INTEGER}, #{to,jdbcType=INTEGER}
+    
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from film
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mebx.model.FilmWithBLOBs" >
+    insert into film (id, title, score, 
+      flag_con, ps, deteted, 
+      simple_say, head)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{score,jdbcType=REAL}, 
+      #{flagCon,jdbcType=VARCHAR}, #{ps,jdbcType=VARCHAR}, #{deteted,jdbcType=INTEGER}, 
+      #{simpleSay,jdbcType=LONGVARCHAR}, #{head,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mebx.model.FilmWithBLOBs" >
+    insert into film
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="flagCon != null" >
+        flag_con,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="deteted != null" >
+        deteted,
+      </if>
+      <if test="simpleSay != null" >
+        simple_say,
+      </if>
+      <if test="head != null" >
+        head,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=REAL},
+      </if>
+      <if test="flagCon != null" >
+        #{flagCon,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deteted != null" >
+        #{deteted,jdbcType=INTEGER},
+      </if>
+      <if test="simpleSay != null" >
+        #{simpleSay,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="head != null" >
+        #{head,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mebx.model.FilmWithBLOBs" >
+    update film
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=REAL},
+      </if>
+      <if test="flagCon != null" >
+        flag_con = #{flagCon,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deteted != null" >
+        deteted = #{deteted,jdbcType=INTEGER},
+      </if>
+      <if test="simpleSay != null" >
+        simple_say = #{simpleSay,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="head != null" >
+        head = #{head,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mebx.model.FilmWithBLOBs" >
+    update film
+    set title = #{title,jdbcType=VARCHAR},
+      score = #{score,jdbcType=REAL},
+      flag_con = #{flagCon,jdbcType=VARCHAR},
+      ps = #{ps,jdbcType=VARCHAR},
+      deteted = #{deteted,jdbcType=INTEGER},
+      simple_say = #{simpleSay,jdbcType=LONGVARCHAR},
+      head = #{head,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mebx.model.Film" >
+    update film
+    set title = #{title,jdbcType=VARCHAR},
+      score = #{score,jdbcType=REAL},
+      flag_con = #{flagCon,jdbcType=VARCHAR},
+      ps = #{ps,jdbcType=VARCHAR},
+      deteted = #{deteted,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

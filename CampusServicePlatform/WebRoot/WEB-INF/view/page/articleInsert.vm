@@ -1,0 +1,231 @@
+<!-- 返回 -->
+<h3 class="mail-title">
+	<a href="#/sectionSelectByParentid/2">
+	话题互动</a>
+	<i class="entypo-right-open"></i> <a href="#/articleSelect/${sectionId}">返回列表</a>
+	<span class="count"></span>
+</h3>
+	
+
+<div class="row">
+			<div class="col-md-12">
+			
+				<div class="panel panel-default panel-shadow" data-collapsed="0"><!-- to apply shadow add class "panel-shadow" -->
+					
+					<!-- panel head -->
+					<div class="panel-heading">
+						<div class="panel-title">新增本板块话题</div>
+						
+						<div class="panel-options">
+						</div>
+					</div>
+					
+					<!-- panel body -->
+					<div class="panel-body">
+						<!--
+							<iframe src="article/articleInsertIframe/${sectionId}" width="100%" height="560px" frameborder="no"></iframe>
+						-->
+						<form id="wenzhangForm">
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button class="btn btn-success" type="button">键入标题</button>
+									</span>
+									
+									<input type="text" class="form-control" name="title" id="title">
+								</div>
+								<br>
+								<div>
+								
+									<input name="sectionId" id="sectionId" value="${sectionId}" hidden="hidden"/>
+                                    <textarea name="content" id="content" rows="10" cols="80"></textarea>
+                                    
+									<script>
+                                        // Replace the <textarea id="content"> with a CKEditor
+                                        // instance, using default configuration.
+                        
+                                    </script>
+                                
+								</div>
+								<br>
+								<div>
+									<input type="text" value="校园,服务,平台" class="form-control tagsinput" name="labelpart" id="labelpart"/>
+                                </div>
+								
+								<div>
+									<button type="button" class="btn btn-orange" style="width:100%;" onclick="childFrameClick();">发表话题</button>
+                                </div>
+                            </div>
+							<div class="col-sm-3">
+								<div id="tempfileview">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+                						<div class="panel-title">
+                							图片、文件等选取
+                						</div>
+                					</div>
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-6">
+												<button type="button" class="btn btn-blue" style="width:100%;" onclick="refresh($!{folder.id});">刷新</button>
+                                            </div>
+											<div class="col-sm-6">
+												<button type="button" class="btn btn-red" style="width:100%;" onclick="jQuery('#modalFile-$!{folder.id}').modal('show');">上传</button>
+                                            </div>
+                                        </div>
+										<br>
+										<div class="row">
+											<div class="col-sm-12">
+    										<p>$!{firstTime}</p>
+    										<p>
+    										#foreach($file in $fileList)
+    											<button type="button" style="width:100%" class="btn btn-default btn-icon icon-left" onclick="javascript:prompt('请手动复制路径，可在本网站中随意触发资源','/CampusServicePlatform/file/downloadFile/${file.id}');">
+                    								$file.sharefileName
+                    								<i class="${file.color}"></i>
+                    							</button>
+    											<br><br>
+    										#end
+    										</p>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+								</div>
+                            </div>
+                        </div>
+						</form>
+					</div>
+					
+				</div>
+			
+			</div>
+		</div>
+		
+<!-- 上传文件-->
+    	<div class="modal fade" id="modalFile-$!{folder.id}">
+			<br><br><br><br><br><br>
+    		<div class="modal-dialog">
+    			<div class="modal-content">
+    				
+    				<div class="modal-header">
+    					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closenewFile-$!{folder.id}">&times;</button>
+    					<h4 class="modal-title">请选择你想上传的文件</h4>
+    				</div>
+    				
+    				<div class="modal-body">
+    					文件名<input type="text" class="form-control" id="newFileName$!{folder.id}"/>
+						选择文件<input type="file" id="newFile$!{folder.id}"/>
+    				</div>
+    				
+    				<div class="modal-footer">
+    					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+    					<button type="button" class="btn btn-info" onclick="uploadFile($!{folder.id});">上传</button>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+	<!-- JavaScripts initializations and stuff -->
+	
+	<script>
+		var myeditor = CKEDITOR.replace( 'content' );
+		// Tagsinput
+		if($.isFunction($.fn.tagsinput))
+		{
+			$(".tagsinput").tagsinput();
+		}
+		
+		var test = function(){
+			var chun = myeditor.document.getBody().getText();//取得纯文本  
+			var htmlwenben = myeditor.document.getBody().getHtml();//取得html文本
+			alert(chun);
+			alert(htmlwenben);
+		}
+		
+		var childFrameClick = function(){
+			var content = myeditor.document.getBody().getHtml();
+			var title = $('#title').val();
+			var labelpart = $('#labelpart').val();
+			var sectionId = $('#sectionId').val();
+			
+			if(content.length == 0){
+				toastr.error('你还没有填写内容呢！',null,notificationOpts);
+				return ;
+			}
+			if(title.length == 0){
+				toastr.error('你还没有填写标题呢！',null,notificationOpts);
+				return ;
+			}
+			if(labelpart.length == 0){
+				toastr.error('你还没有填写标签呢！',null,notificationOpts);	
+				return ;
+			}
+			
+			
+			$.ajax({
+    				cache: true,
+                    type: "POST",
+                    url: "/CampusServicePlatform/article/doArticleInsert",
+                    data: {content:content,title:title,labelpart:labelpart,sectionId:sectionId},
+                    async: false,
+                    error: function(request) {
+                        toastr.error('话题发表出错！',null,notificationOpts);
+                    },
+                    success: function(data) {
+						toastr.success('话题发表成功！',null,notificationOpts);
+						window.parent.blackfunction();
+                    }
+			});
+			
+		}
+		
+		
+		
+		var uploadFile = function(folderId){
+			var fileObj = document.getElementById("newFile"+folderId).files[0]; // 获取文件对象
+			var filetitle = $("#newFileName"+folderId).val(); // 获取文件对象
+			var FileController = "/CampusServicePlatform/file/receiveFile/"+folderId;// 接收上传文件的后台地址
+			
+			// FormData 对象
+			var form = new FormData();
+			form.append("title", filetitle);// 可以增加表单数据
+			form.append("file", fileObj);// 文件对象
+			form.append("folderId",folderId);
+		
+			
+			$.ajax({  
+            type : 'post',//请求方式为post  
+            datatype : 'json',//服务端返回的数据类型
+            url : FileController,//接收数据的映射接口
+            data : form,
+            /**
+             * 必须false才会避开jQuery对 formdata 的默认处理    
+             * XMLHttpRequest会对 formdata 进行正确的处理    
+             */
+            processData : false,  
+            contentType : false,//"application/x-www-form-urlencoded",//直接用对象接收时，必须这么写；若要发送json格式数据，可写成“application/json”，用注解@RequestBody String str接收  
+            success : function(data) {
+				 toastr.success('文件上传成功！',null,notificationOpts);
+                 if (data == "success") {
+				 	$("#closenewFile-"+folderId).click();
+					//refresh(folderId);
+                } else {
+                    alert("出了点小问题，请稍候重试");  
+                }   
+            },
+            error :   
+                function(XMLHttpRequest, textStatus, errorThrown) {  
+                    //alert(XMLHttpRequest.status);  
+                    //alert(XMLHttpRequest.readyState);  
+                   //alert(textStatus); 
+					toastr.error('文件上传出错！',null,notificationOpts);
+                }
+        	});
+		};
+		
+		
+		var refresh = function(folderId){
+			$("#tempfileview").load("file/tempFileView/"+folderId);
+			toastr.success('文件刷新成功！',null,notificationOpts);
+		};
+    </script>

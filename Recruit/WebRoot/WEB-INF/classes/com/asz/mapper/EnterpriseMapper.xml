@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asz.dao.EnterpriseMapper" >
+  <resultMap id="BaseResultMap" type="com.asz.model.Enterprise" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="zhucehao" property="zhucehao" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="faren" property="faren" jdbcType="VARCHAR" />
+    <result column="ziben" property="ziben" jdbcType="INTEGER" />
+    <result column="riqi" property="riqi" jdbcType="TIMESTAMP" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="range" property="range" jdbcType="VARCHAR" />
+    <result column="people_num" property="peopleNum" jdbcType="INTEGER" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, zhucehao, type, faren, ziben, riqi, address, `range`, people_num, ps, deleted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from `enterprise` 
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="all" resultMap="BaseResultMap"  >
+    SELECT
+	enterprise.id,
+	enterprise.`name`,
+	enterprise.zhucehao,
+	enterprise.type,
+	enterprise.faren,
+	enterprise.ziben,
+	enterprise.riqi,
+	enterprise.address,
+	enterprise.`range`,
+	enterprise.people_num,
+	enterprise.ps,
+	enterprise.deleted
+	FROM
+	enterprise
+	INNER JOIN `user` ON enterprise.id = `user`.id
+	WHERE
+	`user`.site = 2
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from 'enterprise'
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.asz.model.Enterprise" >
+    insert into enterprise (id, name, zhucehao, 
+      type, faren, ziben, 
+      riqi, address, `range`, 
+      people_num, ps, deleted
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{zhucehao,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{faren,jdbcType=VARCHAR}, #{ziben,jdbcType=INTEGER}, 
+      #{riqi,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{range,jdbcType=VARCHAR}, 
+      #{peopleNum,jdbcType=INTEGER}, #{ps,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.asz.model.Enterprise" >
+    insert into enterprise
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="zhucehao != null" >
+        zhucehao,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="faren != null" >
+        faren,
+      </if>
+      <if test="ziben != null" >
+        ziben,
+      </if>
+      <if test="riqi != null" >
+        riqi,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="range != null" >
+        `range`,
+      </if>
+      <if test="peopleNum != null" >
+        people_num,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="zhucehao != null" >
+        #{zhucehao,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="faren != null" >
+        #{faren,jdbcType=VARCHAR},
+      </if>
+      <if test="ziben != null" >
+        #{ziben,jdbcType=INTEGER},
+      </if>
+      <if test="riqi != null" >
+        #{riqi,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="range != null" >
+        #{range,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleNum != null" >
+        #{peopleNum,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.asz.model.Enterprise" >
+    update enterprise
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="zhucehao != null" >
+        zhucehao = #{zhucehao,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="faren != null" >
+        faren = #{faren,jdbcType=VARCHAR},
+      </if>
+      <if test="ziben != null" >
+        ziben = #{ziben,jdbcType=INTEGER},
+      </if>
+      <if test="riqi != null" >
+        riqi = #{riqi,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="range != null" >
+        `range` = #{range,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleNum != null" >
+        people_num = #{peopleNum,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.asz.model.Enterprise" >
+    update enterprise
+    set name = #{name,jdbcType=VARCHAR},
+      zhucehao = #{zhucehao,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      faren = #{faren,jdbcType=VARCHAR},
+      ziben = #{ziben,jdbcType=INTEGER},
+      riqi = #{riqi,jdbcType=TIMESTAMP},
+      address = #{address,jdbcType=VARCHAR},
+      `range` = #{range,jdbcType=VARCHAR},
+      people_num = #{peopleNum,jdbcType=INTEGER},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

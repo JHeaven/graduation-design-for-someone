@@ -1,0 +1,92 @@
+<h3>
+	<a href="#/activitySelect">校园活动
+    </a><i class="entypo-right-open"></i>发起活动
+</h3>
+
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="assets/js/daterangepicker/daterangepicker-bs3.css">
+<!-- Imported scripts on this page -->
+<script src="assets/js/daterangepicker/moment.min.js"></script>
+<script src="assets/js/daterangepicker/daterangepicker.js"></script>
+<!-- JavaScripts initializations and stuff -->
+<script src="assets/js/neon-custom.js"></script>
+
+		
+<div class="row">
+			<div class="col-md-12">
+				
+				<div class="panel panel-primary" data-collapsed="0">
+				
+					<div class="panel-heading">
+						<div class="panel-title">
+							请填写活动详情
+						</div>
+						
+						<div class="panel-options">
+							<a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a>
+							<a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+							<a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+							<a href="#" data-rel="close"><i class="entypo-cancel"></i></a>
+						</div>
+					</div>
+					
+					<div class="panel-body">
+						
+						<form role="form" class="form-horizontal form-groups-bordered" id="xinzenghuodong">
+			
+							<div class="form-group has-success">
+								<label for="field-1" class="col-sm-3 control-label">活动名称</label>
+								
+								<div class="col-sm-5">
+									<input class="form-control" id="field-1" placeholder="" type="text" name="title">
+								</div>
+							</div>
+							
+							<div class="form-group has-error">
+								<label for="field-3" class="col-sm-3 control-label">活动内容</label>
+								
+								<div class="col-sm-5">
+									<textarea class="form-control" name="content"></textarea>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-3 control-label">活动时间范围</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control daterange" data-time-picker="true" data-time-picker-increment="5" data-format="MM/DD/YYYY HH:mm" name="formto"/>
+								</div>
+							</div>
+							
+							
+							
+							<div class="form-group">
+								<div class="col-sm-offset-3 col-sm-5">
+									<button type="button" class="btn btn-default" onclick="huodongxinz();">Sign in</button>
+								</div>
+							</div>
+						</form>
+						<script>
+						var huodongxinz = function(){
+							$.ajax({
+                				cache: true,
+                                type: "POST",
+                                url: "/CampusServicePlatform/activity/activityInsert",
+                                data: $('#xinzenghuodong').serialize(),
+                                async: false,
+                                error: function(request) {
+                                    alert('出错啦:'+request);
+                                },
+                                success: function(data) {
+									alert(data);
+        							window.location.go(-1);
+                                }
+        					});
+						}
+                        </script>
+					</div>
+				
+				</div>
+			
+			</div>
+		</div>

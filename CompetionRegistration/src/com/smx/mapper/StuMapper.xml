@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smx.dao.StuMapper" >
+  <resultMap id="BaseResultMap" type="com.smx.model.Stu" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stu_id" property="stuId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="birth" property="birth" jdbcType="TIMESTAMP" />
+    <result column="entrance_time" property="entranceTime" jdbcType="TIMESTAMP" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="id_num" property="idNum" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="INTEGER" />
+    <result column="major_id" property="majorId" jdbcType="INTEGER" />
+    <result column="class_room" property="classRoom" jdbcType="VARCHAR" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="login_pass" property="loginPass" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.smx.model.Stu" extends="BaseResultMap" >
+    <result column="photo" property="photo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stu_id, name, sex, birth, entrance_time, address, phone, id_num, department_id, 
+    major_id, class_room, ps, deleted, login_name, login_pass
+  </sql>
+  <sql id="Blob_Column_List" >
+    photo
+  </sql>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from stu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="login" resultMap="ResultMapWithBLOBs" parameterType="com.smx.model.Stu" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from stu
+    where
+    login_name = #{loginName,jdbcType=VARCHAR}
+    <if test="loginPass != null" >
+      and login_pass = #{loginPass,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  
+  
+  <select id="selectAll" resultMap="ResultMapWithBLOBs"  >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from stu
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.smx.model.Stu" >
+    insert into stu (id, stu_id, name, 
+      sex, birth, entrance_time, 
+      address, phone, id_num, 
+      department_id, major_id, class_room, 
+      ps, deleted, login_name, 
+      login_pass, photo)
+    values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=CHAR}, #{birth,jdbcType=TIMESTAMP}, #{entranceTime,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idNum,jdbcType=VARCHAR}, 
+      #{departmentId,jdbcType=INTEGER}, #{majorId,jdbcType=INTEGER}, #{classRoom,jdbcType=VARCHAR}, 
+      #{ps,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}, #{loginName,jdbcType=VARCHAR}, 
+      #{loginPass,jdbcType=VARCHAR}, #{photo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.smx.model.Stu" >
+    insert into stu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stuId != null" >
+        stu_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birth != null" >
+        birth,
+      </if>
+      <if test="entranceTime != null" >
+        entrance_time,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="idNum != null" >
+        id_num,
+      </if>
+      <if test="departmentId != null" >
+        department_id,
+      </if>
+      <if test="majorId != null" >
+        major_id,
+      </if>
+      <if test="classRoom != null" >
+        class_room,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="loginName != null" >
+        login_name,
+      </if>
+      <if test="loginPass != null" >
+        login_pass,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entranceTime != null" >
+        #{entranceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="classRoom != null" >
+        #{classRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPass != null" >
+        #{loginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.smx.model.Stu" >
+    update stu
+    <set >
+      <if test="stuId != null" >
+        stu_id = #{stuId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="birth != null" >
+        birth = #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entranceTime != null" >
+        entrance_time = #{entranceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="majorId != null" >
+        major_id = #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="classRoom != null" >
+        class_room = #{classRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="loginName != null" >
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPass != null" >
+        login_pass = #{loginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.smx.model.Stu" >
+    update stu
+    set stu_id = #{stuId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      entrance_time = #{entranceTime,jdbcType=TIMESTAMP},
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
+      major_id = #{majorId,jdbcType=INTEGER},
+      class_room = #{classRoom,jdbcType=VARCHAR},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      login_pass = #{loginPass,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.smx.model.Stu" >
+    update stu
+    set stu_id = #{stuId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      entrance_time = #{entranceTime,jdbcType=TIMESTAMP},
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
+      major_id = #{majorId,jdbcType=INTEGER},
+      class_room = #{classRoom,jdbcType=VARCHAR},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      login_pass = #{loginPass,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

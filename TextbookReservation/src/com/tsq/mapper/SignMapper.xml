@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tsq.dao.SignMapper" >
+  <resultMap id="BaseResultMap" type="com.tsq.model.Sign" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="class_room" property="classRoom" jdbcType="VARCHAR" />
+    <result column="people" property="people" jdbcType="INTEGER" />
+    <result column="direction" property="direction" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="publish" property="publish" jdbcType="VARCHAR" />
+    <result column="book_id" property="bookId" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="INTEGER" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="s_author" property="sAuthor" jdbcType="VARCHAR" />
+    <result column="selector" property="selector" jdbcType="VARCHAR" />
+    <result column="selector_phone" property="selectorPhone" jdbcType="VARCHAR" />
+    <result column="sign_num" property="signNum" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, class_room, people, direction, name, publish, book_id, level, type, 
+    year, author, s_author, selector, selector_phone, sign_num, price, ps, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sign
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sign
+    <if test="_parameter != null">
+        where user_id = #{_parameter,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="tj" resultMap="BaseResultMap" >
+    SELECT DISTINCT
+	sign.`name`,
+	sign.book_id,
+	sign.type,
+	sign.author,
+	sum(sign.sign_num)  as sign_num
+	FROM
+	sign
+	GROUP BY sign.book_id
+
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sign
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tsq.model.Sign" >
+    insert into sign (id, user_id, class_room, 
+      people, direction, name, 
+      publish, book_id, level, 
+      type, year, author, 
+      s_author, selector, selector_phone, 
+      sign_num, price, ps, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{classRoom,jdbcType=VARCHAR}, 
+      #{people,jdbcType=INTEGER}, #{direction,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{publish,jdbcType=VARCHAR}, #{bookId,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{year,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, 
+      #{sAuthor,jdbcType=VARCHAR}, #{selector,jdbcType=VARCHAR}, #{selectorPhone,jdbcType=VARCHAR}, 
+      #{signNum,jdbcType=INTEGER}, #{price,jdbcType=REAL}, #{ps,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tsq.model.Sign" >
+    insert into sign
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="classRoom != null" >
+        class_room,
+      </if>
+      <if test="people != null" >
+        people,
+      </if>
+      <if test="direction != null" >
+        direction,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="publish != null" >
+        publish,
+      </if>
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="sAuthor != null" >
+        s_author,
+      </if>
+      <if test="selector != null" >
+        selector,
+      </if>
+      <if test="selectorPhone != null" >
+        selector_phone,
+      </if>
+      <if test="signNum != null" >
+        sign_num,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="classRoom != null" >
+        #{classRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="people != null" >
+        #{people,jdbcType=INTEGER},
+      </if>
+      <if test="direction != null" >
+        #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="publish != null" >
+        #{publish,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null" >
+        #{bookId,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="sAuthor != null" >
+        #{sAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="selector != null" >
+        #{selector,jdbcType=VARCHAR},
+      </if>
+      <if test="selectorPhone != null" >
+        #{selectorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="signNum != null" >
+        #{signNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tsq.model.Sign" >
+    update sign
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="classRoom != null" >
+        class_room = #{classRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="people != null" >
+        people = #{people,jdbcType=INTEGER},
+      </if>
+      <if test="direction != null" >
+        direction = #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="publish != null" >
+        publish = #{publish,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null" >
+        book_id = #{bookId,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="sAuthor != null" >
+        s_author = #{sAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="selector != null" >
+        selector = #{selector,jdbcType=VARCHAR},
+      </if>
+      <if test="selectorPhone != null" >
+        selector_phone = #{selectorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="signNum != null" >
+        sign_num = #{signNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tsq.model.Sign" >
+    update sign
+    set user_id = #{userId,jdbcType=INTEGER},
+      class_room = #{classRoom,jdbcType=VARCHAR},
+      people = #{people,jdbcType=INTEGER},
+      direction = #{direction,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      publish = #{publish,jdbcType=VARCHAR},
+      book_id = #{bookId,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      year = #{year,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      s_author = #{sAuthor,jdbcType=VARCHAR},
+      selector = #{selector,jdbcType=VARCHAR},
+      selector_phone = #{selectorPhone,jdbcType=VARCHAR},
+      sign_num = #{signNum,jdbcType=INTEGER},
+      price = #{price,jdbcType=REAL},
+      ps = #{ps,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

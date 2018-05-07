@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.ArticleReplyPicMapper" >
+  <resultMap id="BaseResultMap" type="com.heaven.model.ArticleReplyPic" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+    <result column="push_count" property="pushCount" jdbcType="INTEGER" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.heaven.model.ArticleReplyPicWithBLOBs" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="pic" property="pic" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBsWithUser" type="com.heaven.model.ArticleReplyPicWithBLOBs" extends="ResultMapWithBLOBs" >
+    <association property="user" javaType="com.heaven.model.User">
+    	<id column="userid" property="id" jdbcType="INTEGER" />
+    	<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    	<result column="level_site" property="levelSite" jdbcType="INTEGER" />
+    	<result column="register_day" property="registerDay" jdbcType="TIMESTAMP" />
+    	<result column="lastlogin_day" property="lastloginDay" jdbcType="TIMESTAMP" />
+    	<result column="image" property="image" jdbcType="VARCHAR" />
+    	<result column="score" property="score" jdbcType="INTEGER" />
+    	<result column="role" property="role" jdbcType="INTEGER" />
+    	<association property="userLevel" javaType="com.heaven.model.UserLevel">
+    		<id column="levelSite" property="id" jdbcType="INTEGER" />
+    		<result column="name" property="name" jdbcType="VARCHAR" />
+    	</association>
+    </association>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    Id, article_id, user_id, out_time, push_count, isdelete
+  </sql>
+  <sql id="Blob_Column_List" >
+    content, pic
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article_reply_pic
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectByArticleId" resultMap="ResultMapWithBLOBsWithUser" parameterType="java.lang.Integer">
+  	select 
+    article_reply_pic.Id, article_reply_pic.article_id, article_reply_pic.user_id, article_reply_pic.out_time, article_reply_pic.push_count, article_reply_pic.isdelete ,article_reply_pic.content, article_reply_pic.pic,
+    user.id as userid,user.nick_name , user.level_site,user_level.name,user.register_day,user.lastlogin_day,user.score,user.image,user.role
+	from article_reply_pic , user,user_level 
+    where user.level_site = user_level.Id and user.Id=article_reply_pic.user_id and article_id = #{articleId,jdbcType=INTEGER}
+    ORDER BY article_reply_pic.out_time desc
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article_reply_pic
+    where article_id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.heaven.model.ArticleReplyPicWithBLOBs" >
+    insert into article_reply_pic (Id, article_id, user_id, 
+      out_time, push_count, isdelete, 
+      content, pic)
+    values (#{id,jdbcType=INTEGER}, #{articleId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{outTime,jdbcType=TIMESTAMP}, #{pushCount,jdbcType=INTEGER}, #{isdelete,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR}, #{pic,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heaven.model.ArticleReplyPicWithBLOBs" >
+    insert into article_reply_pic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="outTime != null" >
+        out_time,
+      </if>
+      <if test="pushCount != null" >
+        push_count,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="pic != null" >
+        pic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushCount != null" >
+        #{pushCount,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.ArticleReplyPicWithBLOBs" >
+    update article_reply_pic
+    <set >
+      <if test="articleId != null" >
+        article_id = #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushCount != null" >
+        push_count = #{pushCount,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.heaven.model.ArticleReplyPicWithBLOBs" >
+    update article_reply_pic
+    set article_id = #{articleId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      push_count = #{pushCount,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR},
+      pic = #{pic,jdbcType=LONGVARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heaven.model.ArticleReplyPic" >
+    update article_reply_pic
+    set article_id = #{articleId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      push_count = #{pushCount,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

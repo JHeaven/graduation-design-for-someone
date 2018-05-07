@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.WechartMapper">
+	<resultMap id="BaseResultMap" type="com.heaven.model.Wechart">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="open_Id" property="openId" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+		<result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, open_Id, user_id, out_time, isdelete
+	</sql>
+	<!-- 按id查询 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="com.heaven.model.WechartKey">
+		select
+		<include refid="Base_Column_List" />
+		from wechart
+		where id = #{id,jdbcType=INTEGER}
+		and open_Id = #{openId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="com.heaven.model.WechartKey">
+		delete from wechart
+		where id = #{id,jdbcType=INTEGER}
+		and open_Id = #{openId,jdbcType=VARCHAR}
+	</delete>
+
+	<!-- 增加关联 -->
+	<insert id="insert" parameterType="com.heaven.model.Wechart">
+		insert into wechart ( open_Id, user_id,
+		out_time, isdelete)
+		values ( #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
+		#{outTime,jdbcType=TIMESTAMP}, #{isdelete,jdbcType=INTEGER})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.heaven.model.Wechart">
+		insert into wechart
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="openId != null">
+				open_Id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="outTime != null">
+				out_time,
+			</if>
+			<if test="isdelete != null">
+				isdelete,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="openId != null">
+				#{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="outTime != null">
+				#{outTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdelete != null">
+				#{isdelete,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.Wechart">
+		update wechart
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="outTime != null">
+				out_time = #{outTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdelete != null">
+				isdelete = #{isdelete,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+		and open_Id = #{openId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.heaven.model.Wechart">
+		update wechart
+		set user_id = #{userId,jdbcType=INTEGER},
+		out_time = #{outTime,jdbcType=TIMESTAMP},
+		isdelete = #{isdelete,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+		and open_Id = #{openId,jdbcType=VARCHAR}
+	</update>
+</mapper>

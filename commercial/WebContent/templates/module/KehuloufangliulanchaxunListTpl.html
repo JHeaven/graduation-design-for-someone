@@ -1,0 +1,78 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+
+<form class="form-horizontal" role="form">
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">商品房类型</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.commercialtype" placeholder="商品房类型">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">楼层</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.commercialfloor" placeholder="楼层">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">单元号</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.commercialfloorUnitnumber" placeholder="单元号">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">总面积</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.commercialtotalArea" placeholder="总面积">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">使用面积</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.commercialtotalUseArea" placeholder="使用面积">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">m²价格</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.commercialPrice" placeholder="m²价格">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">上架时间</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<p class="input-group input-group-sm">
+					<input type="text" class="form-control btn-sm" placeholder="日期" datepicker-localdate uib-datepicker-popup ng-model="searchForm.commercialDate" is-open="commercialDateOpened" datepicker-options="{formatYear: 'yy',startingDay: 1}" ng-required="false" current-text="今天"  clear-text="清空" close-text="关闭" />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default btn-sm" ng-click="commercialDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">房屋其他描述</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.commercialConter" placeholder="房屋其他描述">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">是否卖出</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.commercialtotalflag" placeholder="是否卖出">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<div class="col-md-12">
+			<div class="form-group form-group-sm">
+				<div class="pull-right" style="padding-right:20px;">
+					<button type="submit" class="btn btn-danger btn-sm" ng-click="search();">查询</button>
+					<button type="button" class="btn btn-default btn-sm" ng-click="clearSearch();">清空</button>
+					<!-- <button type="button" class="btn btn-success btn-sm" style="margin-left:30px;" ng-click="edit()">新建</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<ac-table>
+    <ac-table-column header="商品房类型" field="commercialtype" sortable="true"></ac-table-column>
+    <ac-table-column header="楼层" field="commercialfloor" sortable="true"></ac-table-column>
+    <ac-table-column header="单元号" field="commercialfloorUnitnumber" sortable="true"></ac-table-column>
+    <ac-table-column header="总面积" field="commercialtotalArea" sortable="true"></ac-table-column>
+    <ac-table-column header="使用面积" field="commercialtotalUseArea" sortable="true"></ac-table-column>
+    <ac-table-column header="m²价格" field="commercialPrice" sortable="true"></ac-table-column>
+    <ac-table-column header="上架时间" field="commercialDate" sortable="true"></ac-table-column>
+    <ac-table-column header="房屋其他描述" field="commercialConter" sortable="true"></ac-table-column>
+    <ac-table-column header="是否卖出" field="commercialtotalflag" sortable="true"></ac-table-column>
+    <ac-table-column-op content="<i class='fa fa-hand-o-right'>预约此房</i>" op="edit" tooltip="预约此房"></ac-table-column-op>
+	<ac-table-grid items="dataList" selectable="false" multiple="false" id-field="id" selected-items="selectedItems" paging="pagination" on-sort-change="search()"></ac-table-grid>
+</ac-table>
+<pagination total-items="dataList.total" paging="pagination" ng-model="pagination.currentPage" on-page-change="pageChanged()"></pagination>
+</div>

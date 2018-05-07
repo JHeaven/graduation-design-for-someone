@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commer.dao.mapper.base.OrderMapper">
+
+	<insert id="insert" parameterType="com.commer.dao.entity.OrderEty">
+		insert into ordertable(
+			orderID,orderName,orderTel,orderBuildingaddress,orderDate,ordermoney,orderPaymentMethod,orderSpecialAgreement)
+		values (
+			#{orderID},#{orderName},#{orderTel},#{orderBuildingaddress},#{orderDate},#{ordermoney},#{orderPaymentMethod},#{orderSpecialAgreement}
+		)
+	</insert>
+
+	<select id="selectById" parameterType="int" resultType="com.commer.dao.entity.OrderEty">
+		select * from ordertable where orderID=#{value}
+	</select>
+
+	<delete id="deleteById" parameterType="int">
+		DELETE from ordertable WHERE orderID=#{value}
+	</delete>
+
+	<select id="selectByEntity" parameterType="com.commer.dao.entity.OrderEty" resultType="com.commer.dao.entity.OrderEty">
+		SELECT * from ordertable
+		WHERE 1=1 
+		<if test="orderID != null "> AND orderID=#{orderID}</if>
+		<if test="orderName != null  and orderName != ''"> AND orderName=#{orderName}</if>
+		<if test="orderTel != null "> AND orderTel=#{orderTel}</if>
+		<if test="orderBuildingaddress != null  and orderBuildingaddress != ''"> AND orderBuildingaddress=#{orderBuildingaddress}</if>
+		<if test="orderDate != null "> AND orderDate=#{orderDate}</if>
+		<if test="ordermoney != null  and ordermoney != ''"> AND ordermoney=#{ordermoney}</if>
+		<if test="orderPaymentMethod != null  and orderPaymentMethod != ''"> AND orderPaymentMethod=#{orderPaymentMethod}</if>
+		<if test="orderSpecialAgreement != null  and orderSpecialAgreement != ''"> AND orderSpecialAgreement=#{orderSpecialAgreement}</if>
+		<if test="extLimit == null"> order by orderID desc</if>
+		<if test="extLimit != null">
+			<if test="extLimit.sort == null"> order by orderID desc</if>
+			<if test="extLimit.sort != null"> order by ${extLimit.sort} ${extLimit.dir}</if>
+			<if test="extLimit.limit != null"> limit ${extLimit.start}, ${extLimit.limit}</if>
+		</if>
+	</select>
+
+	<update id="updateById" parameterType="com.commer.dao.entity.OrderEty">
+		UPDATE ordertable SET
+		<if test="orderID != null">orderID=#{orderID},</if>
+		<if test="orderName != null">orderName=#{orderName},</if>
+		<if test="orderTel != null">orderTel=#{orderTel},</if>
+		<if test="orderBuildingaddress != null">orderBuildingaddress=#{orderBuildingaddress},</if>
+		<if test="orderDate != null">orderDate=#{orderDate},</if>
+		<if test="ordermoney != null">ordermoney=#{ordermoney},</if>
+		<if test="orderPaymentMethod != null">orderPaymentMethod=#{orderPaymentMethod},</if>
+		<if test="orderSpecialAgreement != null">orderSpecialAgreement=#{orderSpecialAgreement},</if>
+		 orderID=#{orderID}
+		WHERE
+		 orderID=#{orderID}
+	</update>
+
+	<select id="selectByLimit" parameterType="com.commer.dao.entity.OrderEty" resultType="com.commer.dao.entity.OrderEty">
+		SELECT * from ordertable
+		WHERE 1=1 
+		<if test="orderID != null "> AND orderID=#{orderID}</if>
+		<if test="orderName != null  and orderName != ''"> AND orderName=#{orderName}</if>
+		<if test="orderTel != null "> AND orderTel=#{orderTel}</if>
+		<if test="orderBuildingaddress != null  and orderBuildingaddress != ''"> AND orderBuildingaddress=#{orderBuildingaddress}</if>
+		<if test="orderDate != null "> AND orderDate=#{orderDate}</if>
+		<if test="ordermoney != null  and ordermoney != ''"> AND ordermoney=#{ordermoney}</if>
+		<if test="orderPaymentMethod != null  and orderPaymentMethod != ''"> AND orderPaymentMethod=#{orderPaymentMethod}</if>
+		<if test="orderSpecialAgreement != null  and orderSpecialAgreement != ''"> AND orderSpecialAgreement=#{orderSpecialAgreement}</if>
+		<if test="extLimit == null"> order by orderID desc</if>
+		<if test="extLimit != null">
+			<if test="extLimit.sort == null"> order by orderID desc</if>
+			<if test="extLimit.sort != null"> order by ${extLimit.sort} ${extLimit.dir}</if>
+			<if test="extLimit.limit != null"> limit ${extLimit.start}, ${extLimit.limit}</if>
+		</if>
+	</select>
+
+	<select id="selectLimitCount" parameterType="com.commer.dao.entity.OrderEty" resultType="java.lang.Integer">
+		SELECT count(1) from ordertable
+		WHERE 1=1 
+		<if test="orderID != null "> AND orderID=#{orderID}</if>
+		<if test="orderName != null  and orderName != ''"> AND orderName=#{orderName}</if>
+		<if test="orderTel != null "> AND orderTel=#{orderTel}</if>
+		<if test="orderBuildingaddress != null  and orderBuildingaddress != ''"> AND orderBuildingaddress=#{orderBuildingaddress}</if>
+		<if test="orderDate != null "> AND orderDate=#{orderDate}</if>
+		<if test="ordermoney != null  and ordermoney != ''"> AND ordermoney=#{ordermoney}</if>
+		<if test="orderPaymentMethod != null  and orderPaymentMethod != ''"> AND orderPaymentMethod=#{orderPaymentMethod}</if>
+		<if test="orderSpecialAgreement != null  and orderSpecialAgreement != ''"> AND orderSpecialAgreement=#{orderSpecialAgreement}</if>
+	</select>
+</mapper>

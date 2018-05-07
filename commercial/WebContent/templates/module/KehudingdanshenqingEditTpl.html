@@ -1,0 +1,74 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+<div class="modal-header">
+	<div class="row">
+		<div class="col-sm-7">
+			<h4 class="modal-title">{{title}}</h4>
+		</div>
+		<div class="col-sm-5">
+			<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+</div>
+<div class="modal-body" style="margin: 5px;">
+	<form class="form-horizontal" role="form" novalidate name="myForm">
+		<input type="hidden" name="orderID" ng-model="editForm.orderID">
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">订单人姓名：</label>
+			<div class="col-md-9">
+					<input type="text" name="orderName" class="form-control" placeholder="" ng-model="editForm.orderName" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">订单电话：</label>
+			<div class="col-md-9">
+					<input type="text" name="orderTel" class="form-control" placeholder="" ng-model="editForm.orderTel" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">订购房屋地址：</label>
+			<div class="col-md-9">
+					<input type="text" name="orderBuildingaddress" class="form-control" placeholder="" ng-model="editForm.orderBuildingaddress" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">订单时间：</label>
+			<div class="col-md-9">
+					<p class="input-group input-group-sm">
+						<input type="text" class="form-control btn-sm" placeholder="日期" datepicker-localdate uib-datepicker-popup name="orderDate" ng-model="editForm.orderDate" is-open="orderDateOpened" datepicker-options="{formatYear: 'yy',startingDay: 1}" ng-required="false" current-text="今天"  clear-text="清空" close-text="关闭" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default btn-sm" ng-click="orderDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</p>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">定金：</label>
+			<div class="col-md-9">
+					<input type="text" name="ordermoney" class="form-control" placeholder="" ng-model="editForm.ordermoney" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">付款方式：</label>
+			<div class="col-md-9">
+					<input type="text" name="orderPaymentMethod" class="form-control" placeholder="" ng-model="editForm.orderPaymentMethod" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">特别约定：</label>
+			<div class="col-md-9">
+					<input type="text" name="orderSpecialAgreement" class="form-control" placeholder="" ng-model="editForm.orderSpecialAgreement" required>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<div class="form-group">
+		<div class="col-md-offset-4 col-md-2 col-sm-offset-4 col-sm-2 col-xs-offset-4 col-xs-2">
+			<button type="submit" class="btn btn-primary" ng-click="save()" ng-disabled="myForm.$invalid">保存</button>
+		</div>
+		<div class="col-md-2 col-sm-2 col-xs-2">
+			<button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+		</div>
+	</div>
+</div>
+</div>

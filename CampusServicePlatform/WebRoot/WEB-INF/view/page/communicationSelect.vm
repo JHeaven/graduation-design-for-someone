@@ -1,0 +1,82 @@
+<div class="mail-body">
+				
+				<div class="mail-header">
+					<!-- title -->
+					<h3 class="mail-title">
+						<a>
+						在线云笔记</a>
+						<i class="entypo-right-open"></i>
+						<span class="count"></span>
+					</h3>
+				</div>
+				
+				
+				<!-- mail table -->
+				<table class="table mail-table">
+					<!-- mail table header -->
+					<thead>
+						<tr>
+							<th width="4%">热度</th>
+							<th width="20%"></th>
+							<th width="50%"></th>
+							<th width="25%">
+								<div class="mail-pagination" colspan="2">
+									<strong><a href="#/communicationInsert" class="btn btn-green btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;增加笔记&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></strong> 
+								</div>
+							</th>
+						</tr>
+					</thead>
+					
+					<!-- email list -->
+					<tbody>
+						#foreach($article in $articleAll)
+						<tr>
+							<td>
+								${article.clickCount}
+							</td>
+							<td class="col-name">
+								<a href="#" class="star">
+									<img src="${article.user.image}" alt="" class="img-circle" width="18">
+									<span class="label label-info">${article.user.userLevel.name}</span>
+								</a>
+								<a class="col-name">${article.user.nickName}</a>
+							</td>
+							<td class="col-subject">
+								<a href="#/communicationSelectOne/${article.id}">
+									${article.title}
+								</a>
+							</td>
+							<td class="col-time">发表于 $!date.format('yyyy-MM-dd HH:mm:ss ',$article.lastTime)</td>
+						</tr>
+						#end
+						
+						
+						
+					</tbody>
+					
+					<!-- mail table footer -->
+					<tfoot>
+						<tr>
+							<th width="5%">
+								
+							</th>
+							<th></th>
+							<th></th>
+							<th>
+								<br>
+								<div class="mail-pagination" colspan="2">
+									<span>共</span> <strong>${pageNum}</strong> <span>页</span>
+									<span>当前</span> <strong>${pageNo}</strong> <span>页</span>
+									#set($prePage = $pageNo - 1)
+									#set($nextPage = $pageNo + 1)
+									<div class="btn-group">
+										<a href="#/communicationSelect/${prePage}" class="btn btn-sm btn-white #if($prePage < 1) disabled #end"><i class="entypo-left-open"></i>上一页</a>
+										<a href="#/communicationSelect/${nextPage}" class="btn btn-sm btn-white #if($prePage >= ${pageNum} - 1 ) disabled #end">下一页<i class="entypo-right-open"></i></a>
+									</div>
+								</div>
+							</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+				

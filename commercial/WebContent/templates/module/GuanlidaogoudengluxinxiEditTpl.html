@@ -1,0 +1,69 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+<div class="modal-header">
+	<div class="row">
+		<div class="col-sm-7">
+			<h4 class="modal-title">{{title}}</h4>
+		</div>
+		<div class="col-sm-5">
+			<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+</div>
+<div class="modal-body" style="margin: 5px;">
+	<form class="form-horizontal" role="form" novalidate name="myForm">
+		<input type="hidden" name="shoppingID" ng-model="editForm.shoppingID">
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">导购员名称：</label>
+			<div class="col-md-9">
+					<input type="text" name="shoppingName" class="form-control" placeholder="" ng-model="editForm.shoppingName" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">导购员电话：</label>
+			<div class="col-md-9">
+					<input type="text" name="shoppingTEL" class="form-control" placeholder="" ng-model="editForm.shoppingTEL" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">年龄：</label>
+			<div class="col-md-9">
+					<input type="text" name="shoppingAge" class="form-control" placeholder="" ng-model="editForm.shoppingAge" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">性别：</label>
+			<div class="col-md-9">
+					<input type="text" name="shoppingsex" class="form-control" placeholder="" ng-model="editForm.shoppingsex" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">客户名称：</label>
+			<div class="col-md-9">
+					<input type="text" name="customername" class="form-control" placeholder="" ng-model="editForm.customername" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">购买意向：</label>
+			<div class="col-md-9">
+					<input type="text" name="shoppingintention" class="form-control" placeholder="" ng-model="editForm.shoppingintention" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">客户沟通记录：</label>
+			<div class="col-md-9">
+					<input type="text" name="shoppingCustomerinfor" class="form-control" placeholder="" ng-model="editForm.shoppingCustomerinfor" required>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<div class="form-group">
+		<div class="col-md-offset-4 col-md-2 col-sm-offset-4 col-sm-2 col-xs-offset-4 col-xs-2">
+			<button type="submit" class="btn btn-primary" ng-click="save()" ng-disabled="myForm.$invalid">保存</button>
+		</div>
+		<div class="col-md-2 col-sm-2 col-xs-2">
+			<button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+		</div>
+	</div>
+</div>
+</div>

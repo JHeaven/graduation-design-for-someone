@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.heaven.model.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="login_pass" property="loginPass" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="gender" property="gender" jdbcType="INTEGER" />
+    <result column="register_day" property="registerDay" jdbcType="TIMESTAMP" />
+    <result column="lastlogin_day" property="lastloginDay" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="level_site" property="levelSite" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="INTEGER" />
+    <result column="stu_number" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="INTEGER" />
+    <result column="major_id" property="majorId" jdbcType="INTEGER" />
+    <result column="classroom" property="classroom" jdbcType="INTEGER" />
+    <result column="tea_number" property="teaNumber" jdbcType="VARCHAR" />
+    <result column="business" property="business" jdbcType="VARCHAR" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+    <result column="master_of_section" property="masterOfSection" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.heaven.model.User" extends="BaseResultMap" >
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithUser" type="com.heaven.model.User" extends="ResultMapWithBLOBs" >
+  	<association property="userLevel" javaType="com.heaven.model.UserLevel">
+   		<id column="levelSite" property="id" jdbcType="INTEGER" />
+   		<result column="name" property="name" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, nick_name, login_name, login_pass, birthday, gender, register_day, lastlogin_day, 
+    state, email, level_site, image, score, mobile_phone, qq, role, stu_number, department_id, 
+    major_id, classroom, tea_number, business, isdelete, master_of_section
+  </sql>
+  <sql id="Blob_Column_List" >
+    introduction
+  </sql>
+  
+  <!-- 按id查询 -->
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithUser" parameterType="java.lang.Integer" >
+    select 
+    user.id, nick_name, login_name, login_pass, birthday, gender, register_day, lastlogin_day, 
+    state, email, level_site, image, user.score, mobile_phone, qq, role, stu_number, department_id, 
+    major_id, classroom, tea_number, business, user.isdelete, master_of_section,introduction,user_level.Id as levelSite , name
+    from user,user_level
+    where user.level_site=user_level.Id and user.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 按email查询 -->
+  <select id="selectByEmail" resultMap="ResultMapWithUser" parameterType="java.lang.String" >
+    select 
+    user.id, nick_name, login_name, login_pass, birthday, gender, register_day, lastlogin_day, 
+    state, email, level_site, image, user.score, mobile_phone, qq, role, stu_number, department_id, 
+    major_id, classroom, tea_number, business, user.isdelete, master_of_section,introduction,user_level.Id as levelSite , name
+    from user,user_level
+    where user.level_site=user_level.Id and user.email = #{email,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 按id和pass查询 -->
+  <select id="selectByIdAndPass" resultMap="ResultMapWithUser" parameterType="com.heaven.model.User" >
+    select 
+    user.id, nick_name, login_name, login_pass, birthday, gender, register_day, lastlogin_day, 
+    state, email, level_site, image, user.score, mobile_phone, qq, role, stu_number, department_id, 
+    major_id, classroom, tea_number, business, user.isdelete, master_of_section,introduction,user_level.Id as levelSite , name
+    from user,user_level
+    where user.level_site=user_level.Id and user.id = #{id,jdbcType=INTEGER} and user.login_pass = #{loginPass,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.heaven.model.User" >
+    insert into user ( nick_name, login_name, 
+      login_pass, birthday, gender, 
+      register_day, lastlogin_day, state, 
+      email, level_site, image, 
+      score, mobile_phone, qq, 
+      role, stu_number, department_id, 
+      major_id, classroom, tea_number, 
+      business, isdelete, master_of_section, 
+      introduction)
+    values ( #{nickName,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
+      #{loginPass,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{gender,jdbcType=INTEGER}, 
+      #{registerDay,jdbcType=TIMESTAMP}, #{lastloginDay,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, 
+      #{email,jdbcType=VARCHAR}, #{levelSite,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, 
+      #{score,jdbcType=INTEGER}, #{mobilePhone,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
+      #{role,jdbcType=INTEGER}, #{stuNumber,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER}, 
+      #{majorId,jdbcType=INTEGER}, #{classroom,jdbcType=INTEGER}, #{teaNumber,jdbcType=VARCHAR}, 
+      #{business,jdbcType=VARCHAR}, #{isdelete,jdbcType=INTEGER}, #{masterOfSection,jdbcType=INTEGER}, 
+      #{introduction,jdbcType=LONGVARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.heaven.model.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="loginName != null" >
+        login_name,
+      </if>
+      <if test="loginPass != null" >
+        login_pass,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="registerDay != null" >
+        register_day,
+      </if>
+      <if test="lastloginDay != null" >
+        lastlogin_day,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="levelSite != null" >
+        level_site,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="stuNumber != null" >
+        stu_number,
+      </if>
+      <if test="departmentId != null" >
+        department_id,
+      </if>
+      <if test="majorId != null" >
+        major_id,
+      </if>
+      <if test="classroom != null" >
+        classroom,
+      </if>
+      <if test="teaNumber != null" >
+        tea_number,
+      </if>
+      <if test="business != null" >
+        business,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="masterOfSection != null" >
+        master_of_section,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPass != null" >
+        #{loginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="registerDay != null" >
+        #{registerDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastloginDay != null" >
+        #{lastloginDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="levelSite != null" >
+        #{levelSite,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="mobilePhone != null" >
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="stuNumber != null" >
+        #{stuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="classroom != null" >
+        #{classroom,jdbcType=INTEGER},
+      </if>
+      <if test="teaNumber != null" >
+        #{teaNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="business != null" >
+        #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="masterOfSection != null" >
+        #{masterOfSection,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.User" >
+    update user
+    <set >
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPass != null" >
+        login_pass = #{loginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="registerDay != null" >
+        register_day = #{registerDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastloginDay != null" >
+        lastlogin_day = #{lastloginDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="levelSite != null" >
+        level_site = #{levelSite,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="stuNumber != null" >
+        stu_number = #{stuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="majorId != null" >
+        major_id = #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="classroom != null" >
+        classroom = #{classroom,jdbcType=INTEGER},
+      </if>
+      <if test="teaNumber != null" >
+        tea_number = #{teaNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="business != null" >
+        business = #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="masterOfSection != null" >
+        master_of_section = #{masterOfSection,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.heaven.model.User" >
+    update user
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      login_pass = #{loginPass,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      gender = #{gender,jdbcType=INTEGER},
+      register_day = #{registerDay,jdbcType=TIMESTAMP},
+      lastlogin_day = #{lastloginDay,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      level_site = #{levelSite,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      role = #{role,jdbcType=INTEGER},
+      stu_number = #{stuNumber,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
+      major_id = #{majorId,jdbcType=INTEGER},
+      classroom = #{classroom,jdbcType=INTEGER},
+      tea_number = #{teaNumber,jdbcType=VARCHAR},
+      business = #{business,jdbcType=VARCHAR},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      master_of_section = #{masterOfSection,jdbcType=INTEGER},
+      introduction = #{introduction,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heaven.model.User" >
+    update user
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      login_pass = #{loginPass,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      gender = #{gender,jdbcType=INTEGER},
+      register_day = #{registerDay,jdbcType=TIMESTAMP},
+      lastlogin_day = #{lastloginDay,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      level_site = #{levelSite,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      role = #{role,jdbcType=INTEGER},
+      stu_number = #{stuNumber,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
+      major_id = #{majorId,jdbcType=INTEGER},
+      classroom = #{classroom,jdbcType=INTEGER},
+      tea_number = #{teaNumber,jdbcType=VARCHAR},
+      business = #{business,jdbcType=VARCHAR},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      master_of_section = #{masterOfSection,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 登陆验证 -->
+  <select id="checkLogin" parameterType="com.heaven.model.User" resultMap="ResultMapWithUser">
+  	select 
+    user.id, nick_name, login_name, login_pass, birthday, gender, register_day, lastlogin_day, 
+    state, email, level_site, image, user.score, mobile_phone, qq, role, stu_number, department_id, 
+    major_id, classroom, tea_number, business, user.isdelete, master_of_section,introduction,user_level.Id as levelSite , name
+    from user,user_level
+    where user.level_site=user_level.Id and 
+    login_name = #{loginName,jdbcType=VARCHAR} and login_pass = #{loginPass,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateScoreRand" parameterType="com.heaven.model.User">
+  	update user 
+    set score = #{score,jdbcType=INTEGER} 
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

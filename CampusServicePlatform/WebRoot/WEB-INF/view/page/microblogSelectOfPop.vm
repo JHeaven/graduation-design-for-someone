@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="assets/js/vertical-timeline/css/component.css">
+<ol class="breadcrumb bc-3">
+	<li>
+		<a href="#/microblogSelect"><i class="fa-home"></i>最新动态</a>
+	</li>
+	<li>
+
+		<a>热门动态</a>
+	</li>
+	<li class="active">
+		<a href="#/microblogSelectOfMy">我的动态</a>
+	</li>
+</ol>
+		
+	<h2>热门动态榜</h2>
+	<br>
+<ul class="cbp_tmtimeline">
+			<li>
+				<time class="cbp_tmtime" datetime="2014-12-09T18:30"><span class="hidden">09/12/2014</span> <span class="large">现在</span></time>
+				
+				<div class="cbp_tmicon">
+					<i class="entypo-user"></i>
+				</div>
+				
+				<div class="cbp_tmlabel empty">
+					<span>无</span>
+				</div>
+			</li>
+			
+			
+			#foreach($mic in ${micPop})
+			<li>
+				<span>$!date.format('HH:mm:ss',$mic.outTime)</span> <span>$!date.format('yyyy-MM-dd',$mic.outTime)</span></time>
+				
+				<div class="cbp_tmicon bg-success">
+					<img src="${mic.user.image}" alt="" class="img-circle" width="40">
+				</div>
+				
+				<div class="cbp_tmlabel">
+					<h2><a>${mic.user.nickName} &nbsp;发表动态: &nbsp; ${mic.content}</a></h2>
+					<p>这条动态被赞了${mic.goodCount}次</p>
+				</div>
+			</li>
+			#end
+			
+		</ul>

@@ -1,0 +1,57 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+
+<form class="form-horizontal" role="form">
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">用户名</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.userpeopleName" placeholder="用户名">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">用户邮箱</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.userpeopleMail" placeholder="用户邮箱">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">电话</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.userpeopleTEL" placeholder="电话">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">年龄</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.userPeopleAge" placeholder="年龄">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">性别</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.userPeoplesex" placeholder="性别">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">用户密码</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.userPeoplePasswrod" placeholder="用户密码">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<div class="col-md-12">
+			<div class="form-group form-group-sm">
+				<div class="pull-right" style="padding-right:20px;">
+					<button type="submit" class="btn btn-danger btn-sm" ng-click="search();">查询</button>
+					<button type="button" class="btn btn-default btn-sm" ng-click="clearSearch();">清空</button>
+					<button type="button" class="btn btn-success btn-sm" style="margin-left:30px;" ng-click="edit()">新建</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<ac-table>
+    <ac-table-column header="用户名" field="userpeopleName" sortable="true"></ac-table-column>
+    <ac-table-column header="用户邮箱" field="userpeopleMail" sortable="true"></ac-table-column>
+    <ac-table-column header="电话" field="userpeopleTEL" sortable="true"></ac-table-column>
+    <ac-table-column header="年龄" field="userPeopleAge" sortable="true"></ac-table-column>
+    <ac-table-column header="性别" field="userPeoplesex" sortable="true"></ac-table-column>
+    <ac-table-column header="用户密码" field="userPeoplePasswrod" sortable="true"></ac-table-column>
+    <ac-table-column-op content="<i class='fa fa-pencil'></i>" op="edit" tooltip="编辑"></ac-table-column-op>
+    <ac-table-column-op content="<i class='fa fa-trash'></i>" op="del" tooltip="删除"></ac-table-column-op>
+	<ac-table-grid items="dataList" selectable="false" multiple="false" id-field="id" selected-items="selectedItems" paging="pagination" on-sort-change="search()"></ac-table-grid>
+</ac-table>
+<pagination total-items="dataList.total" paging="pagination" ng-model="pagination.currentPage" on-page-change="pageChanged()"></pagination>
+</div>

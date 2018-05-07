@@ -1,0 +1,115 @@
+<div class="mail-body">
+
+	<div class="mail-header">
+		<!-- title -->
+		<h3 class="mail-title">
+			<a href="#/sectionSelectByParentid/2">
+			话题互动</a>
+			<i class="entypo-right-open"></i>${section.name}
+			<span class="count"></span>
+		</h3>
+	</div>
+	
+	
+	<!-- mail table -->
+	<table class="table mail-table">
+		<!-- mail table header -->
+		<thead>
+			<tr>
+				<th width="4%">热度</th>
+				<th width="20%"><input type="text" class="form-control" placeholder="按标题查询" id="searchtitle"  value="$!{searchTitle}"></th>
+				<th width="47%">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="按内容查询" id="searchcon" value="$!{searchCon}">
+						
+						<span class="input-group-btn">
+							<button class="btn btn-primary" type="button" onclick="search(${section.id});">搜索</button>
+						</span>
+					</div>
+				</th>
+				<th width="28%">
+					<div class="mail-pagination" colspan="2">
+						<strong><a href="#/articleInsert/${section.id}" class="btn btn-green btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发起话题&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></strong> 
+					</div>
+				</th>
+			</tr>
+		</thead>
+		
+		<!-- email list -->
+		<tbody>
+			#foreach($article in $articleAll)
+			<tr>
+				<td>
+					${article.clickCount}
+				</td>
+				<td class="col-name">
+					<a href="#" class="star">
+						<img src="${article.user.image}" alt="" class="img-circle" width="18">
+						<span class="label label-info">${article.user.userLevel.name}</span>
+					</a>
+					<a class="col-name">${article.user.nickName}</a>
+				</td>
+				<td class="col-subject">
+					<a href="#/articleSelectOne/${article.id}">
+						${article.title}
+					</a>
+					#if($article.isGood == 1)
+						<span class="label label-danger">精</span>
+					#end
+				</td>
+				<td class="col-time">
+					发表于 $!date.format('yyyy-MM-dd HH:mm:ss',$article.lastTime)
+					
+				</td>
+			</tr>
+			#end
+			
+			
+			
+		</tbody>
+		
+		<!-- mail table footer -->
+		<tfoot>
+			<tr>
+				<th width="5%">
+					
+				</th>
+				<th></th>
+				<th></th>
+				<th>
+					<br>
+					<div class="mail-pagination" colspan="2">
+						#set($prePage = $pageNo - 1)
+						#set($nextPage = $pageNo + 1)
+						<div class="btn-group">
+							<a href="#/articleSelect/${section.id}/${prePage}" class="btn btn-sm btn-white #if($prePage < 1) disabled #end"><i class="entypo-left-open"></i>上一页</a>
+							<a class="btn btn-sm btn-white disabled">第${pageNo}页，共${pageNum}页</a>
+							<a href="#/articleSelect/${section.id}/${nextPage}" class="btn btn-sm btn-white #if($prePage >= ${pageNum} - 1 ) disabled #end">下一页<i class="entypo-right-open"></i></a>
+						</div>
+					</div>
+				</th>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+<script>
+    var search = function(sectionId){
+		var searchtitle = $('#searchtitle').val();
+    	var searchcon = $('#searchcon').val();
+		toastr.info('话题筛选开始<br>标题关键字：【'+searchtitle+'】<br>内容关键字：【'+searchcon+'】',null,notificationOpts);
+		$.ajax({
+			cache: true,
+            type: "POST",
+            url: "/CampusServicePlatform/article/articleSelect",
+			data: {"title":searchtitle,"content":searchcon,"sectionId":sectionId},
+            async: false,
+            error: function(request) {
+                alert('出错啦:'+request);
+            },
+            success: function(data) {
+				$('#articleSelectSelectSection').html(data);
+				toastr.success('话题筛选成功！',null,notificationOpts);
+            }
+		});
+	}
+</script>

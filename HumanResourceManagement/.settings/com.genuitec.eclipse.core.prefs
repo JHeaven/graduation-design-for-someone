@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+validator.Checked=WebRoot/asserts/flot.orderbars,WebRoot/login.jsp,WebRoot/asserts/select2,WebRoot/asserts/DateJS,WebRoot/asserts/raphael,WebRoot/asserts/jquery/dist/jquery.min.js,WebRoot/asserts/parsleyjs,WebRoot/asserts/autosize,WebRoot/index.jsp,WebRoot/asserts/js,WebRoot/asserts/nprogress,WebRoot/asserts/jquery.inputmask,WebRoot/asserts/google-code-prettify,WebRoot/asserts/moment,WebRoot/asserts/cropper,WebRoot/asserts/jquery-sparkline
+validator.Unchecked=

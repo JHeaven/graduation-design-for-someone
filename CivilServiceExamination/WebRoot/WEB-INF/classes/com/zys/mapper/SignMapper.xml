@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.dao.SignMapper" >
+  <resultMap id="BaseResultMap" type="com.zys.model.Sign" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="belong" property="belong" jdbcType="INTEGER" />
+    <result column="ask_time" property="askTime" jdbcType="TIMESTAMP" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stu_id, belong, ask_time, ps, deleted, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sign
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAllByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sign
+    where stu_id = #{stuId,jdbcType=INTEGER}
+    order by id desc
+  </select>
+  
+  <select id="selectAllByBelong" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sign
+    where belong = #{belong,jdbcType=INTEGER}
+    order by id desc
+  </select>
+  
+  
+  <select id="check" resultMap="BaseResultMap" parameterType="com.zys.model.Sign">
+    select 
+    <include refid="Base_Column_List" />
+    from sign
+    where stu_id = #{stuId,jdbcType=INTEGER} and belong = #{belong,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sign
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zys.model.Sign" >
+    insert into sign (id, stu_id, belong, 
+      ask_time, ps, deleted, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=INTEGER}, #{belong,jdbcType=INTEGER}, 
+      #{askTime,jdbcType=TIMESTAMP}, #{ps,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zys.model.Sign" >
+    insert into sign
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stuId != null" >
+        stu_id,
+      </if>
+      <if test="belong != null" >
+        belong,
+      </if>
+      <if test="askTime != null" >
+        ask_time,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="belong != null" >
+        #{belong,jdbcType=INTEGER},
+      </if>
+      <if test="askTime != null" >
+        #{askTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zys.model.Sign" >
+    update sign
+    <set >
+      <if test="stuId != null" >
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="belong != null" >
+        belong = #{belong,jdbcType=INTEGER},
+      </if>
+      <if test="askTime != null" >
+        ask_time = #{askTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zys.model.Sign" >
+    update sign
+    set stu_id = #{stuId,jdbcType=INTEGER},
+      belong = #{belong,jdbcType=INTEGER},
+      ask_time = #{askTime,jdbcType=TIMESTAMP},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

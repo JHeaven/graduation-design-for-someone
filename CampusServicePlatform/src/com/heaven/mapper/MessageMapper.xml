@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.heaven.model.Message" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="from_id" property="fromId" jdbcType="INTEGER" />
+    <result column="to_id" property="toId" jdbcType="INTEGER" />
+    <result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+    <result column="read_time" property="readTime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.heaven.model.Message" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithUser" type="com.heaven.model.Message" extends="ResultMapWithBLOBs" >
+    <association property="user" javaType="com.heaven.model.User">
+    	<id column="userid" property="id" jdbcType="INTEGER" />
+    	<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    	<result column="level_site" property="levelSite" jdbcType="INTEGER" />
+    	<result column="register_day" property="registerDay" jdbcType="TIMESTAMP" />
+    	<result column="lastlogin_day" property="lastloginDay" jdbcType="TIMESTAMP" />
+    	<result column="image" property="image" jdbcType="VARCHAR" />
+    	<result column="score" property="score" jdbcType="INTEGER" />
+    	<result column="role" property="role" jdbcType="INTEGER" />
+    	<association property="userLevel" javaType="com.heaven.model.UserLevel">
+    		<id column="levelSite" property="id" jdbcType="INTEGER" />
+    		<result column="name" property="name" jdbcType="VARCHAR" />
+    	</association>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, from_id, to_id, out_time, read_time, state, isdelete
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 检索所有 -->
+  <select id="selectMyMessage" resultMap="ResultMapWithUser" parameterType="java.lang.Integer" >
+    select 
+    message.id, from_id, to_id, message.out_time, read_time, message.state, message.isdelete,content,
+	user.id as userid,user.nick_name , user.level_site,user_level.name,
+	user.register_day,user.lastlogin_day,user.score,user.image,user.role
+	from message, user ,user_level
+	where user_level.id = user.level_site and message.from_id = user.id and message.to_id = #{toId,jdbcType=INTEGER}
+	order by message.out_time desc
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.heaven.model.Message" >
+    insert into message (from_id, to_id, 
+      out_time, read_time, state, 
+      isdelete, content)
+    values ( #{fromId,jdbcType=INTEGER}, #{toId,jdbcType=INTEGER}, 
+      #{outTime,jdbcType=TIMESTAMP}, #{readTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, 
+      #{isdelete,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heaven.model.Message" >
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fromId != null" >
+        from_id,
+      </if>
+      <if test="toId != null" >
+        to_id,
+      </if>
+      <if test="outTime != null" >
+        out_time,
+      </if>
+      <if test="readTime != null" >
+        read_time,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fromId != null" >
+        #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="toId != null" >
+        #{toId,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readTime != null" >
+        #{readTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.Message" >
+    update message
+    <set >
+      <if test="fromId != null" >
+        from_id = #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="toId != null" >
+        to_id = #{toId,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readTime != null" >
+        read_time = #{readTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.heaven.model.Message" >
+    update message
+    set from_id = #{fromId,jdbcType=INTEGER},
+      to_id = #{toId,jdbcType=INTEGER},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      read_time = #{readTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heaven.model.Message" >
+    update message
+    set from_id = #{fromId,jdbcType=INTEGER},
+      to_id = #{toId,jdbcType=INTEGER},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      read_time = #{readTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

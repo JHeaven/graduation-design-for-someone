@@ -1,0 +1,119 @@
+<h3>
+	<i class="entypo-left-open"></i>
+	<a href="#/communicationSelectOne/${articleId}">返回笔记
+    </a>
+</h3>
+<script>
+	var source = '';
+</script>
+<script src="assets/js/jquery-latest.js"></script>
+<script src="assets/js/sketch.js"></script>
+
+
+<div class="row">
+			<div class="col-md-12">
+				
+				<div class="panel panel-primary" data-collapsed="0">
+				
+					<div class="panel-heading">
+						<div class="panel-title">
+							请在此组件多样笔记
+						</div>
+						
+						<div class="panel-options">
+							<a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a>
+							<a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+							<a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+							<a href="#" data-rel="close"><i class="entypo-cancel"></i></a>
+						</div>
+					</div>
+					
+					<div class="panel-body">
+						
+						<form role="form" class="form-horizontal form-groups-bordered" id="xinzenghuodong">
+			
+							
+							<div class="form-group">
+								<label for="field-3" class="col-sm-3 control-label">白板</label>
+								
+								<div class="col-sm-5">
+									<div class="tools">
+									<a href="#colors_sketch" data-color="#f00" class="btn btn-red">红色</a> 
+									<a href="#colors_sketch" data-color="#ff0" class="btn btn-warning">黄色</a> 
+									<a href="#colors_sketch" data-color="#0f0" class="btn btn-success">绿色</a> 
+									<a href="#colors_sketch" data-color="#00f" class="btn btn-info">蓝色</a> 
+									<a href="#colors_sketch" data-color="#f0f" class="btn btn-red">紫色</a> 
+									<a href="#colors_sketch" data-color="#000" class="btn btn-black">黑色</a> 
+									<a href="#colors_sketch" data-color="#fff" class="btn btn-white">白色</a> <br>
+									<a href="#colors_sketch" data-size="3" class="btn btn-white">&nbsp;&nbsp;3号</a> 
+									<a href="#colors_sketch" data-size="5" class="btn btn-white">&nbsp;5号</a> 
+									<a href="#colors_sketch" data-size="10" class="btn btn-white">10号</a> 
+									<a href="#colors_sketch" data-size="15" class="btn btn-white">15号</a> 
+									
+									<a class="btn btn-white" onclick="showmessage();">展示</a>
+									
+									
+									</div>
+									<div style="border-style:solid; border-width:1px; border-color:#000;width:795px;">
+                                    
+                                    <canvas id="colors_sketch" width="800" height="500"></canvas>
+									</div>
+									<a href="#colors_sketch" data-download="png" class="btn btn-red btn-lg">请在绘图完成之后点击此按钮以完成图片编码，否则无法完成上传</a>
+                                    <script type="text/javascript">
+                                      $(function() {
+                                        $.each(['#f00', '#ff0', '#0f0', '#0ff', '#00f', '#f0f', '#000', '#fff'], function() {
+                                          $('#colors_demo .tools').append("<a href='#colors_sketch' data-color='" + this + "' style='width: 10px; background: " + this + ";'></a> ");
+                                        });
+                                        $.each([3, 5, 10, 15], function() {
+                                          $('#colors_demo .tools').append("<a href='#colors_sketch' data-size='" + this + "' style='background: #ccc'>" + this + "</a> ");
+                                        });
+                                        $('#colors_sketch').sketch();
+                                      });
+									  
+									  var showmessage = function(){
+									  
+									  }
+                                    </script>
+								</div>
+							</div>
+							
+							
+							<div class="form-group has-error">
+								<label for="field-3" class="col-sm-3 control-label">多样文字</label>
+								
+								<div class="col-sm-5">
+									<textarea class="form-control" name="content" id="content"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-3 col-sm-5">
+									<button type="button" class="btn btn-default" onclick="huodongxinz();">发表多样笔记</button>
+								</div>
+							</div>
+						</form>
+						
+						<script>
+						var huodongxinz = function(){
+							var content = $('#content').val();
+							$.ajax({
+                				cache: true,
+                                type: "POST",
+                                url: "/CampusServicePlatform/communication/doIamateacher",
+                                data: {"pic":source,"content":content,"articleId":${articleId}},
+                                async: false,
+                                error: function(request) {
+                                    alert('出错啦:'+request);
+                                },
+                                success: function(data) {
+									alert(data);
+        							//window.location.go(-1);
+                                }
+        					});
+						}
+                        </script>
+					</div>
+				
+				</div>
+			
+			</div>
+		</div>

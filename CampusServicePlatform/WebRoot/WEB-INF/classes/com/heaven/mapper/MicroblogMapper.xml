@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.MicroblogMapper" >
+  <resultMap id="BaseResultMap" type="com.heaven.model.Microblog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="click_count" property="clickCount" jdbcType="INTEGER" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="good_count" property="goodCount" jdbcType="INTEGER" />
+    <result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="hidden_name" property="hiddenName" jdbcType="INTEGER" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.heaven.model.Microblog" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithUser" type="com.heaven.model.Microblog" extends="ResultMapWithBLOBs" >
+    <association property="user" javaType="com.heaven.model.User">
+    	<id column="userid" property="id" jdbcType="INTEGER" />
+    	<result column="image" property="image" jdbcType="VARCHAR" />
+    	<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, click_count, pic, good_count, out_time, state, hidden_name, isdelete
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from microblog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 最新动态 -->
+  <!-- 下拉分页 -->
+  <select id="selectLatest" resultMap="ResultMapWithUser" parameterType="java.lang.Integer" >
+    select 
+	microblog.id, user_id, click_count, pic, good_count, out_time, microblog.state, hidden_name, microblog.isdelete ,content , u.id as userid ,nick_name,image 
+	from microblog , user u where  user_id = u.id 
+	and microblog.isdelete = 0 
+	ORDER BY out_time desc limit #{pageNo,jdbcType=INTEGER} , 10
+  </select>
+  
+  <!-- most pop -->
+  <select id="selectPop10" resultMap="ResultMapWithUser">
+    select 
+	microblog.id, user_id, click_count, pic, good_count, out_time, microblog.state, hidden_name, microblog.isdelete ,content , u.id as userid ,nick_name,image 
+	from microblog , user u where  user_id = u.id and microblog.isdelete = 0 
+	ORDER BY good_count desc limit 10
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from microblog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.heaven.model.Microblog" >
+    insert into microblog ( user_id, click_count, 
+      pic, good_count, out_time, 
+      state, hidden_name, isdelete, 
+      content)
+    values ( #{userId,jdbcType=INTEGER}, #{clickCount,jdbcType=INTEGER}, 
+      #{pic,jdbcType=VARCHAR}, #{goodCount,jdbcType=INTEGER}, #{outTime,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=INTEGER}, #{hiddenName,jdbcType=INTEGER}, #{isdelete,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heaven.model.Microblog" >
+    insert into microblog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="clickCount != null" >
+        click_count,
+      </if>
+      <if test="pic != null" >
+        pic,
+      </if>
+      <if test="goodCount != null" >
+        good_count,
+      </if>
+      <if test="outTime != null" >
+        out_time,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="hiddenName != null" >
+        hidden_name,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="clickCount != null" >
+        #{clickCount,jdbcType=INTEGER},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCount != null" >
+        #{goodCount,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="hiddenName != null" >
+        #{hiddenName,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.Microblog" >
+    update microblog
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="clickCount != null" >
+        click_count = #{clickCount,jdbcType=INTEGER},
+      </if>
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="goodCount != null" >
+        good_count = #{goodCount,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="hiddenName != null" >
+        hidden_name = #{hiddenName,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.heaven.model.Microblog" >
+    update microblog
+    set user_id = #{userId,jdbcType=INTEGER},
+      click_count = #{clickCount,jdbcType=INTEGER},
+      pic = #{pic,jdbcType=VARCHAR},
+      good_count = #{goodCount,jdbcType=INTEGER},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      hidden_name = #{hiddenName,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heaven.model.Microblog" >
+    update microblog
+    set user_id = #{userId,jdbcType=INTEGER},
+      click_count = #{clickCount,jdbcType=INTEGER},
+      pic = #{pic,jdbcType=VARCHAR},
+      good_count = #{goodCount,jdbcType=INTEGER},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      hidden_name = #{hiddenName,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="dianzan" parameterType="java.lang.Integer" >
+  	update microblog 
+    set good_count = good_count+1 
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectOfMy" parameterType="java.lang.Integer" resultMap="ResultMapWithUser">
+  	select 
+	microblog.id, user_id, click_count, pic, good_count, out_time, microblog.state, hidden_name, microblog.isdelete ,content , u.id as userid ,nick_name,image 
+	from microblog , user u where  user_id = u.id and microblog.user_id = #{userId,jdbcType=INTEGER}  and microblog.isdelete = 0  
+	ORDER BY out_time desc
+  </select>
+  
+ 
+</mapper>

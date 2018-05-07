@@ -1,0 +1,513 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    
+    <title>解忧云笔记  - 欢迎阁下</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Neon Admin Panel" />
+	<meta name="author" content="" />
+	<link rel="stylesheet" href="assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
+	<link rel="stylesheet" href="assets/css/font-icons/entypo/css/entypo.css">
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/css/neon-core.css">
+	<link rel="stylesheet" href="assets/css/neon-theme.css">
+	<link rel="stylesheet" href="assets/css/neon-forms.css">
+	<link rel="stylesheet" href="assets/css/custom.css">
+	<link rel="stylesheet" href="assets/css/skins/green.css">
+	
+	<script src="assets/js/jquery-1.11.0.min.js"></script>
+
+	<!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<style>
+	body, html{
+		cursor: url('assets/cus/Cursor.cur'),default;
+	}
+    </style>
+	
+  </head>
+  
+  <body class="page-body page-fade-only" style="overflow-y:hidden;">
+
+<div class="page-container horizontal-menu">
+
+	
+	<header class="navbar navbar-fixed-top"><!-- set fixed position by adding class "navbar-fixed-top" -->
+		
+		<div class="navbar-inner">
+		
+			<!-- logo -->
+			<div class="navbar-brand">
+				<a href="index.html">
+					<img src="assets/images/logo@2x.png" width="88" alt="" />
+				</a>
+			</div>
+			
+			
+			<!-- main menu -->
+						
+			<ul class="navbar-nav">
+				<li>
+					<a href="#/home">
+						<i class="entypo-gauge"></i>
+						<span class="title">首页</span>
+					</a>
+					
+				</li>
+				<li class="opened">
+					<a href="#/microblogSelect">
+						<i class="entypo-layout"></i>
+						<span class="title">动态分享</span>
+					</a>
+					
+				</li>
+				<li>
+					<a href="#/sectionSelectByParentid/2">
+						<i class="entypo-newspaper"></i>
+						<span class="title">话题互动</span>
+					</a>
+				</li>
+				<li>
+					<a href="#/communication">
+						<i class="entypo-newspaper"></i>
+						<span class="title">在线云笔记</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="#/activitySelect">
+						<i class="entypo-bag"></i>
+						<span class="title">校园活动</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="#/fileSelect">
+						<i class="entypo-bag"></i>
+						<span class="title">校园网盘</span>
+					</a>
+				</li>
+			</ul>
+			
+			#if($usersession.nickName)
+			<!-- notifications and other links -->
+			<ul class="nav navbar-right pull-right">
+				
+				<!-- dropdowns -->
+				
+				
+				<!-- raw links -->
+				<li class="dropdown"></li>
+				<!-- head-->
+				<li class="profile-info dropdown">
+						<a href="#/userProfile" class="dropdown-toggle" data-toggle="dropdown">
+							<img src="${usersession.image}" alt="" class="img-circle" width="28">
+							${usersession.nickName}
+						</a>
+		
+						
+					</li>
+				<!-- head end-->
+				<li class="sep"></li>
+
+				<li>
+						<a href="#" data-toggle="chat" data-collapse-sidebar="1">
+							<i class="entypo-chat"></i>
+							在线聊天
+		
+							<span class="badge badge-success chat-notifications-badge">3</span>
+						</a>
+				</li>
+
+				<li>
+					<a href="user/unLogin">
+						注销 <i class="entypo-logout right"></i>
+					</a>
+				</li>
+				
+				
+				<!-- mobile only -->
+				<li class="visible-xs">	
+				
+					<!-- open/close menu icon (do not remove if you want to enable menu on mobile devices) -->
+					<div class="horizontal-mobile-menu visible-xs">
+						<a href="#" class="with-animation"><!-- add class "with-animation" to support animation -->
+							<i class="entypo-menu"></i>
+						</a>
+					</div>
+					
+				</li>
+				
+			</ul>
+			#else
+				<ul class="nav navbar-right pull-right">
+				
+				<!-- dropdowns -->
+				
+				
+
+				<li>
+					<a href="login">
+						登陆 <i class="entypo-user right"></i>
+					</a>
+				</li>
+				
+				
+				
+			</ul>
+				
+			#end
+			
+		</div>
+		
+	</header>
+
+
+	<!-- 页面主题，路由模块大区 -->
+	<div class="main-content">
+	<!--总展示区-->
+		<div class="row">
+			<!--第一列-->
+			<div class="col-sm-2">
+				<div class="row">
+					<div class="col-sm-12">
+						<a href="#/userProfile">
+						<div class="tile-stats tile-primary">
+							<div class="icon"><i class="entypo-mail"></i></div>
+							<div class="num">$!{usersession.userLevel.name}</div>
+							
+							<h3>$!{usersession.nickName}</h3>
+							<p>积分：$!{usersession.score}</p>
+						</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row">
+					<a href="http://www.weather.com.cn/weather/101190801.shtml" target="blank">
+					<div class="col-sm-12">
+						<div class="tile-stats tile-primary">
+							<div class="icon"><i class="entypo-mail"></i></div>
+							#if($weather.temp != "")
+							<div class="num">${weather.city}</div>
+							<h3>实时温度${weather.temp}°C </h3>
+							<p>${weather.WD}${weather.WS},天气转凉了，大家注意保暖！
+							</p>
+							#else
+								<div class="num">服务器已经离线，无法正确获取天气信息</div>
+							#end
+						</div>
+					</div>
+					</a>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="list-group">
+
+							<a href="#" class="list-group-item active">
+								学院要闻
+							</a>
+						
+							<a href="#/articleSelectOne/655" class="list-group-item">
+								<span class="badge badge-info">14</span>
+								科文学院2016年新任辅
+							</a>
+							<a href="#/articleSelectOne/655" class="list-group-item">
+								<span class="badge badge-danger">11</span>
+								科文学院领导班子赴贾汪
+							</a>
+							<a href="#/articleSelectOne/655" class="list-group-item">
+								<span class="badge badge-success">3</span>
+								省评估院专家莅临我院开
+							</a>
+							<a href="#/articleSelectOne/655" class="list-group-item">
+								<span class="badge badge-warning">7</span>
+								科文学院领导赴东软睿道
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--第二列-->
+			
+			<div class="col-sm-10">
+				<section data-route="home" style="display: block;">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="list-group">
+							<a href="#" class="list-group-item active">
+								
+							</a>
+							
+
+							<div id="myCarousel" class="carousel slide">
+							    <!-- 轮播（Carousel）指标 -->
+							    <ol class="carousel-indicators">
+							        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+							        <li data-target="#myCarousel" data-slide-to="1"></li>
+							        <li data-target="#myCarousel" data-slide-to="2"></li>
+							    </ol>   
+							    <!-- 轮播（Carousel）项目 -->
+							    <div class="carousel-inner">
+							        <div class="item active">
+							            <img src="assets/images/1.png" alt="First slide">
+							            <div class="carousel-caption">标题 1</div>
+							        </div>
+							        <div class="item">
+							            <img src="assets/images/2.png" alt="Second slide">
+							            <div class="carousel-caption">标题 2</div>
+							        </div>
+							        <div class="item">
+							            <img src="assets/images/3.png" alt="Third slide">
+							            <div class="carousel-caption">标题 3</div>
+							        </div>
+							    </div>
+							    <!-- 轮播（Carousel）导航 -->
+							    <a class="carousel-control left" href="#myCarousel" 
+							        data-slide="prev">&lsaquo;
+							    </a>
+							    <a class="carousel-control right" href="#myCarousel" 
+							        data-slide="next">&rsaquo;
+							    </a>
+							</div>
+							<a href="#" class="list-group-item active">
+								
+							</a>
+
+
+						</div>
+					</div>
+					
+				</div>
+
+				<div class="row">
+					<div class="col-sm-9">
+
+						<div class="list-group">
+
+							<a href="#" class="list-group-item active">
+								通知公告
+							</a>
+						
+							<a href="#/articleSelectOne/555" class="list-group-item">
+								<span class="badge badge-info">11</span>
+								【2016-10-13】科文学院2015-2016学年度国家奖学金、国家励志奖学金评定情况公示
+							</a>
+							<a href="#/articleSelectOne/555" class="list-group-item">
+								<span class="badge badge-danger">88</span>
+								【2016-10-12】关于在全体新生中开展“青春飞扬，梦想起航——我的大学梦”主题征文活动的通知	
+							</a>
+							<a href="#/articleSelectOne/555" class="list-group-item">
+								<span class="badge badge-success">2</span>
+								【2016-10-11】科文学院学生会、学生公寓自我管理委员会主席团拟任人选公示
+							</a>
+							<a href="#/articleSelectOne/555" class="list-group-item">
+								<span class="badge badge-warning">1</span>
+								【2016-10-10】科文学院2016—2017学年度第一学期心理咨询值班表
+							</a>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="list-group">
+
+							<a href="#" class="list-group-item active">
+								校园生活
+							</a>
+						
+							<a href="#/articleSelectOne/605" class="list-group-item">
+								<span class="badge badge-info">14</span>
+								科文学院机电工程系举办考研动员会
+							</a>
+							<a href="#/articleSelectOne/605" class="list-group-item">
+								<span class="badge badge-danger">11</span>
+								科文学院大学生发展协会开展2016
+							</a>
+							<a href="#/articleSelectOne/605" class="list-group-item">
+								<span class="badge badge-success">3</span>
+								科文学院社会工作系举办“致青春，致
+							</a>
+							<a href="#/articleSelectOne/605" class="list-group-item">
+								<span class="badge badge-warning">7</span>
+								传媒与艺术系扎实做好新生入学教育
+							</a>
+						</div>
+					</div>
+				</div>
+				</section>
+				
+				<div style="width:100%; height:590px;overflow-x:hidden;overflow-y:scroll">
+					
+				<!--动态路由区域-->
+				<section data-route="microblogSelect" style="display: block;" id="microblogSelectSection"></section>
+				<section data-route="articleSelect" style="display: none;" id="articleSelectSelectSection"></section>
+				<section data-route="sectionSelectByParentid" style="display: none;" id="sectionSelectByParentidSection"></section>
+				<section data-route="articleInsert" style="display: none;" id="articleInsertSection"></section>
+				<section data-route="articleSelectOne" style="display: none;" id="articleSelectOneSection"></section>
+				<section data-route="activitySelect" style="display: none;" id="activitySelectSection"></section>
+				<section data-route="activityInsert" style="display: none;" id="activityInsertSection"></section>
+				<section data-route="userProfile" style="display: none;" id="userProfileSection"></section>
+				<section data-route="userOtherProfile" style="display: none;" id="userOtherProfileSection"></section>
+				<section data-route="friendSelectofMy" style="display: none;" id="friendSelectofMySection"></section>
+				<section data-route="communication" style="display: none;" id="communicationSection"></section>
+				<section data-route="communicationInsert" style="display: none;" id="communicationInsertSection"></section>
+				<section data-route="communicationSelectOne" style="display: none;" id="communicationSelectOneSection"></section>
+				<section data-route="iamateacher" style="display: none;" id="iamateacherSection"></section>
+				<section data-route="microblogSelectOfMy" style="display: none;" id="microblogSelectOfMySection"></section>
+				<section data-route="microblogSelectOfPop" style="display: none;" id="microblogSelectOfPopSection"></section>
+				<section data-route="userProfileEdit" style="display: none;" id="userProfileEditSection"></section>
+				<section data-route="fileSelect" style="display: none;" id="fileSelectSection"></section>
+				<section data-route="goToNextFolder" style="display: none;" id="goToNextFolderSection"></section>
+				<section data-route="goToMyNextFolder" style="display: none;" id="goToMyNextFolderSection"></section>
+				<section data-route="cropimage" style="display: none;" id="cropimageSection"></section>
+				
+				
+				
+				</div>
+				
+				
+			</div>
+			
+			
+		</div>
+		
+		
+		
+		
+		
+		
+		
+</div>
+
+	
+
+	
+
+
+	<!-- 聊天窗口区 -->
+	<div id="chat" class="fixed" data-current-user="${usersession.nickName}" data-order-by-status="1" data-max-chat-history="25" style="position:fixed; height:100%;">
+
+		<div class="chat-inner">
+
+
+			<h2 class="chat-header">
+				<a href="#" class="chat-close"><i class="entypo-cancel"></i></a>
+
+				<i class="entypo-users"></i>
+				在线聊天
+				<span class="badge badge-success is-hidden">0</span>
+			</h2>
+
+
+			<div class="chat-group" id="group-1">
+				<strong>我的好友</strong>
+				
+				#foreach($friend in $allOfMyfriend)
+					<a href="#" id="${friend.user.id}"><span class="user-status is-online"></span> <em>${friend.user.nickName}</em></a>
+				#end
+			
+			
+			</div>
+			<br/><br/><br/><br/>
+		</div>
+
+		<!-- conversation template -->
+		<div class="chat-conversation">
+
+			<div class="conversation-header">
+				<a href="#" class="conversation-close"><i class="entypo-cancel"></i></a>
+				<span class="user-status"></span>
+				<span class="display-name"></span>
+				<small></small>
+			</div>
+
+			<ul class="conversation-body">
+			</ul>
+
+			<div class="chat-textarea">
+				<textarea class="form-control autogrow" placeholder="输入你要发送的消息"></textarea>
+			</div>
+
+		</div>
+
+	</div>	
+
+
+	
+	
+
+</div>
+
+
+
+
+
+	<!-- Imported styles on this page -->
+	<link rel="stylesheet" href="assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
+	<link rel="stylesheet" href="assets/js/rickshaw/rickshaw.min.css">
+	
+	<!-- Bottom scripts (common) -->
+	<script src="assets/js/gsap/main-gsap.js"></script>
+	<script src="assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
+	<script src="assets/js/bootstrap.js"></script>
+	<script src="assets/js/joinable.js"></script>
+	<script src="assets/js/resizeable.js"></script>
+	<script src="assets/js/neon-api.js"></script>
+	<script src="assets/js/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+
+
+	<!-- Imported scripts on this page -->
+	<script src="assets/js/jvectormap/jquery-jvectormap-europe-merc-en.js"></script>
+	<script src="assets/js/jquery.sparkline.min.js"></script>
+	<script src="assets/js/rickshaw/vendor/d3.v3.js"></script>
+	<script src="assets/js/rickshaw/rickshaw.min.js"></script>
+	<script src="assets/js/raphael-min.js"></script>
+	<script src="assets/js/morris.min.js"></script>
+	<script src="assets/js/toastr.js"></script>
+	<script src="assets/js/neon-chat.js"></script>
+
+	<!-- ckeditor -->
+	<script async="true" id="my" src="/CampusServicePlatform/assets/ckeditor/ckeditor.js"></script>
+	<script src="assets/js/bootstrap-tagsinput.min.js"></script>
+
+	<!-- 动态 -->
+	<link rel="stylesheet" href="assets/js/wysihtml5/bootstrap-wysihtml5.css">
+	<script src="assets/js/wysihtml5/wysihtml5-0.4.0pre.min.js"></script>
+	<!-- Imported scripts on this page -->
+	<script src="assets/js/wysihtml5/bootstrap-wysihtml5.js"></script>
+
+	<!-- JavaScripts initializations and stuff -->
+	<script src="assets/js/neon-custom.js"></script>
+
+
+	<!-- Demo Settings -->
+	<script src="assets/js/neon-demo.js"></script>
+	
+	<script src="assets/js/director.min.js"></script>
+	<script src="assets/js/routers.js"></script>
+	<script>
+		var blackfunction = function(){
+		 	window.history.go(-1);
+			//alert(1);
+		}
+		
+		//定时执行，5秒后执行show() 
+        //window.setTimeout(show,5000);
+        function show() 
+        { 
+        	
+        }
+		
+    </script>
+
+</body>
+</html>

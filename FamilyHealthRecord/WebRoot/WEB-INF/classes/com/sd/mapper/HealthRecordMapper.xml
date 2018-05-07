@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sd.dao.HealthRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.sd.model.HealthRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="NVARCHAR" />
+    <result column="sex" property="sex" jdbcType="NVARCHAR" />
+    <result column="birth" property="birth" jdbcType="TIMESTAMP" />
+    <result column="phone" property="phone" jdbcType="NVARCHAR" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="xuexing" property="xuexing" jdbcType="NVARCHAR" />
+    <result column="address" property="address" jdbcType="NVARCHAR" />
+    <result column="jia_ting_bing_shi" property="jiaTingBingShi" jdbcType="NVARCHAR" />
+    <result column="ji_wang_bing_shi" property="jiWangBingShi" jdbcType="NVARCHAR" />
+    <result column="xian_you_bing_shi" property="xianYouBingShi" jdbcType="NVARCHAR" />
+    <result column="zhi_liao_ji_lu" property="zhiLiaoJiLu" jdbcType="NVARCHAR" />
+    <result column="zhi_ye_jing_li" property="zhiYeJingLi" jdbcType="NVARCHAR" />
+    <result column="sheng_huo_xi_guan" property="shengHuoXiGuan" jdbcType="NVARCHAR" />
+    <result column="ying_shi_xi_guan" property="yingShiXiGuan" jdbcType="NVARCHAR" />
+    <result column="ps" property="ps" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, name, sex, birth, phone, height, weight, xuexing, address, jia_ting_bing_shi, 
+    ji_wang_bing_shi, xian_you_bing_shi, zhi_liao_ji_lu, zhi_ye_jing_li, sheng_huo_xi_guan, 
+    ying_shi_xi_guan, ps
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from health_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByUser" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from health_record 
+    <if test="_parameter != null" >
+    	where health_record.user_id = #{_parameter,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from health_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sd.model.HealthRecord" >
+    insert into health_record (id, user_id, name, 
+      sex, birth, phone, 
+      height, weight, xuexing, 
+      address, jia_ting_bing_shi, ji_wang_bing_shi, 
+      xian_you_bing_shi, zhi_liao_ji_lu, zhi_ye_jing_li, 
+      sheng_huo_xi_guan, ying_shi_xi_guan, ps
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=NVARCHAR}, 
+      #{sex,jdbcType=NVARCHAR}, #{birth,jdbcType=TIMESTAMP}, #{phone,jdbcType=NVARCHAR}, 
+      #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, #{xuexing,jdbcType=NVARCHAR}, 
+      #{address,jdbcType=NVARCHAR}, #{jiaTingBingShi,jdbcType=NVARCHAR}, #{jiWangBingShi,jdbcType=NVARCHAR}, 
+      #{xianYouBingShi,jdbcType=NVARCHAR}, #{zhiLiaoJiLu,jdbcType=NVARCHAR}, #{zhiYeJingLi,jdbcType=NVARCHAR}, 
+      #{shengHuoXiGuan,jdbcType=NVARCHAR}, #{yingShiXiGuan,jdbcType=NVARCHAR}, #{ps,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sd.model.HealthRecord" >
+    insert into health_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birth != null" >
+        birth,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="xuexing != null" >
+        xuexing,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="jiaTingBingShi != null" >
+        jia_ting_bing_shi,
+      </if>
+      <if test="jiWangBingShi != null" >
+        ji_wang_bing_shi,
+      </if>
+      <if test="xianYouBingShi != null" >
+        xian_you_bing_shi,
+      </if>
+      <if test="zhiLiaoJiLu != null" >
+        zhi_liao_ji_lu,
+      </if>
+      <if test="zhiYeJingLi != null" >
+        zhi_ye_jing_li,
+      </if>
+      <if test="shengHuoXiGuan != null" >
+        sheng_huo_xi_guan,
+      </if>
+      <if test="yingShiXiGuan != null" >
+        ying_shi_xi_guan,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=NVARCHAR},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=NVARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="xuexing != null" >
+        #{xuexing,jdbcType=NVARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=NVARCHAR},
+      </if>
+      <if test="jiaTingBingShi != null" >
+        #{jiaTingBingShi,jdbcType=NVARCHAR},
+      </if>
+      <if test="jiWangBingShi != null" >
+        #{jiWangBingShi,jdbcType=NVARCHAR},
+      </if>
+      <if test="xianYouBingShi != null" >
+        #{xianYouBingShi,jdbcType=NVARCHAR},
+      </if>
+      <if test="zhiLiaoJiLu != null" >
+        #{zhiLiaoJiLu,jdbcType=NVARCHAR},
+      </if>
+      <if test="zhiYeJingLi != null" >
+        #{zhiYeJingLi,jdbcType=NVARCHAR},
+      </if>
+      <if test="shengHuoXiGuan != null" >
+        #{shengHuoXiGuan,jdbcType=NVARCHAR},
+      </if>
+      <if test="yingShiXiGuan != null" >
+        #{yingShiXiGuan,jdbcType=NVARCHAR},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sd.model.HealthRecord" >
+    update health_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=NVARCHAR},
+      </if>
+      <if test="birth != null" >
+        birth = #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=NVARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="xuexing != null" >
+        xuexing = #{xuexing,jdbcType=NVARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=NVARCHAR},
+      </if>
+      <if test="jiaTingBingShi != null" >
+        jia_ting_bing_shi = #{jiaTingBingShi,jdbcType=NVARCHAR},
+      </if>
+      <if test="jiWangBingShi != null" >
+        ji_wang_bing_shi = #{jiWangBingShi,jdbcType=NVARCHAR},
+      </if>
+      <if test="xianYouBingShi != null" >
+        xian_you_bing_shi = #{xianYouBingShi,jdbcType=NVARCHAR},
+      </if>
+      <if test="zhiLiaoJiLu != null" >
+        zhi_liao_ji_lu = #{zhiLiaoJiLu,jdbcType=NVARCHAR},
+      </if>
+      <if test="zhiYeJingLi != null" >
+        zhi_ye_jing_li = #{zhiYeJingLi,jdbcType=NVARCHAR},
+      </if>
+      <if test="shengHuoXiGuan != null" >
+        sheng_huo_xi_guan = #{shengHuoXiGuan,jdbcType=NVARCHAR},
+      </if>
+      <if test="yingShiXiGuan != null" >
+        ying_shi_xi_guan = #{yingShiXiGuan,jdbcType=NVARCHAR},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sd.model.HealthRecord" >
+    update health_record
+    set user_id = #{userId,jdbcType=INTEGER},
+      name = #{name,jdbcType=NVARCHAR},
+      sex = #{sex,jdbcType=NVARCHAR},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      phone = #{phone,jdbcType=NVARCHAR},
+      height = #{height,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      xuexing = #{xuexing,jdbcType=NVARCHAR},
+      address = #{address,jdbcType=NVARCHAR},
+      jia_ting_bing_shi = #{jiaTingBingShi,jdbcType=NVARCHAR},
+      ji_wang_bing_shi = #{jiWangBingShi,jdbcType=NVARCHAR},
+      xian_you_bing_shi = #{xianYouBingShi,jdbcType=NVARCHAR},
+      zhi_liao_ji_lu = #{zhiLiaoJiLu,jdbcType=NVARCHAR},
+      zhi_ye_jing_li = #{zhiYeJingLi,jdbcType=NVARCHAR},
+      sheng_huo_xi_guan = #{shengHuoXiGuan,jdbcType=NVARCHAR},
+      ying_shi_xi_guan = #{yingShiXiGuan,jdbcType=NVARCHAR},
+      ps = #{ps,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

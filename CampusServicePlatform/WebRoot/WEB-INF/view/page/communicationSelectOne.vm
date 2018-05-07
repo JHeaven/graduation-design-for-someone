@@ -1,0 +1,395 @@
+<!-- 返回 -->
+<h3 class="mail-title">
+	<a href="#/communication">
+	在线云笔记</a>
+	<i class="entypo-right-open"></i>
+</h3>
+<div class="mail-env">
+		
+			<!-- compose new email button -->
+			<div class="mail-sidebar-row visible-xs">
+				<a href="mailbox-compose.html" class="btn btn-success btn-icon btn-block">
+					
+					<i class="entypo-pencil"></i>
+				</a>
+			</div>
+			
+			
+			<!-- Mail Body -->
+			<div class="mail-body">
+				
+				<div class="mail-header">
+					<!-- title -->
+					<div class="mail-title">
+						${article.title}
+						#if($article.isGood == 1)
+							<span class="label label-danger">精</span>
+						#end
+					</div>
+					
+					<!-- links -->
+					<div class="mail-links">
+					
+						
+						#if($usersession.id == $article.userId)
+						<a class="btn btn-primary btn-icon">
+							编辑
+							<i class="entypo-reply"></i>
+						</a>
+						#end
+						
+						#if($usersession.id == $section.masterId)
+							#if($article.isGood == 0)
+								<a class="btn btn-orange btn-icon" onclick="jiajing($article.id,1);">
+            						加精
+            						<i class="entypo-reply"></i>
+        						</a>
+							#else
+								<a class="btn btn-orange btn-icon" onclick="jiajing($article.id,0);">
+            						取消精
+            						<i class="entypo-reply"></i>
+        						</a>
+							#end
+						
+						<a class="btn btn-red btn-icon" onclick="del($article.id);">
+    						删除
+    						<i class="entypo-reply"></i>
+						</a>
+						#else
+							#if($usersession.id == $article.userId)
+    						<a class="btn btn-red btn-icon" onclick="del($article.id);">
+        						删除
+        						<i class="entypo-reply"></i>
+    						</a>
+							#end
+						#end
+						
+						<a class="btn btn-primary btn-icon" href="#/iamateacher/${article.id}">
+							多样笔记
+							<i class="entypo-reply"></i>
+						</a>
+						
+					</div>
+				</div>
+				
+				<div class="mail-info">
+					
+					<div class="mail-sender dropdown">
+						
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<img src="${article.user.image}" class="img-circle" width="30"> 
+							<span>点击数</span>
+							（${article.clickCount}）<br> <span>最后修改时间（$!date.format('yyyy-MM-dd HH:mm:ss',${article.lastTime})）</span>
+						</a>
+						
+						<ul class="dropdown-menu dropdown-red">
+						
+							<li>
+								<a href="#">
+									<i class="entypo-user"></i>
+									查看作者详情
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="entypo-menu"></i>
+									发送消息
+								</a>
+							</li>
+							<li class="divider"></li>
+							
+							<li>
+								<a href="javascript:;" onclick="jQuery('#modal-2').modal('show');" class="btn btn-default"><i class="entypo-reply"></i>回复</a>
+							</li>
+							
+						</ul>
+						
+					</div>
+					
+					<div class="mail-date">
+						发布时间：$!date.format('yyyy-MM-dd HH:mm:ss',${article.outTime})
+					</div>
+					
+				</div>
+				
+				<div class="mail-text">
+					${article.content}
+				</div>
+				
+				
+				
+				<div class="mail-links">
+					
+						<div class="mail-reply">
+        					<div class="fake-form">
+								<form id="commentform">
+            						<div>你可以在此发表你的评论：
+										<input value="${article.id}" name="articleId" hidden="hidden"/>
+            							<textarea class="form-control" name="content"></textarea>
+    									<br>
+    									<a class="btn btn-primary btn-icon" onclick="addComment();">
+                							提交
+                							<i class="entypo-reply"></i>
+                						</a>
+            						</div>
+								</form>
+        					</div>
+						</div>
+						
+				</div>
+				
+			</div>
+			<script>
+				var addComment = function(){
+					$.ajax({
+        				cache: true,
+                        type: "POST",
+                        url: "/CampusServicePlatform/articleReply/articleReplyInsert",
+                        data: $('#commentform').serialize(),
+                        async: false,
+                        error: function(request) {
+                            alert('出错啦:'+request);
+                        },
+                        success: function(data) {
+							window.location.reload();
+                        }
+				});
+				}
+            </script>
+			<!-- Sidebar -->
+			<div class="mail-sidebar">
+					
+				<!-- compose new email button -->
+				<div class="mail-sidebar-row hidden-xs">
+					<img src="${article.user.image}" class="img" width="100">
+				</div>
+				
+				<!-- menu -->
+				<ul class="mail-menu">
+					<li class="active">
+						<a>
+							昵称：${article.user.nickName}
+						</a>
+					</li>
+					
+					<li>
+						<a>
+							角色：<span class="badge badge-info">${article.user.userLevel.name}</span>
+						</a>
+					</li>
+					
+					<li>
+						<a>
+							积分：${article.user.score}
+						</a>
+					</li>
+					
+					<li>
+						<a>
+							注册日期：$!date.format('yyyy-MM-dd HH:mm:ss',${article.user.registerDay})
+						</a>
+					</li>
+					
+					<li>
+						<a>
+							最后登陆：$!date.format('yyyy-MM-dd HH:mm:ss',${article.user.lastloginDay})
+						</a>
+					</li>
+					
+				</ul>
+				
+				<div class="mail-distancer"></div>
+				
+			</div>
+			
+		</div>
+			
+		
+		<hr>
+			
+			<!--教师答疑 -->
+			<div class="panel panel-primary">
+						
+						<div class="panel-heading">
+							<div class="panel-title">
+								<h4>
+									多样笔记区：
+									<span class="badge badge-danger">${allArticleReplyPicWithBLOBs.size()}</span>
+								</h4>
+							</div>
+						</div>
+						
+						<div class="panel-body no-padding">
+							
+							<!-- List of Comments -->
+							#set($lou = $allArticleReplyPicWithBLOBs.size())
+							#foreach($c in $allArticleReplyPicWithBLOBs)
+							<ul class="comments-list">
+								
+								<!-- Comment Entry -->
+								<li>
+									<div class="comment-checkbox">
+										<img src="${c.user.image}" class="img-circle" width="30">
+									</div>
+									
+									<div class="comment-details">
+										
+										<div class="comment-head">
+											<a href="#">${c.user.nickName}</a> 发布于 <a href="#">$!date.format('yyyy-MM-dd HH:mm:ss',${c.outTime})</a>
+										</div>
+										
+										<p class="comment-text">
+											<img src="${c.pic}" class="img" width="800" height="500"><hr>
+											详细笔记：
+											${c.content}
+										</p>
+										
+										<div class="comment-footer">
+											
+											<div class="comment-time">
+												$!date.format('yyyy-MM-dd HH:mm:ss',${c.outTime}) 【笔记${lou}楼】
+											</div>
+											
+										</div>
+										
+									</div>
+								</li>
+								#set($lou = $lou - 1)
+							#end	
+								
+								
+								
+							</ul>
+							
+						</div>
+					
+					</div>
+					
+					
+					<hr>
+		<!-- 评论开始 -->
+		<div class="panel panel-primary">
+						
+						<div class="panel-heading">
+							<div class="panel-title">
+								<h4>
+									评论：
+									<span class="badge badge-danger">${thisComment.size()}</span>
+								</h4>
+							</div>
+						</div>
+						
+						<div class="panel-body no-padding">
+							
+							<!-- List of Comments -->
+							#set($lou = $thisComment.size())
+							#foreach($c in $thisComment)
+							<ul class="comments-list">
+								
+								<!-- Comment Entry -->
+								<li>
+									<div class="comment-checkbox">
+										<img src="${c.user.image}" class="img-circle" width="30">
+									</div>
+									
+									<div class="comment-details">
+										
+										<div class="comment-head">
+											<a href="#">${c.user.nickName}</a> 发布于 <a href="#">$!date.format('yyyy-MM-dd HH:mm:ss',${c.outTime})</a>
+										</div>
+										
+										<p class="comment-text">
+											${c.content}
+										</p>
+										
+										<div class="comment-footer">
+											
+											<div class="comment-time">
+												$!date.format('yyyy-MM-dd HH:mm:ss',${c.outTime})【${lou}楼】
+											</div>
+											
+											<div class="action-links">
+												
+												
+												<a class="delete" onclick="deletemycomment(${c.id});">
+													<i class="entypo-cancel"></i>
+													删除
+												</a>
+												
+												
+												
+											</div>
+											
+										</div>
+										
+									</div>
+								</li>
+								#set($lou = $lou - 1)
+							#end	
+								
+								
+								
+							</ul>
+							
+						</div>
+					
+					</div>
+						
+					
+					<script>
+					var deletemycomment = function(commentId){
+        					if(window.confirm('你确定要删除评论吗？')){
+        						$.ajax({
+                    				cache: true,
+                                    type: "POST",
+                                    url: "/CampusServicePlatform/articleReply/articleReplyDelete/"+commentId+"/${article.id}",
+                                    async: false,
+                                    error: function(request) {
+                                        alert('出错啦:'+request);
+                                    },
+                                    success: function(data) {
+										toastr.success('你删除了评论！',null,notificationOpts);
+            							$('#allcomment').html(data);
+                                    }
+    							});
+        					}
+    					}
+						
+					var jiajing = function(articleId,state){
+							$.ajax({
+                				cache: true,
+                                type: "POST",
+                                url: "/CampusServicePlatform/article/articlejiajing/"+articleId+"/"+state,
+                                async: false,
+                                error: function(request) {
+									toastr.success('操作出错，服务器连接失败！',null,notificationOpts);
+                                },
+                                success: function(data) {
+									if(data == 'success'){
+										toastr.success('操作成功！',null,notificationOpts);
+									}
+                                }
+        					});
+						}
+						
+						var del = function(articleId){
+							$.ajax({
+                				cache: true,
+                                type: "POST",
+                                url: "/CampusServicePlatform/article/articledel/"+articleId,
+                                async: false,
+                                error: function(request) {
+									toastr.success('操作出错，服务器连接失败！',null,notificationOpts);
+                                },
+                                success: function(data) {
+									if(data == 'success'){
+										toastr.success('操作成功！',null,notificationOpts);
+										history.go(-1);
+									}
+                                }
+        					});
+						}
+						
+						
+					
+                    </script>

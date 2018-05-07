@@ -1,0 +1,45 @@
+#foreach($mic in ${micLatest})
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<div class="panel-title">
+				#if($mic.hiddenName == 0)
+					<a href="#/userOtherProfile/${mic.user.id}">
+					<img src="${mic.user.image}" alt="" class="img-circle" width="28">$mic.user.nickName
+				#else
+					<a>
+					<img src="assets/images/head/niming.jpg" alt="" class="img-circle" width="28">&nbsp;&nbsp;&nbsp;匿名用户
+				#end
+				&nbsp;&nbsp;发布于<i class="entypo-mic"></i> &nbsp;&nbsp;$!date.format('yyyy-MM-dd HH:mm:ss',$mic.outTime) </a>
+			</div>
+			
+			<div class="panel-options">
+				<a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-3" class="bg" onclick="dianzan(${mic.id});">点赞（$mic.goodCount）</a>
+				<a onclick="replyMic($mic.id);"><i class="entypo-reply"></i>回复</a>
+				<a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+				<a href="#" data-rel="close"><i class="entypo-eye" id="closemic-$mic.id"></i>不想看这一条</a>
+				#if($mic.userId == $usersession.id)<a onclick="delmic($mic.id);"><i class="entypo-cancel"></i>删除</a>#end
+			</div>
+		</div>
+		
+		<div class="panel-body with-table" style="display: block;"><table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>$mic.content</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+				<td>
+				#foreach($re in ${mic.thisReply})
+					<pre> <a href="#/userOtherProfile/${re.user.id}"><img src="${re.user.image}" class="img-circle" width="18">&nbsp;${re.user.nickName}</a>&nbsp;回复：&nbsp;${re.content}</pre>
+				#end
+				</td>
+				</tr>
+			</tbody>
+		</table></div>
+	</div>
+#end		
+
+							<ul class="pager">
+								<li><a><h4> 您在$!date.format('HH:mm:ss',$thistime)看到此处</h4></a></li>
+							</ul>

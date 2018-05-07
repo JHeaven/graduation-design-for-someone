@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xjd.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.xjd.model.Order" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="max_num" property="maxNum" jdbcType="INTEGER" />
+    <result column="real_num" property="realNum" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="sfz1" property="sfz1" jdbcType="VARCHAR" />
+    <result column="name1" property="name1" jdbcType="VARCHAR" />
+    <result column="sfz2" property="sfz2" jdbcType="VARCHAR" />
+    <result column="name2" property="name2" jdbcType="VARCHAR" />
+    <result column="sfz3" property="sfz3" jdbcType="VARCHAR" />
+    <result column="name3" property="name3" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="from_time" property="fromTime" jdbcType="TIMESTAMP" />
+    <result column="to_time" property="toTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xjd.model.Order" extends="BaseResultMap" >
+    <result column="photo" property="photo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, type, max_num, real_num, price, sfz1, name1, sfz2, name2, sfz3, name3, 
+    phone, ps, deleted, order_time, from_time, to_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    photo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `order`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="all" resultMap="ResultMapWithBLOBs" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `order`
+  </select>
+  
+  
+  <select id="selectByUser" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `order`
+    where deleted =  #{deleted,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectTime" resultMap="ResultMapWithBLOBs" parameterType="com.xjd.model.Order">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `order`
+    where id not in (
+    
+    select 
+    id
+	FROM
+	`order`
+	WHERE
+	<![CDATA[ 
+		unix_timestamp(`order`.from_time) >= unix_timestamp(#{toTime,jdbcType=TIMESTAMP})  
+	    or unix_timestamp(`order`.to_time) <=  unix_timestamp(#{fromTime,jdbcType=TIMESTAMP}) 
+    ]]>
+    
+    )
+  </select>
+  
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from `order`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjd.model.Order" >
+    insert into `order` (id, name, type, 
+      max_num, real_num, price, 
+      sfz1, name1, sfz2, 
+      name2, sfz3, name3, 
+      phone, ps, deleted, 
+      order_time, from_time, to_time, 
+      photo)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{maxNum,jdbcType=INTEGER}, #{realNum,jdbcType=INTEGER}, #{price,jdbcType=INTEGER}, 
+      #{sfz1,jdbcType=VARCHAR}, #{name1,jdbcType=VARCHAR}, #{sfz2,jdbcType=VARCHAR}, 
+      #{name2,jdbcType=VARCHAR}, #{sfz3,jdbcType=VARCHAR}, #{name3,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{ps,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}, 
+      #{orderTime,jdbcType=TIMESTAMP}, #{fromTime,jdbcType=TIMESTAMP}, #{toTime,jdbcType=TIMESTAMP}, 
+      #{photo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjd.model.Order" >
+    insert into `order`
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="maxNum != null" >
+        max_num,
+      </if>
+      <if test="realNum != null" >
+        real_num,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="sfz1 != null" >
+        sfz1,
+      </if>
+      <if test="name1 != null" >
+        name1,
+      </if>
+      <if test="sfz2 != null" >
+        sfz2,
+      </if>
+      <if test="name2 != null" >
+        name2,
+      </if>
+      <if test="sfz3 != null" >
+        sfz3,
+      </if>
+      <if test="name3 != null" >
+        name3,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="orderTime != null" >
+        order_time,
+      </if>
+      <if test="fromTime != null" >
+        from_time,
+      </if>
+      <if test="toTime != null" >
+        to_time,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="maxNum != null" >
+        #{maxNum,jdbcType=INTEGER},
+      </if>
+      <if test="realNum != null" >
+        #{realNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="sfz1 != null" >
+        #{sfz1,jdbcType=VARCHAR},
+      </if>
+      <if test="name1 != null" >
+        #{name1,jdbcType=VARCHAR},
+      </if>
+      <if test="sfz2 != null" >
+        #{sfz2,jdbcType=VARCHAR},
+      </if>
+      <if test="name2 != null" >
+        #{name2,jdbcType=VARCHAR},
+      </if>
+      <if test="sfz3 != null" >
+        #{sfz3,jdbcType=VARCHAR},
+      </if>
+      <if test="name3 != null" >
+        #{name3,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fromTime != null" >
+        #{fromTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toTime != null" >
+        #{toTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjd.model.Order" >
+    update `order`
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="maxNum != null" >
+        max_num = #{maxNum,jdbcType=INTEGER},
+      </if>
+      <if test="realNum != null" >
+        real_num = #{realNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="sfz1 != null" >
+        sfz1 = #{sfz1,jdbcType=VARCHAR},
+      </if>
+      <if test="name1 != null" >
+        name1 = #{name1,jdbcType=VARCHAR},
+      </if>
+      <if test="sfz2 != null" >
+        sfz2 = #{sfz2,jdbcType=VARCHAR},
+      </if>
+      <if test="name2 != null" >
+        name2 = #{name2,jdbcType=VARCHAR},
+      </if>
+      <if test="sfz3 != null" >
+        sfz3 = #{sfz3,jdbcType=VARCHAR},
+      </if>
+      <if test="name3 != null" >
+        name3 = #{name3,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null" >
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fromTime != null" >
+        from_time = #{fromTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toTime != null" >
+        to_time = #{toTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjd.model.Order" >
+    update `order`
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      max_num = #{maxNum,jdbcType=INTEGER},
+      real_num = #{realNum,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      sfz1 = #{sfz1,jdbcType=VARCHAR},
+      name1 = #{name1,jdbcType=VARCHAR},
+      sfz2 = #{sfz2,jdbcType=VARCHAR},
+      name2 = #{name2,jdbcType=VARCHAR},
+      sfz3 = #{sfz3,jdbcType=VARCHAR},
+      name3 = #{name3,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      from_time = #{fromTime,jdbcType=TIMESTAMP},
+      to_time = #{toTime,jdbcType=TIMESTAMP},
+      photo = #{photo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjd.model.Order" >
+    update `order`
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      max_num = #{maxNum,jdbcType=INTEGER},
+      real_num = #{realNum,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      sfz1 = #{sfz1,jdbcType=VARCHAR},
+      name1 = #{name1,jdbcType=VARCHAR},
+      sfz2 = #{sfz2,jdbcType=VARCHAR},
+      name2 = #{name2,jdbcType=VARCHAR},
+      sfz3 = #{sfz3,jdbcType=VARCHAR},
+      name3 = #{name3,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      from_time = #{fromTime,jdbcType=TIMESTAMP},
+      to_time = #{toTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

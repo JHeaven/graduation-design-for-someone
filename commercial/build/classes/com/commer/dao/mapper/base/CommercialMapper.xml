@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commer.dao.mapper.base.CommercialMapper">
+
+	<insert id="insert" parameterType="com.commer.dao.entity.CommercialEty">
+		insert into commercial(
+			commercialID,commercialtype,commercialfloor,commercialfloorUnitnumber,commercialtotalArea,commercialtotalUseArea,commercialPrice,commercialDate,commercialConter,commercialtotalflag)
+		values (
+			#{commercialID},#{commercialtype},#{commercialfloor},#{commercialfloorUnitnumber},#{commercialtotalArea},#{commercialtotalUseArea},#{commercialPrice},#{commercialDate},#{commercialConter},#{commercialtotalflag}
+		)
+	</insert>
+
+	<select id="selectById" parameterType="int" resultType="com.commer.dao.entity.CommercialEty">
+		select * from commercial where commercialID=#{value}
+	</select>
+
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM commercial WHERE commercialID=#{value}
+	</delete>
+
+	<select id="selectByEntity" parameterType="com.commer.dao.entity.CommercialEty" resultType="com.commer.dao.entity.CommercialEty">
+		SELECT * from commercial
+		WHERE 1=1 
+		<if test="commercialID != null "> AND commercialID=#{commercialID}</if>
+		<if test="commercialtype != null  and commercialtype != ''"> AND commercialtype=#{commercialtype}</if>
+		<if test="commercialfloor != null  and commercialfloor != ''"> AND commercialfloor=#{commercialfloor}</if>
+		<if test="commercialfloorUnitnumber != null  and commercialfloorUnitnumber != ''"> AND commercialfloorUnitnumber=#{commercialfloorUnitnumber}</if>
+		<if test="commercialtotalArea != null  and commercialtotalArea != ''"> AND commercialtotalArea=#{commercialtotalArea}</if>
+		<if test="commercialtotalUseArea != null  and commercialtotalUseArea != ''"> AND commercialtotalUseArea=#{commercialtotalUseArea}</if>
+		<if test="commercialPrice != null  and commercialPrice != ''"> AND commercialPrice=#{commercialPrice}</if>
+		<if test="commercialDate != null "> AND commercialDate=#{commercialDate}</if>
+		<if test="commercialConter != null  and commercialConter != ''"> AND commercialConter=#{commercialConter}</if>
+		<if test="commercialtotalflag != null  and commercialtotalflag != ''"> AND commercialtotalflag=#{commercialtotalflag}</if>
+		<if test="extLimit == null"> order by commercialID desc</if>
+		<if test="extLimit != null">
+			<if test="extLimit.sort == null"> order by commercialID desc</if>
+			<if test="extLimit.sort != null"> order by ${extLimit.sort} ${extLimit.dir}</if>
+			<if test="extLimit.limit != null"> limit ${extLimit.start}, ${extLimit.limit}</if>
+		</if>
+	</select>
+
+	<update id="updateById" parameterType="com.commer.dao.entity.CommercialEty">
+		UPDATE commercial SET
+		<if test="commercialID != null">commercialID=#{commercialID},</if>
+		<if test="commercialtype != null">commercialtype=#{commercialtype},</if>
+		<if test="commercialfloor != null">commercialfloor=#{commercialfloor},</if>
+		<if test="commercialfloorUnitnumber != null">commercialfloorUnitnumber=#{commercialfloorUnitnumber},</if>
+		<if test="commercialtotalArea != null">commercialtotalArea=#{commercialtotalArea},</if>
+		<if test="commercialtotalUseArea != null">commercialtotalUseArea=#{commercialtotalUseArea},</if>
+		<if test="commercialPrice != null">commercialPrice=#{commercialPrice},</if>
+		<if test="commercialDate != null">commercialDate=#{commercialDate},</if>
+		<if test="commercialConter != null">commercialConter=#{commercialConter},</if>
+		<if test="commercialtotalflag != null">commercialtotalflag=#{commercialtotalflag},</if>
+		 commercialID=#{commercialID}
+		WHERE
+		 commercialID=#{commercialID}
+	</update>
+
+	<select id="selectByLimit" parameterType="com.commer.dao.entity.CommercialEty" resultType="com.commer.dao.entity.CommercialEty">
+		SELECT * from commercial
+		WHERE 1=1 
+		<if test="commercialID != null "> AND commercialID=#{commercialID}</if>
+		<if test="commercialtype != null  and commercialtype != ''"> AND commercialtype=#{commercialtype}</if>
+		<if test="commercialfloor != null  and commercialfloor != ''"> AND commercialfloor=#{commercialfloor}</if>
+		<if test="commercialfloorUnitnumber != null  and commercialfloorUnitnumber != ''"> AND commercialfloorUnitnumber=#{commercialfloorUnitnumber}</if>
+		<if test="commercialtotalArea != null  and commercialtotalArea != ''"> AND commercialtotalArea=#{commercialtotalArea}</if>
+		<if test="commercialtotalUseArea != null  and commercialtotalUseArea != ''"> AND commercialtotalUseArea=#{commercialtotalUseArea}</if>
+		<if test="commercialPrice != null  and commercialPrice != ''"> AND commercialPrice=#{commercialPrice}</if>
+		<if test="commercialDate != null "> AND commercialDate=#{commercialDate}</if>
+		<if test="commercialConter != null  and commercialConter != ''"> AND commercialConter=#{commercialConter}</if>
+		<if test="commercialtotalflag != null  and commercialtotalflag != ''"> AND commercialtotalflag=#{commercialtotalflag}</if>
+		<if test="extLimit == null"> order by commercialID desc</if>
+		<if test="extLimit != null">
+			<if test="extLimit.sort == null"> order by commercialID desc</if>
+			<if test="extLimit.sort != null"> order by ${extLimit.sort} ${extLimit.dir}</if>
+			<if test="extLimit.limit != null"> limit ${extLimit.start}, ${extLimit.limit}</if>
+		</if>
+	</select>
+
+	<select id="selectLimitCount" parameterType="com.commer.dao.entity.CommercialEty" resultType="java.lang.Integer">
+		SELECT count(1) from commercial
+		WHERE 1=1 
+		<if test="commercialID != null "> AND commercialID=#{commercialID}</if>
+		<if test="commercialtype != null  and commercialtype != ''"> AND commercialtype=#{commercialtype}</if>
+		<if test="commercialfloor != null  and commercialfloor != ''"> AND commercialfloor=#{commercialfloor}</if>
+		<if test="commercialfloorUnitnumber != null  and commercialfloorUnitnumber != ''"> AND commercialfloorUnitnumber=#{commercialfloorUnitnumber}</if>
+		<if test="commercialtotalArea != null  and commercialtotalArea != ''"> AND commercialtotalArea=#{commercialtotalArea}</if>
+		<if test="commercialtotalUseArea != null  and commercialtotalUseArea != ''"> AND commercialtotalUseArea=#{commercialtotalUseArea}</if>
+		<if test="commercialPrice != null  and commercialPrice != ''"> AND commercialPrice=#{commercialPrice}</if>
+		<if test="commercialDate != null "> AND commercialDate=#{commercialDate}</if>
+		<if test="commercialConter != null  and commercialConter != ''"> AND commercialConter=#{commercialConter}</if>
+		<if test="commercialtotalflag != null  and commercialtotalflag != ''"> AND commercialtotalflag=#{commercialtotalflag}</if>
+	</select>
+</mapper>

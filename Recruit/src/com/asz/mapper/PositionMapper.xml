@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asz.dao.PositionMapper" >
+  <resultMap id="BaseResultMap" type="com.asz.model.Position" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sal" property="sal" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="exp" property="exp" jdbcType="VARCHAR" />
+    <result column="xueli" property="xueli" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="draw" property="draw" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.asz.model.Position" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, sal, address, exp, xueli, type, draw, user_id, ps, deleted
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from position
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectMohu" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    SELECT
+	position.id,
+	position.title,
+	position.sal,
+	position.address,
+	position.exp,
+	position.xueli,
+	position.type,
+	position.draw,
+	position.content,
+	position.user_id,
+	position.ps,
+	position.deleted
+	FROM
+	position
+	WHERE
+	position.title like #{_parameter,jdbcType=VARCHAR}
+
+  </select>
+  
+  <select id="selectByEnter" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from position
+    <if test="_parameter != null">
+    	where user_id = #{_parameter,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from position
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.asz.model.Position" >
+    insert into position (id, title, sal, 
+      address, exp, xueli, 
+      type, draw, user_id, 
+      ps, deleted, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{sal,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{exp,jdbcType=VARCHAR}, #{xueli,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{draw,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{ps,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.asz.model.Position" >
+    insert into position
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="sal != null" >
+        sal,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="exp != null" >
+        exp,
+      </if>
+      <if test="xueli != null" >
+        xueli,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="draw != null" >
+        draw,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sal != null" >
+        #{sal,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="exp != null" >
+        #{exp,jdbcType=VARCHAR},
+      </if>
+      <if test="xueli != null" >
+        #{xueli,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="draw != null" >
+        #{draw,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.asz.model.Position" >
+    update position
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sal != null" >
+        sal = #{sal,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="exp != null" >
+        exp = #{exp,jdbcType=VARCHAR},
+      </if>
+      <if test="xueli != null" >
+        xueli = #{xueli,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="draw != null" >
+        draw = #{draw,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.asz.model.Position" >
+    update position
+    set title = #{title,jdbcType=VARCHAR},
+      sal = #{sal,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      exp = #{exp,jdbcType=VARCHAR},
+      xueli = #{xueli,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      draw = #{draw,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.asz.model.Position" >
+    update position
+    set title = #{title,jdbcType=VARCHAR},
+      sal = #{sal,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      exp = #{exp,jdbcType=VARCHAR},
+      xueli = #{xueli,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      draw = #{draw,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,323 @@
+<div class="gallery-env">
+		
+			<div class="row">
+			
+				<div class="col-sm-12">
+					
+					<h3>
+						
+						校园网盘
+						&nbsp;
+						#if($folder.id)
+						<a class="btn btn-default btn-sm btn-icon icon-left" onclick="window.history.go(-1)">
+							<i class="entypo-box"></i>
+							返回上一层文件夹
+						</a>
+						<a onclick="refresh(${folder.id});" class="btn btn-default btn-sm btn-icon icon-left">
+							<i class="entypo-box"></i>
+							刷新网盘
+						</a>
+						#end
+						
+						<a onclick="jQuery('#modalFolder-$!{folder.id}').modal('show');" class="btn btn-default btn-sm btn-icon icon-left">
+							<i class="entypo-box"></i>
+							新建文件夹
+						</a>
+						
+						
+						
+						
+						<a onclick="jQuery('#modalFile-$!{folder.id}').modal('show');" class="btn btn-default btn-sm btn-icon icon-left">
+							<i class="entypo-upload"></i>
+							上传文件
+						</a>
+						
+						
+					</h3>
+					<hr>
+					
+					<div class="image-categories">
+						<span><i class="entypo-folder"></i>$!{folderMessage}</span>
+						
+					</div>
+				</div>
+			
+			</div>
+		
+			<div class="row">
+			
+			#foreach($fo in $folders)
+				<div class="col-sm-2 col-xs-4" data-tag="1w" style="text-align:center;">
+					<article class="image-thumb">
+						#if(${fo.id} == 2)
+    						<a href="#/goToMyNextFolder/${fo.id}" class="image" style="font-size:115px;">
+    							<i class="${fo.color}"></i>
+    						</a>
+						#else
+    						<a href="#/goToNextFolder/${fo.id}" class="image" style="font-size:115px;">
+    							<i class="${fo.color}"></i>
+    						</a>
+						#end
+                        <span class="btn btn-primary btn-xs">${fo.sharefolderName}</span>
+						<div class="image-options">
+							<a class="edit" onclick="xiugaiFolder(${folder.id},${fo.id},'${fo.sharefolderName}');"><i class="entypo-pencil"></i></a>
+							<a class="delete" onclick="shanchuFolder(${folder.id},${fo.id});"><i class="entypo-cancel"></i></a>
+						</div>
+					</article>
+				</div>
+			#end
+			
+			#foreach($fi in $files)
+				<div class="col-sm-2 col-xs-4" data-tag="1w" style="text-align:center;">
+					<article class="image-thumb">
+						<a class="image" style="font-size:115px;" onclick="javascript:prompt('请手动复制路径，可在本网站中随意触发资源','/CampusServicePlatform/file/downloadFile/${fi.id}');">
+							<i class="${fi.color}"></i>
+						</a>
+                        <span class="btn btn-primary btn-xs">${fi.sharefileName}</span>
+						<div class="image-options">
+							<a href="/CampusServicePlatform/file/downloadFile/${fi.id}" class="edit"><i class="entypo-download"></i></a>
+							<a class="edit" onclick="xiugaiFile(${folder.id},${fi.id},'${fi.sharefileName}');"><i class="entypo-pencil"></i></a>
+							<a class="delete" onclick="shanchuFile(${folder.id},${fi.id});"><i class="entypo-cancel"></i></a>
+						</div>
+					</article>
+				</div>
+			#end
+			
+			</div>
+			<!--
+			<div class="row">
+				<div class="col-sm-12">
+					<ul class="pager">
+						<li><a href="#"><i class="entypo-left-thin"></i> 上一页</a></li>
+						<li><a href="#"> 当前第X页，共X页</a></li>
+						<li><a href="#">下一页 <i class="entypo-right-thin"></i></a></li>
+					</ul>
+                </div>
+            </div>
+			-->
+		</div>
+		
+		<!-- 上传文件夹-->
+    	<div class="modal fade" id="modalFolder-$!{folder.id}">
+			<br><br><br><br><br><br>
+    		<div class="modal-dialog">
+    			<div class="modal-content">
+    				
+    				<div class="modal-header">
+    					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closenewFolder-$!{folder.id}">&times;</button>
+    					<h4 class="modal-title">请输入新的文件夹名字</h4>
+    				</div>
+    				
+    				<div class="modal-body">
+    					<input type="text" class="form-control" id="newFolderName$!{folder.id}"/>
+    				</div>
+    				
+    				<div class="modal-footer">
+    					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+    					<button type="button" class="btn btn-info" onclick="xinjianwenjianjia($!{folder.id});">确定新建</button>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+		
+		<!-- 上传文件-->
+    	<div class="modal fade" id="modalFile-$!{folder.id}">
+			<br><br><br><br><br><br>
+    		<div class="modal-dialog">
+    			<div class="modal-content">
+    				
+    				<div class="modal-header">
+    					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closenewFile-$!{folder.id}">&times;</button>
+    					<h4 class="modal-title">请选择你想上传的文件</h4>
+    				</div>
+    				
+    				<div class="modal-body">
+    					文件名<input type="text" class="form-control" id="newFileName$!{folder.id}"/>
+						选择文件<input type="file" id="newFile$!{folder.id}"/>
+    				</div>
+    				
+    				<div class="modal-footer">
+    					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+    					<button type="button" class="btn btn-info" onclick="uploadFile($!{folder.id});">确定上传	</button>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+		
+		<script>
+			var xinjianwenjianjia = function(folderId){
+				var newFolderName = $('#newFolderName'+folderId).val();
+				$.ajax({
+    				cache: true,
+                    type: "POST",
+                    url: "/CampusServicePlatform/file/insertFolder",
+                    data: {id:folderId,sharefolderName:newFolderName},
+                    async: false,
+                    error: function(request) {
+                        //alert(request);
+						toastr.error('新建失败！',null,notificationOpts);
+                    },
+                    success: function(data) {
+						toastr.success('新建成功！',null,notificationOpts);
+						$("#closenewFolder-"+folderId).click();
+						//$("#goToNextFolderSection").html(data);
+						refresh(folderId);
+                    }
+				});
+			};
+			
+			var refresh = function(folderId){
+				toastr.success('刷新成功！',null,notificationOpts);
+				$("#goToNextFolderSection").load("file/goToNextFolder/"+folderId);
+			};
+			
+			var uploadFile = function(folderId){
+				var fileObj = document.getElementById("newFile"+folderId).files[0]; // 获取文件对象
+				var title = $("#newFileName"+folderId).val(); // 获取文件对象
+				var FileController = "/CampusServicePlatform/file/receiveFile/${folderId}";// 接收上传文件的后台地址
+				
+    			// FormData 对象
+    			var form = new FormData();
+    			form.append("title", title);// 可以增加表单数据
+    			form.append("file", fileObj);// 文件对象
+    			form.append("folderId",folderId);
+				
+				
+				$.ajax({  
+                type : 'post',//请求方式为post  
+                datatype : 'json',//服务端返回的数据类型
+                url : FileController,//接收数据的映射接口
+                data : form,
+                /**
+                 * 必须false才会避开jQuery对 formdata 的默认处理    
+                 * XMLHttpRequest会对 formdata 进行正确 的处理    
+                 */
+                processData : false,  
+                contentType : false,//"application/x-www-form-urlencoded",//直接用对象接收时，必须这么写；若要发送json格式数据，可写成“application/json”，用注解@RequestBody String str接收  
+                success : function(data) {  
+	                 if (data == "success") {
+					 	toastr.success('上传成功！',null,notificationOpts);
+					 	$("#closenewFile-"+folderId).click();
+						refresh(folderId);
+                    } else {
+						toastr.error('上传失败！',null,notificationOpts);
+                        //alert("出了点小问题，请稍候重试");  
+                    }   
+                },
+                error :   
+                    function(XMLHttpRequest, textStatus, errorThrown) {  
+						toastr.error('上传失败！',null,notificationOpts);
+	                    alert(XMLHttpRequest.status);  
+	                    alert(XMLHttpRequest.readyState);
+	                    alert(textStatus);  
+                    }
+            	});
+			};
+			
+			var shanchuFolder = function(upfolderId,thisfolderId){
+				if(window.confirm('删除是不可恢复的，文件夹内的文件都会随之删除，你确定要删除吗？')){
+                	$.ajax({
+        				cache: true,
+                        type: "POST",
+                        url: "/CampusServicePlatform/file/deleteFolder/"+upfolderId+"/"+thisfolderId,
+                        async: false,
+                        error: function(request) {
+                            //alert(request);
+							toastr.error('删除失败！',null,notificationOpts);
+                        },
+                        success: function(data) {
+							if(data == "success"){
+								toastr.success('删除成功！',null,notificationOpts);
+								refresh(upfolderId);
+							}else{
+								//alert("删除出错，请联系管理员，或稍后再试！");
+								toastr.error('删除失败！',null,notificationOpts);
+							}
+                        }
+					});
+              	}
+			};
+			
+			
+			var shanchuFile = function(upfolderId,thisfileId){
+				if(window.confirm('删除是不可恢复的，你确定要删除吗？')){
+                	$.ajax({
+        				cache: true,
+                        type: "POST",
+                        url: "/CampusServicePlatform/file/deleteFile/"+upfolderId+"/"+thisfileId,
+                        async: false,
+                        error: function(request) {
+                            //alert(request);
+							toastr.error('删除失败！',null,notificationOpts);
+                        },
+                        success: function(data) {
+							if(data == "success"){
+								toastr.success('删除成功！',null,notificationOpts);
+								refresh(upfolderId);
+							}else{
+								toastr.error('删除失败！',null,notificationOpts);
+								//alert("删除出错，请联系管理员，或稍后再试！");
+							}
+                        }
+					});
+              	}
+			};
+			
+			var xiugaiFolder = function(upfolderId,thisfolderId,oldName){
+				var theResponse = window.prompt("请输入新的文件夹名称",oldName);
+				if(theResponse != null){
+					
+					$.ajax({
+        				cache: true,
+                        type: "POST",
+                        url: "/CampusServicePlatform/file/updateFolder",
+                        async: false,
+						data: {"upfolderId":upfolderId,"thisfolderId":thisfolderId,"folderName":theResponse},
+                        error: function(request) {
+                            //alert(request);
+							toastr.error('修改失败！',null,notificationOpts);
+                        },
+                        success: function(data) {
+							if(data == "success"){
+								toastr.success('修改成功！',null,notificationOpts);
+								refresh(upfolderId);
+							}else{
+								//alert("修改出错，请联系管理员，或稍后再试！");
+								toastr.error('修改失败！',null,notificationOpts);
+							}
+                        }
+					});
+				}
+			};
+			
+			
+			var xiugaiFile = function(upfolderId,thisfolderId,oldName){
+				var theResponse = window.prompt("请输入新的文件名称",oldName);
+				if(theResponse != null){
+					$.ajax({
+        				cache: true,
+                        type: "POST",
+                        url: "/CampusServicePlatform/file/updateFile",
+                        async: false,
+						data: {"upfolderId":upfolderId,"thisfileId":thisfolderId,"fileName":theResponse},
+                        error: function(request) {
+                            //alert(request);
+							toastr.error('修改失败！',null,notificationOpts);
+                        },
+                        success: function(data) {
+							if(data == "success"){
+								toastr.success('修改成功！',null,notificationOpts);
+								refresh(upfolderId);
+							}else{
+								toastr.error('修改失败！',null,notificationOpts);
+								//alert("修改出错，请联系管理员，或稍后再试！");
+							}
+                        }
+					});
+				}
+			};
+        </script>
+		
+		<script>
+		
+        </script>

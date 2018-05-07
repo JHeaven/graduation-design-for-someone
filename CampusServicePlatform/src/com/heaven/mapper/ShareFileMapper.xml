@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.dao.ShareFileMapper">
+	<resultMap id="BaseResultMap" type="com.heaven.model.ShareFile">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="sharefolder_id" property="sharefolderId"
+			jdbcType="INTEGER" />
+		<result column="sharefile_name" property="sharefileName"
+			jdbcType="VARCHAR" />
+		<result column="sharefile_path" property="sharefilePath"
+			jdbcType="VARCHAR" />
+		<result column="shatefile_size" property="shatefileSize"
+			jdbcType="VARCHAR" />
+		<result column="sharefile_type" property="sharefileType"
+			jdbcType="VARCHAR" />
+		<result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+		<result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="BaseResultMapwithUser" type="com.heaven.model.ShareFile"
+		extends="BaseResultMap">
+		<association property="user" javaType="com.heaven.model.User">
+			<id column="userid" property="id" jdbcType="INTEGER" />
+			<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+			<result column="level_site" property="levelSite" jdbcType="INTEGER" />
+			<result column="register_day" property="registerDay" jdbcType="TIMESTAMP" />
+			<result column="lastlogin_day" property="lastloginDay"
+				jdbcType="TIMESTAMP" />
+			<result column="image" property="image" jdbcType="VARCHAR" />
+			<result column="score" property="score" jdbcType="INTEGER" />
+			<result column="role" property="role" jdbcType="INTEGER" />
+			<association property="userLevel" javaType="com.heaven.model.UserLevel">
+				<id column="levelSite" property="id" jdbcType="INTEGER" />
+				<result column="name" property="name" jdbcType="VARCHAR" />
+			</association>
+		</association>
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		id, user_id, sharefolder_id, sharefile_name,
+		sharefile_path,
+		shatefile_size, sharefile_type,
+		out_time,isdelete
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from share_file
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectAllFile" resultMap="BaseResultMapwithUser"
+		parameterType="com.heaven.model.ShareFile">
+		select
+		share_file.id, share_file.user_id, share_file.sharefolder_id,
+		share_file.sharefile_name, share_file.sharefile_path,
+		share_file.shatefile_size, share_file.sharefile_type,
+		share_file.out_time,
+		user.id as userid,user.nick_name
+		,user.level_site,user_level.name
+		from share_file , user ,user_level
+		where share_file.user_id = user.id and user_level.id = user.level_site
+		
+		<if test="userId != null">
+			and share_file.user_id = #{userId,jdbcType=INTEGER} 
+		</if>
+		<if test="sharefolderId != null">
+			and share_file.sharefolder_id =
+			#{sharefolderId,jdbcType=INTEGER}
+		</if>
+		<if test="isdelete != null">
+			and share_file.isdelete = #{isdelete,jdbcType=INTEGER} 
+		</if>
+		order by share_file.out_time
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		share_file
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.heaven.model.ShareFile">
+		insert into share_file (
+		user_id, sharefolder_id,
+		sharefile_name, sharefile_path,
+		shatefile_size,
+		sharefile_type, out_time,isdelete)
+		values (
+		#{userId,jdbcType=INTEGER}, #{sharefolderId,jdbcType=INTEGER},
+		#{sharefileName,jdbcType=VARCHAR}, #{sharefilePath,jdbcType=VARCHAR},
+		#{shatefileSize,jdbcType=VARCHAR},
+		#{sharefileType,jdbcType=VARCHAR},
+		#{outTime,jdbcType=TIMESTAMP},#{isdelete,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.heaven.model.ShareFile">
+		insert into share_file
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="sharefolderId != null">
+				sharefolder_id,
+			</if>
+			<if test="sharefileName != null">
+				sharefile_name,
+			</if>
+			<if test="sharefilePath != null">
+				sharefile_path,
+			</if>
+			<if test="shatefileSize != null">
+				shatefile_size,
+			</if>
+			<if test="sharefileType != null">
+				sharefile_type,
+			</if>
+			<if test="outTime != null">
+				out_time,
+			</if>
+			<if test="isdelete != null">
+				isdelete,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="sharefolderId != null">
+				#{sharefolderId,jdbcType=INTEGER},
+			</if>
+			<if test="sharefileName != null">
+				#{sharefileName,jdbcType=VARCHAR},
+			</if>
+			<if test="sharefilePath != null">
+				#{sharefilePath,jdbcType=VARCHAR},
+			</if>
+			<if test="shatefileSize != null">
+				#{shatefileSize,jdbcType=VARCHAR},
+			</if>
+			<if test="sharefileType != null">
+				#{sharefileType,jdbcType=VARCHAR},
+			</if>
+			<if test="outTime != null">
+				#{outTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.heaven.model.ShareFile">
+		update share_file
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="sharefolderId != null">
+				sharefolder_id = #{sharefolderId,jdbcType=INTEGER},
+			</if>
+			<if test="sharefileName != null">
+				sharefile_name = #{sharefileName,jdbcType=VARCHAR},
+			</if>
+			<if test="sharefilePath != null">
+				sharefile_path = #{sharefilePath,jdbcType=VARCHAR},
+			</if>
+			<if test="shatefileSize != null">
+				shatefile_size = #{shatefileSize,jdbcType=VARCHAR},
+			</if>
+			<if test="sharefileType != null">
+				sharefile_type = #{sharefileType,jdbcType=VARCHAR},
+			</if>
+			<if test="outTime != null">
+				out_time = #{outTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdelete != null">
+				isdelete = #{isdelete,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.heaven.model.ShareFile">
+		update share_file
+		set user_id = #{userId,jdbcType=INTEGER},
+		sharefolder_id =
+		#{sharefolderId,jdbcType=INTEGER},
+		sharefile_name =
+		#{sharefileName,jdbcType=VARCHAR},
+		sharefile_path =
+		#{sharefilePath,jdbcType=VARCHAR},
+		shatefile_size =
+		#{shatefileSize,jdbcType=VARCHAR},
+		sharefile_type =
+		#{sharefileType,jdbcType=VARCHAR},
+		out_time =
+		#{outTime,jdbcType=TIMESTAMP},
+		isdelete = #{isdelete,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

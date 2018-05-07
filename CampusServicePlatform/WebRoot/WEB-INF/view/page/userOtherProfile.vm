@@ -1,0 +1,226 @@
+<div class="profile-env">
+			
+			<header class="row">
+				
+				<div class="col-sm-2">
+					
+					<a href="#" class="profile-picture">
+						<img src="${user.image}" class="img-responsive img-circle">
+					</a>
+					
+				</div>
+				
+				<div class="col-sm-7">
+					
+					<ul class="profile-info-sections">
+						<li>
+							<div class="profile-name">
+								<strong>
+									<a href="#">${user.nickName}</a>
+									<a href="#" class="user-status is-online tooltip-primary" data-toggle="tooltip" data-placement="top" data-original-title="Online"></a>
+									<!-- User statuses available classes "is-online", "is-offline", "is-idle", "is-busy" -->						</strong>
+								<span><a href="#">${user.email}</a></span>
+							</div>
+						</li>
+						
+						<li>
+							<div class="profile-stat">
+								<h3>${user.score}</h3>
+								<span><a href="#">积分</a></span>
+							</div>
+						</li>
+						
+						<li>
+							<div class="profile-stat">
+								<h3>${user.userLevel.name}</h3>
+								<span><a href="#">等级</a></span>
+							</div>
+						</li>
+					</ul>
+					
+				</div>
+				
+				<div class="col-sm-3">
+					
+					<div class="profile-buttons">
+						<a class="btn btn-default" onclick="jiahaoyou(${user.id});">
+							<i class="entypo-user-add"></i>
+							加一波好友
+						</a>
+						
+						
+					</div>
+				</div>
+				<script>
+					var jiahaoyou = function(userId){
+						$.ajax({
+            				cache: true,
+                            type: "POST",
+                            url: "/CampusServicePlatform/user/userMeetFrient",
+                            data: {"userId":userId},
+                            async: false,
+                            error: function(request) {
+                                alert('出错啦:'+request);
+                            },
+                            success: function(data) {
+								alert(data);
+                            }
+        				});
+					}
+                </script>
+			</header>
+			
+			<section class="profile-info-tabs">
+				
+				<div class="row">
+					
+					<div class="col-sm-offset-2 col-sm-10">
+						
+						<ul class="user-details">
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									性别：#if($user.gender == 0)
+											男
+										 #else
+											女
+										 #end
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									登录名：${user.loginName}
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									生日：$!date.format('yyyy-MM-dd',${user.birthday})
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									注册日期：$!date.format('yyyy-MM-dd HH:mm:ss',${user.registerDay})
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									最后登陆：$!date.format('yyyy-MM-dd HH:mm:ss',${user.lastloginDay})
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									手机：${user.mobilePhone}
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									QQ：${user.qq}
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									角色：#if($user.role == 1)
+											学生
+										 #else
+											老师
+										 #end
+								</a>
+							</li>
+							
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									学号：${user.stuNumber}
+								</a>
+							</li>
+							
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									自我介绍：${user.introduction}
+								</a>
+							</li>
+							
+							
+						</ul>
+						
+						
+						<!-- tabs for the profile links -->
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#profile-info">发送消息
+							</a></li>
+						</ul>
+						
+					</div>
+					
+				</div>
+				
+			</section>
+			
+			
+			<section class="profile-feed">
+				
+				<!-- profile post form -->
+				<form class="profile-post-form" method="post" id="messagefasnong">
+					
+					<textarea class="form-control autogrow" name="content" placeholder="你想对他说什么？" style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 80px;"></textarea>
+					<input name="toId" value="${user.id}" hidden="hidden"/>
+					<div class="form-options">
+						
+						<div class="post-type">
+						
+							<a href="#" class="tooltip-primary" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Upload a Picture">
+								<i class="entypo-camera"></i>
+							</a>
+						
+							<a href="#" class="tooltip-primary" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Attach a file">
+								<i class="entypo-attach"></i>
+							</a>
+						
+							<a href="#" class="tooltip-primary" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Check-in">
+								<i class="entypo-location"></i>
+							</a>
+						</div>
+						
+						<div class="post-submit">
+							<button type="button" class="btn btn-primary" onclick="fasongmessage(${user.id});">发送</button>
+						</div>
+						
+					</div>
+				</form>
+				
+			</section>
+		</div>
+			<script>
+				var fasongmessage = function(userId){
+					$.ajax({
+            				cache: true,
+                            type: "POST",
+                            url: "/CampusServicePlatform/message/sendMessage/",
+                            data: $('#messagefasnong').serialize(),
+                            async: false,
+                            error: function(request) {
+                                alert('出错啦:'+request);
+                            },
+                            success: function(data) {
+								alert(data);
+                            }
+        			});
+				}
+            </script>

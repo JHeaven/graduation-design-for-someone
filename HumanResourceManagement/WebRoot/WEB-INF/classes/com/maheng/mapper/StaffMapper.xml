@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maheng.dao.StaffMapper" >
+  <resultMap id="BaseResultMap" type="com.maheng.model.Staff" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="login_pass" property="loginPass" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="birth" property="birth" jdbcType="TIMESTAMP" />
+    <result column="birth_place" property="birthPlace" jdbcType="VARCHAR" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="identification" property="identification" jdbcType="CHAR" />
+    <result column="political" property="political" jdbcType="VARCHAR" />
+    <result column="respectivedpt_id" property="respectivedptId" jdbcType="INTEGER" />
+    <result column="enterdpt_date" property="enterdptDate" jdbcType="TIMESTAMP" />
+    <result column="duty_id" property="dutyId" jdbcType="VARCHAR" />
+    <result column="duty_name" property="dutyName" jdbcType="VARCHAR" />
+    <result column="startpay_date" property="startpayDate" jdbcType="TIMESTAMP" />
+    <result column="original_enterprise" property="originalEnterprise" jdbcType="VARCHAR" />
+    <result column="original_name" property="originalName" jdbcType="VARCHAR" />
+    <result column="original_duty" property="originalDuty" jdbcType="VARCHAR" />
+    <result column="graduation_school" property="graduationSchool" jdbcType="VARCHAR" />
+    <result column="graduation_date" property="graduationDate" jdbcType="TIMESTAMP" />
+    <result column="school_record" property="schoolRecord" jdbcType="VARCHAR" />
+    <result column="major" property="major" jdbcType="VARCHAR" />
+    <result column="foreign_language" property="foreignLanguage" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="telphone" property="telphone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="inpost_type" property="inpostType" jdbcType="VARCHAR" />
+    <result column="sign_contract_id" property="signContractId" jdbcType="VARCHAR" />
+    <result column="sign_date" property="signDate" jdbcType="TIMESTAMP" />
+    <result column="sign_contract_due" property="signContractDue" jdbcType="TIMESTAMP" />
+    <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
+    <result column="hired_department" property="hiredDepartment" jdbcType="VARCHAR" />
+    <result column="hired_duty" property="hiredDuty" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="check_date" property="checkDate" jdbcType="TIMESTAMP" />
+    <result column="basic_salary" property="basicSalary" jdbcType="INTEGER" />
+    <result column="sub_sidy" property="subSidy" jdbcType="INTEGER" />
+    <result column="level_site" property="levelSite" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.maheng.model.Staff" extends="BaseResultMap" >
+    <result column="photo" property="photo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, login_name, login_pass, name, sex, birth, birth_place, nation, identification, 
+    political, respectivedpt_id, enterdpt_date, duty_id, duty_name, startpay_date, original_enterprise, 
+    original_name, original_duty, graduation_school, graduation_date, school_record, 
+    major, foreign_language, address, telphone, email, inpost_type, sign_contract_id, 
+    sign_date, sign_contract_due, contract_type, hired_department, hired_duty, remark, 
+    check_date, basic_salary, sub_sidy, level_site
+  </sql>
+  <sql id="Blob_Column_List" >
+    photo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from staff
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!--all-->
+  <select id="selectAll" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from staff
+  </select>
+  
+  <!--top5-->
+  <select id="top5" resultMap="ResultMapWithBLOBs">
+    SELECT
+	staff.`name`,
+	staff.duty_name,
+	staff.enterdpt_date,
+	staff.photo
+	FROM
+	staff
+	where staff.duty_name &lt;&gt; '' 
+	ORDER BY
+	staff.enterdpt_date DESC
+	LIMIT 5
+  </select>
+  
+  
+  
+  <!--login -->
+  <select id="login" resultMap="ResultMapWithBLOBs" parameterType="com.maheng.model.Staff" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from staff
+    where login_name = #{loginName,jdbcType=INTEGER} 
+    <if test="loginPass != null" >
+    and login_pass = #{loginPass,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <!-- sfz -->
+  <select id="oversfz" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from staff 
+    where identification = #{identification,jdbcType=CHAR}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from staff
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.maheng.model.Staff" >
+    insert into staff ( login_name, login_pass, 
+      name, sex, birth, birth_place, 
+      nation, identification, political, 
+      respectivedpt_id, enterdpt_date, duty_id, 
+      duty_name, startpay_date, original_enterprise, 
+      original_name, original_duty, graduation_school, 
+      graduation_date, school_record, major, 
+      foreign_language, address, telphone, 
+      email, inpost_type, sign_contract_id, 
+      sign_date, sign_contract_due, contract_type, 
+      hired_department, hired_duty, remark, 
+      check_date, basic_salary, sub_sidy, 
+      level_site, photo)
+    values (#{loginName,jdbcType=VARCHAR}, #{loginPass,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{birth,jdbcType=TIMESTAMP}, #{birthPlace,jdbcType=VARCHAR}, 
+      #{nation,jdbcType=VARCHAR}, #{identification,jdbcType=CHAR}, #{political,jdbcType=VARCHAR}, 
+      #{respectivedptId,jdbcType=INTEGER}, #{enterdptDate,jdbcType=TIMESTAMP}, #{dutyId,jdbcType=VARCHAR}, 
+      #{dutyName,jdbcType=VARCHAR}, #{startpayDate,jdbcType=TIMESTAMP}, #{originalEnterprise,jdbcType=VARCHAR}, 
+      #{originalName,jdbcType=VARCHAR}, #{originalDuty,jdbcType=VARCHAR}, #{graduationSchool,jdbcType=VARCHAR}, 
+      #{graduationDate,jdbcType=TIMESTAMP}, #{schoolRecord,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{foreignLanguage,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{inpostType,jdbcType=VARCHAR}, #{signContractId,jdbcType=VARCHAR}, 
+      #{signDate,jdbcType=TIMESTAMP}, #{signContractDue,jdbcType=TIMESTAMP}, #{contractType,jdbcType=VARCHAR}, 
+      #{hiredDepartment,jdbcType=VARCHAR}, #{hiredDuty,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{checkDate,jdbcType=TIMESTAMP}, #{basicSalary,jdbcType=INTEGER}, #{subSidy,jdbcType=INTEGER}, 
+      #{levelSite,jdbcType=INTEGER}, #{photo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maheng.model.Staff" >
+    insert into staff
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="loginName != null" >
+        login_name,
+      </if>
+      <if test="loginPass != null" >
+        login_pass,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birth != null" >
+        birth,
+      </if>
+      <if test="birthPlace != null" >
+        birth_place,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="identification != null" >
+        identification,
+      </if>
+      <if test="political != null" >
+        political,
+      </if>
+      <if test="respectivedptId != null" >
+        respectivedpt_id,
+      </if>
+      <if test="enterdptDate != null" >
+        enterdpt_date,
+      </if>
+      <if test="dutyId != null" >
+        duty_id,
+      </if>
+      <if test="dutyName != null" >
+        duty_name,
+      </if>
+      <if test="startpayDate != null" >
+        startpay_date,
+      </if>
+      <if test="originalEnterprise != null" >
+        original_enterprise,
+      </if>
+      <if test="originalName != null" >
+        original_name,
+      </if>
+      <if test="originalDuty != null" >
+        original_duty,
+      </if>
+      <if test="graduationSchool != null" >
+        graduation_school,
+      </if>
+      <if test="graduationDate != null" >
+        graduation_date,
+      </if>
+      <if test="schoolRecord != null" >
+        school_record,
+      </if>
+      <if test="major != null" >
+        major,
+      </if>
+      <if test="foreignLanguage != null" >
+        foreign_language,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="telphone != null" >
+        telphone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="inpostType != null" >
+        inpost_type,
+      </if>
+      <if test="signContractId != null" >
+        sign_contract_id,
+      </if>
+      <if test="signDate != null" >
+        sign_date,
+      </if>
+      <if test="signContractDue != null" >
+        sign_contract_due,
+      </if>
+      <if test="contractType != null" >
+        contract_type,
+      </if>
+      <if test="hiredDepartment != null" >
+        hired_department,
+      </if>
+      <if test="hiredDuty != null" >
+        hired_duty,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="checkDate != null" >
+        check_date,
+      </if>
+      <if test="basicSalary != null" >
+        basic_salary,
+      </if>
+      <if test="subSidy != null" >
+        sub_sidy,
+      </if>
+      <if test="levelSite != null" >
+        level_site,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPass != null" >
+        #{loginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="birthPlace != null" >
+        #{birthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        #{identification,jdbcType=CHAR},
+      </if>
+      <if test="political != null" >
+        #{political,jdbcType=VARCHAR},
+      </if>
+      <if test="respectivedptId != null" >
+        #{respectivedptId,jdbcType=INTEGER},
+      </if>
+      <if test="enterdptDate != null" >
+        #{enterdptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dutyId != null" >
+        #{dutyId,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null" >
+        #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="startpayDate != null" >
+        #{startpayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="originalEnterprise != null" >
+        #{originalEnterprise,jdbcType=VARCHAR},
+      </if>
+      <if test="originalName != null" >
+        #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="originalDuty != null" >
+        #{originalDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationSchool != null" >
+        #{graduationSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationDate != null" >
+        #{graduationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schoolRecord != null" >
+        #{schoolRecord,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignLanguage != null" >
+        #{foreignLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="inpostType != null" >
+        #{inpostType,jdbcType=VARCHAR},
+      </if>
+      <if test="signContractId != null" >
+        #{signContractId,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null" >
+        #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signContractDue != null" >
+        #{signContractDue,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractType != null" >
+        #{contractType,jdbcType=VARCHAR},
+      </if>
+      <if test="hiredDepartment != null" >
+        #{hiredDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="hiredDuty != null" >
+        #{hiredDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null" >
+        #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basicSalary != null" >
+        #{basicSalary,jdbcType=INTEGER},
+      </if>
+      <if test="subSidy != null" >
+        #{subSidy,jdbcType=INTEGER},
+      </if>
+      <if test="levelSite != null" >
+        #{levelSite,jdbcType=INTEGER},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maheng.model.Staff" >
+    update staff
+    <set >
+      <if test="loginName != null" >
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPass != null" >
+        login_pass = #{loginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="birth != null" >
+        birth = #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="birthPlace != null" >
+        birth_place = #{birthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        identification = #{identification,jdbcType=CHAR},
+      </if>
+      <if test="political != null" >
+        political = #{political,jdbcType=VARCHAR},
+      </if>
+      <if test="respectivedptId != null" >
+        respectivedpt_id = #{respectivedptId,jdbcType=INTEGER},
+      </if>
+      <if test="enterdptDate != null" >
+        enterdpt_date = #{enterdptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dutyId != null" >
+        duty_id = #{dutyId,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null" >
+        duty_name = #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="startpayDate != null" >
+        startpay_date = #{startpayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="originalEnterprise != null" >
+        original_enterprise = #{originalEnterprise,jdbcType=VARCHAR},
+      </if>
+      <if test="originalName != null" >
+        original_name = #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="originalDuty != null" >
+        original_duty = #{originalDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationSchool != null" >
+        graduation_school = #{graduationSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationDate != null" >
+        graduation_date = #{graduationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schoolRecord != null" >
+        school_record = #{schoolRecord,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignLanguage != null" >
+        foreign_language = #{foreignLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        telphone = #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="inpostType != null" >
+        inpost_type = #{inpostType,jdbcType=VARCHAR},
+      </if>
+      <if test="signContractId != null" >
+        sign_contract_id = #{signContractId,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null" >
+        sign_date = #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signContractDue != null" >
+        sign_contract_due = #{signContractDue,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractType != null" >
+        contract_type = #{contractType,jdbcType=VARCHAR},
+      </if>
+      <if test="hiredDepartment != null" >
+        hired_department = #{hiredDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="hiredDuty != null" >
+        hired_duty = #{hiredDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null" >
+        check_date = #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basicSalary != null" >
+        basic_salary = #{basicSalary,jdbcType=INTEGER},
+      </if>
+      <if test="subSidy != null" >
+        sub_sidy = #{subSidy,jdbcType=INTEGER},
+      </if>
+      <if test="levelSite != null" >
+        level_site = #{levelSite,jdbcType=INTEGER},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.maheng.model.Staff" >
+    update staff
+    set login_name = #{loginName,jdbcType=VARCHAR},
+      login_pass = #{loginPass,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      birth_place = #{birthPlace,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      identification = #{identification,jdbcType=CHAR},
+      political = #{political,jdbcType=VARCHAR},
+      respectivedpt_id = #{respectivedptId,jdbcType=INTEGER},
+      enterdpt_date = #{enterdptDate,jdbcType=TIMESTAMP},
+      duty_id = #{dutyId,jdbcType=VARCHAR},
+      duty_name = #{dutyName,jdbcType=VARCHAR},
+      startpay_date = #{startpayDate,jdbcType=TIMESTAMP},
+      original_enterprise = #{originalEnterprise,jdbcType=VARCHAR},
+      original_name = #{originalName,jdbcType=VARCHAR},
+      original_duty = #{originalDuty,jdbcType=VARCHAR},
+      graduation_school = #{graduationSchool,jdbcType=VARCHAR},
+      graduation_date = #{graduationDate,jdbcType=TIMESTAMP},
+      school_record = #{schoolRecord,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      foreign_language = #{foreignLanguage,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      telphone = #{telphone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      inpost_type = #{inpostType,jdbcType=VARCHAR},
+      sign_contract_id = #{signContractId,jdbcType=VARCHAR},
+      sign_date = #{signDate,jdbcType=TIMESTAMP},
+      sign_contract_due = #{signContractDue,jdbcType=TIMESTAMP},
+      contract_type = #{contractType,jdbcType=VARCHAR},
+      hired_department = #{hiredDepartment,jdbcType=VARCHAR},
+      hired_duty = #{hiredDuty,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      check_date = #{checkDate,jdbcType=TIMESTAMP},
+      basic_salary = #{basicSalary,jdbcType=INTEGER},
+      sub_sidy = #{subSidy,jdbcType=INTEGER},
+      level_site = #{levelSite,jdbcType=INTEGER},
+      photo = #{photo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maheng.model.Staff" >
+    update staff
+    set login_name = #{loginName,jdbcType=VARCHAR},
+      login_pass = #{loginPass,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      birth_place = #{birthPlace,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      identification = #{identification,jdbcType=CHAR},
+      political = #{political,jdbcType=VARCHAR},
+      respectivedpt_id = #{respectivedptId,jdbcType=INTEGER},
+      enterdpt_date = #{enterdptDate,jdbcType=TIMESTAMP},
+      duty_id = #{dutyId,jdbcType=VARCHAR},
+      duty_name = #{dutyName,jdbcType=VARCHAR},
+      startpay_date = #{startpayDate,jdbcType=TIMESTAMP},
+      original_enterprise = #{originalEnterprise,jdbcType=VARCHAR},
+      original_name = #{originalName,jdbcType=VARCHAR},
+      original_duty = #{originalDuty,jdbcType=VARCHAR},
+      graduation_school = #{graduationSchool,jdbcType=VARCHAR},
+      graduation_date = #{graduationDate,jdbcType=TIMESTAMP},
+      school_record = #{schoolRecord,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      foreign_language = #{foreignLanguage,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      telphone = #{telphone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      inpost_type = #{inpostType,jdbcType=VARCHAR},
+      sign_contract_id = #{signContractId,jdbcType=VARCHAR},
+      sign_date = #{signDate,jdbcType=TIMESTAMP},
+      sign_contract_due = #{signContractDue,jdbcType=TIMESTAMP},
+      contract_type = #{contractType,jdbcType=VARCHAR},
+      hired_department = #{hiredDepartment,jdbcType=VARCHAR},
+      hired_duty = #{hiredDuty,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      check_date = #{checkDate,jdbcType=TIMESTAMP},
+      basic_salary = #{basicSalary,jdbcType=INTEGER},
+      sub_sidy = #{subSidy,jdbcType=INTEGER},
+      level_site = #{levelSite,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

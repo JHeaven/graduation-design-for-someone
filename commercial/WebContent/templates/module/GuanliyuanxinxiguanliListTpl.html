@@ -1,0 +1,94 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+
+<form class="form-horizontal" role="form">
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">管理员名</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.adminPeopleName" placeholder="管理员名">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">管理员密码</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.adminPeoplePassword" placeholder="管理员密码">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">年龄</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.adminPeopleAge" placeholder="年龄">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">性别</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.adminPeopleSex" placeholder="性别">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">职位区分</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.adminPeopleFlag" placeholder="职位区分">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">管理员邮箱</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.adminMail" placeholder="管理员邮箱">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">管理员电话</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.adminTEL" placeholder="管理员电话">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">创建时间</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<p class="input-group input-group-sm">
+					<input type="text" class="form-control btn-sm" placeholder="日期" datepicker-localdate uib-datepicker-popup ng-model="searchForm.createTime" is-open="createTimeOpened" datepicker-options="{formatYear: 'yy',startingDay: 1}" ng-required="false" current-text="今天"  clear-text="清空" close-text="关闭" />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default btn-sm" ng-click="createTimeOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">创建者</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.createPeople" placeholder="创建者">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">修改时间</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<p class="input-group input-group-sm">
+					<input type="text" class="form-control btn-sm" placeholder="日期" datepicker-localdate uib-datepicker-popup ng-model="searchForm.updateTime" is-open="updateTimeOpened" datepicker-options="{formatYear: 'yy',startingDay: 1}" ng-required="false" current-text="今天"  clear-text="清空" close-text="关闭" />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default btn-sm" ng-click="updateTimeOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">修改者</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.updatePeople" placeholder="修改者">
+	    </div>
+		<div class="col-md-4">
+			<div class="form-group form-group-sm">
+				<div class="pull-right" style="padding-right:20px;">
+					<button type="submit" class="btn btn-danger btn-sm" ng-click="search();">查询</button>
+					<button type="button" class="btn btn-default btn-sm" ng-click="clearSearch();">清空</button>
+					<button type="button" class="btn btn-success btn-sm" style="margin-left:30px;" ng-click="edit()">新建</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<ac-table>
+    <ac-table-column header="管理员名" field="adminPeopleName" sortable="true"></ac-table-column>
+    <ac-table-column header="管理员密码" field="adminPeoplePassword" sortable="true"></ac-table-column>
+    <ac-table-column header="年龄" field="adminPeopleAge" sortable="true"></ac-table-column>
+    <ac-table-column header="性别" field="adminPeopleSex" sortable="true"></ac-table-column>
+    <ac-table-column header="职位区分" field="adminPeopleFlag" sortable="true"></ac-table-column>
+    <ac-table-column header="管理员邮箱" field="adminMail" sortable="true"></ac-table-column>
+    <ac-table-column header="管理员电话" field="adminTEL" sortable="true"></ac-table-column>
+    <ac-table-column header="创建时间" field="createTime" sortable="true"></ac-table-column>
+    <ac-table-column header="创建者" field="createPeople" sortable="true"></ac-table-column>
+    <ac-table-column header="修改时间" field="updateTime" sortable="true"></ac-table-column>
+    <ac-table-column header="修改者" field="updatePeople" sortable="true"></ac-table-column>
+    <ac-table-column-op content="<i class='fa fa-pencil'></i>" op="edit" tooltip="编辑"></ac-table-column-op>
+    <ac-table-column-op content="<i class='fa fa-trash'></i>" op="del" tooltip="删除"></ac-table-column-op>
+	<ac-table-grid items="dataList" selectable="false" multiple="false" id-field="id" selected-items="selectedItems" paging="pagination" on-sort-change="search()"></ac-table-grid>
+</ac-table>
+<pagination total-items="dataList.total" paging="pagination" ng-model="pagination.currentPage" on-page-change="pageChanged()"></pagination>
+</div>

@@ -1,0 +1,130 @@
+						<div class="panel-heading">
+							<div class="panel-title">
+								<h4>
+									评论：
+									<span class="badge badge-danger">${thisComment.size()}</span>
+								</h4>
+							</div>
+						</div>
+						
+						<div class="panel-body no-padding">
+							
+							<!-- List of Comments -->
+							#set($lou = $thisComment.size())
+							#foreach($c in $thisComment)
+								
+							<ul class="comments-list">
+								
+								<!-- Comment Entry -->
+								<li>
+									<div class="comment-checkbox">
+										<img src="${c.user.image}" class="img-circle" width="30">
+									</div>
+									
+									<div class="comment-details">
+										
+										<div class="comment-head">
+											<a href="#">${c.user.nickName}</a> 发布于 <a href="#">$!date.format('yyyy-MM-dd HH:mm:ss',${c.outTime})</a>
+										</div>
+										<br>
+											
+										<blockquote>
+    									<p>${c.content}</p>
+										</blockquote>
+										
+										<!--楼中楼 -->
+										<ul class="comments-list">
+											#foreach($reply in $c.articleReplyReply)
+        									<li>
+        										<div class="comment-checkbox">
+        											<img src="${reply.user.image}" alt="" class="img-circle" width="25">
+        										</div>
+        										
+        										<div class="user-comment-content">
+										
+        											<a href="#" class="user-comment-name">
+        												${reply.user.nickName} 
+        											</a>
+        											评论：
+        											${reply.content}
+        											
+        											<div class="user-comment-meta">
+        												<a href="#" class="comment-date">$!date.format('yyyy-MM-dd HH:mm:ss',${reply.outTime})</a>
+        												<a onclick="jQuery('#modal-${c.id}').modal('show');">
+        													<i class="entypo-comment"></i>
+        													回复
+        												</a>
+        											</div>
+        											
+        										</div>
+        									</li>
+        									#end
+        									
+        								</ul>
+										<!--楼中楼结束 -->
+								
+										
+										<div class="comment-footer">
+											
+											<div class="comment-time">
+												$!date.format('yyyy-MM-dd HH:mm:ss',${c.outTime}) 【${lou}楼】
+											</div>
+											
+											<div class="action-links">
+												
+												<a onclick="jQuery('#modal-${c.id}').modal('show');" class="badge badge-info">
+													<i class="entypo-pencil"></i>
+													回复
+												</a>
+												<!-- Modal 1 (Basic)-->
+                                            	<div class="modal fade" id="modal-${c.id}">
+                                            		<div class="modal-dialog">
+                                            			<br><br><br><br><br>
+                                            			<div class="modal-content">
+                                            				<div class="modal-header">
+                                            					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            					<h4 class="modal-title">回复评论</h4>
+                                            				</div>
+                                            				
+                                            				<div class="modal-body">
+																<form id="replyComment-${c.id}">
+																	<input name="replyId" value="${c.id}"/>
+																	<input name="articleId" value="${articleId}"/>
+																	<textarea class="form-control" id="replyComment" name="content"></textarea>
+																</form>
+                                            				</div>
+                                            				
+                                            				<div class="modal-footer">
+                                            					<button type="button" class="btn btn-info" onclick="replyreply(${c.id});">回复</button>
+                                            				</div>
+                                            				
+                                            			</div>
+                                            		</div>
+                                            	</div>
+												
+												#if($usersession.id == $c.userId)
+												<a class="badge badge-danger" onclick="deletemycomment(${c.id});">
+													<i class="entypo-cancel"></i>
+													删除
+												</a>
+												#end
+												
+												
+												
+												
+											</div>
+											
+										</div>
+										
+									</div>
+								</li>
+								#set($lou = $lou - 1)
+							#end	
+								
+								
+								
+							</ul>
+							
+						</div>
+					
+					

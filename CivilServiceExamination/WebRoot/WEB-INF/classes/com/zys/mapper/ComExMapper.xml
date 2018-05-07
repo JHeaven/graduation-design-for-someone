@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.dao.ComExMapper" >
+  <resultMap id="BaseResultMap" type="com.zys.model.ComEx" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="se1" property="se1" jdbcType="VARCHAR" />
+    <result column="se2" property="se2" jdbcType="VARCHAR" />
+    <result column="se3" property="se3" jdbcType="VARCHAR" />
+    <result column="se4" property="se4" jdbcType="VARCHAR" />
+    <result column="ans" property="ans" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="belong" property="belong" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zys.model.ComEx" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, se1, se2, se3, se4, ans, score, deleted, belong
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from com_ex
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectByBelong" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from com_ex
+    where belong = #{belong,jdbcType=INTEGER}
+    order by id
+  </select>
+  
+  
+  <select id="all" resultMap="ResultMapWithBLOBs" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from com_ex
+    order by id
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from com_ex
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zys.model.ComEx" >
+    insert into com_ex (id, type, se1, 
+      se2, se3, se4, ans, 
+      score, deleted, belong, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{se1,jdbcType=VARCHAR}, 
+      #{se2,jdbcType=VARCHAR}, #{se3,jdbcType=VARCHAR}, #{se4,jdbcType=VARCHAR}, #{ans,jdbcType=VARCHAR}, 
+      #{score,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER}, #{belong,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zys.model.ComEx" >
+    insert into com_ex
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="se1 != null" >
+        se1,
+      </if>
+      <if test="se2 != null" >
+        se2,
+      </if>
+      <if test="se3 != null" >
+        se3,
+      </if>
+      <if test="se4 != null" >
+        se4,
+      </if>
+      <if test="ans != null" >
+        ans,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="belong != null" >
+        belong,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="se1 != null" >
+        #{se1,jdbcType=VARCHAR},
+      </if>
+      <if test="se2 != null" >
+        #{se2,jdbcType=VARCHAR},
+      </if>
+      <if test="se3 != null" >
+        #{se3,jdbcType=VARCHAR},
+      </if>
+      <if test="se4 != null" >
+        #{se4,jdbcType=VARCHAR},
+      </if>
+      <if test="ans != null" >
+        #{ans,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="belong != null" >
+        #{belong,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zys.model.ComEx" >
+    update com_ex
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="se1 != null" >
+        se1 = #{se1,jdbcType=VARCHAR},
+      </if>
+      <if test="se2 != null" >
+        se2 = #{se2,jdbcType=VARCHAR},
+      </if>
+      <if test="se3 != null" >
+        se3 = #{se3,jdbcType=VARCHAR},
+      </if>
+      <if test="se4 != null" >
+        se4 = #{se4,jdbcType=VARCHAR},
+      </if>
+      <if test="ans != null" >
+        ans = #{ans,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="belong != null" >
+        belong = #{belong,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zys.model.ComEx" >
+    update com_ex
+    set type = #{type,jdbcType=VARCHAR},
+      se1 = #{se1,jdbcType=VARCHAR},
+      se2 = #{se2,jdbcType=VARCHAR},
+      se3 = #{se3,jdbcType=VARCHAR},
+      se4 = #{se4,jdbcType=VARCHAR},
+      ans = #{ans,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=INTEGER},
+      belong = #{belong,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zys.model.ComEx" >
+    update com_ex
+    set type = #{type,jdbcType=VARCHAR},
+      se1 = #{se1,jdbcType=VARCHAR},
+      se2 = #{se2,jdbcType=VARCHAR},
+      se3 = #{se3,jdbcType=VARCHAR},
+      se4 = #{se4,jdbcType=VARCHAR},
+      ans = #{ans,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=INTEGER},
+      belong = #{belong,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

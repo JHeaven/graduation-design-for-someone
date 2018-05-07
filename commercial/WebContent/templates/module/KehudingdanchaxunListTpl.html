@@ -1,0 +1,70 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+
+<form class="form-horizontal" role="form">
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">订单人姓名</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.orderName" placeholder="订单人姓名">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">订单电话</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.orderTel" placeholder="订单电话">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">订购房屋地址</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.orderBuildingaddress" placeholder="订购房屋地址">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">订单时间</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<p class="input-group input-group-sm">
+					<input type="text" class="form-control btn-sm" placeholder="日期" datepicker-localdate uib-datepicker-popup ng-model="searchForm.orderDate" is-open="orderDateOpened" datepicker-options="{formatYear: 'yy',startingDay: 1}" ng-required="false" current-text="今天"  clear-text="清空" close-text="关闭" />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default btn-sm" ng-click="orderDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">定金</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.ordermoney" placeholder="定金">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">付款方式</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.orderPaymentMethod" placeholder="付款方式">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">特别约定</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.orderSpecialAgreement" placeholder="特别约定">
+	    </div>
+		<div class="col-md-8">
+			<div class="form-group form-group-sm">
+				<div class="pull-right" style="padding-right:20px;">
+					<button type="submit" class="btn btn-danger btn-sm" ng-click="search();">查询</button>
+					<button type="button" class="btn btn-default btn-sm" ng-click="clearSearch();">清空</button>
+					<!-- <button type="button" class="btn btn-success btn-sm" style="margin-left:30px;" ng-click="edit()">新建</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<ac-table>
+    <ac-table-column header="订单人姓名" field="orderName" sortable="true"></ac-table-column>
+    <ac-table-column header="订单电话" field="orderTel" sortable="true"></ac-table-column>
+    <ac-table-column header="订购房屋地址" field="orderBuildingaddress" sortable="true"></ac-table-column>
+    <ac-table-column header="订单时间" field="orderDate" sortable="true"></ac-table-column>
+    <ac-table-column header="定金" field="ordermoney" sortable="true"></ac-table-column>
+    <ac-table-column header="付款方式" field="orderPaymentMethod" sortable="true"></ac-table-column>
+    <ac-table-column header="特别约定" field="orderSpecialAgreement" sortable="true"></ac-table-column>
+    <ac-table-column header="" field="" sortable=""></ac-table-column>
+    <ac-table-column header="" field="" sortable=""></ac-table-column>
+    <ac-table-column header="" field="" sortable=""></ac-table-column>
+    <!-- <ac-table-column-op content="<i class='fa fa-pencil'></i>" op="edit" tooltip="编辑"></ac-table-column-op>
+    <ac-table-column-op content="<i class='fa fa-trash'></i>" op="del" tooltip="删除"></ac-table-column-op> -->
+	<ac-table-grid items="dataList" selectable="false" multiple="false" id-field="id" selected-items="selectedItems" paging="pagination" on-sort-change="search()"></ac-table-grid>
+</ac-table>
+<pagination total-items="dataList.total" paging="pagination" ng-model="pagination.currentPage" on-page-change="pageChanged()"></pagination>
+</div>

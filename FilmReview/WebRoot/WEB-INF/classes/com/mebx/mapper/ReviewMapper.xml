@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mebx.dao.ReviewMapper" >
+  <resultMap id="BaseResultMap" type="com.mebx.model.Review" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="f_title" property="fTitle" jdbcType="VARCHAR" />
+    <result column="f_id" property="fId" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="u_name" property="uName" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.mebx.model.ReviewWithBLOBs" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="f_photo" property="fPhoto" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, f_title, f_id, u_id, u_name, count, ps, deleted
+  </sql>
+  <sql id="Blob_Column_List" >
+    content, f_photo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from review
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectall" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from review
+    <if test="_parameter !=null">
+    	where f_id = #{_parameter,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  
+  <select id="selecthot" resultMap="ResultMapWithBLOBs" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from review
+    ORDER BY
+	review.count desc,
+	review.id desc
+	LIMIT 12
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from review
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mebx.model.ReviewWithBLOBs" >
+    insert into review (id, f_title, f_id, 
+      u_id, u_name, count, 
+      ps, deleted, content, 
+      f_photo)
+    values (#{id,jdbcType=INTEGER}, #{fTitle,jdbcType=VARCHAR}, #{fId,jdbcType=INTEGER}, 
+      #{uId,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{ps,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, 
+      #{fPhoto,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mebx.model.ReviewWithBLOBs" >
+    insert into review
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fTitle != null" >
+        f_title,
+      </if>
+      <if test="fId != null" >
+        f_id,
+      </if>
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="uName != null" >
+        u_name,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="fPhoto != null" >
+        f_photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fTitle != null" >
+        #{fTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fId != null" >
+        #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null" >
+        #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="fPhoto != null" >
+        #{fPhoto,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mebx.model.ReviewWithBLOBs" >
+    update review
+    <set >
+      <if test="fTitle != null" >
+        f_title = #{fTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fId != null" >
+        f_id = #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null" >
+        u_name = #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="fPhoto != null" >
+        f_photo = #{fPhoto,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mebx.model.ReviewWithBLOBs" >
+    update review
+    set f_title = #{fTitle,jdbcType=VARCHAR},
+      f_id = #{fId,jdbcType=INTEGER},
+      u_id = #{uId,jdbcType=INTEGER},
+      u_name = #{uName,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR},
+      f_photo = #{fPhoto,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mebx.model.Review" >
+    update review
+    set f_title = #{fTitle,jdbcType=VARCHAR},
+      f_id = #{fId,jdbcType=INTEGER},
+      u_id = #{uId,jdbcType=INTEGER},
+      u_name = #{uName,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      ps = #{ps,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

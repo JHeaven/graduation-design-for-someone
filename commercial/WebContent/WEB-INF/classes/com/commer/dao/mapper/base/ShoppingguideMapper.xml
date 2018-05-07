@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commer.dao.mapper.base.ShoppingguideMapper">
+
+	<insert id="insert" parameterType="com.commer.dao.entity.ShoppingguideEty">
+		insert into shoppingguide(
+			shoppingID,shoppingName,shoppingTEL,shoppingAge,shoppingsex,customername,shoppingintention,shoppingCustomerinfor)
+		values (
+			#{shoppingID},#{shoppingName},#{shoppingTEL},#{shoppingAge},#{shoppingsex},#{customername},#{shoppingintention},#{shoppingCustomerinfor}
+		)
+	</insert>
+
+	<select id="selectById" parameterType="int" resultType="com.commer.dao.entity.ShoppingguideEty">
+		select * from shoppingguide where shoppingID=#{value}
+	</select>
+
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM shoppingguide WHERE shoppingID=#{value}
+	</delete>
+
+	<select id="selectByEntity" parameterType="com.commer.dao.entity.ShoppingguideEty" resultType="com.commer.dao.entity.ShoppingguideEty">
+		SELECT * from shoppingguide
+		WHERE 1=1 
+		<if test="shoppingID != null "> AND shoppingID=#{shoppingID}</if>
+		<if test="shoppingName != null  and shoppingName != ''"> AND shoppingName=#{shoppingName}</if>
+		<if test="shoppingTEL != null  and shoppingTEL != ''"> AND shoppingTEL=#{shoppingTEL}</if>
+		<if test="shoppingAge != null "> AND shoppingAge=#{shoppingAge}</if>
+		<if test="shoppingsex != null  and shoppingsex != ''"> AND shoppingsex=#{shoppingsex}</if>
+		<if test="customername != null  and customername != ''"> AND customername=#{customername}</if>
+		<if test="shoppingintention != null  and shoppingintention != ''"> AND shoppingintention=#{shoppingintention}</if>
+		<if test="shoppingCustomerinfor != null  and shoppingCustomerinfor != ''"> AND shoppingCustomerinfor=#{shoppingCustomerinfor}</if>
+		<if test="extLimit == null"> order by shoppingID desc</if>
+		<if test="extLimit != null">
+			<if test="extLimit.sort == null"> order by shoppingID desc</if>
+			<if test="extLimit.sort != null"> order by ${extLimit.sort} ${extLimit.dir}</if>
+			<if test="extLimit.limit != null"> limit ${extLimit.start}, ${extLimit.limit}</if>
+		</if>
+	</select>
+
+	<update id="updateById" parameterType="com.commer.dao.entity.ShoppingguideEty">
+		UPDATE shoppingguide SET
+		<if test="shoppingID != null">shoppingID=#{shoppingID},</if>
+		<if test="shoppingName != null">shoppingName=#{shoppingName},</if>
+		<if test="shoppingTEL != null">shoppingTEL=#{shoppingTEL},</if>
+		<if test="shoppingAge != null">shoppingAge=#{shoppingAge},</if>
+		<if test="shoppingsex != null">shoppingsex=#{shoppingsex},</if>
+		<if test="customername != null">customername=#{customername},</if>
+		<if test="shoppingintention != null">shoppingintention=#{shoppingintention},</if>
+		<if test="shoppingCustomerinfor != null">shoppingCustomerinfor=#{shoppingCustomerinfor},</if>
+		 shoppingID=#{shoppingID}
+		WHERE
+		 shoppingID=#{shoppingID}
+	</update>
+
+	<select id="selectByLimit" parameterType="com.commer.dao.entity.ShoppingguideEty" resultType="com.commer.dao.entity.ShoppingguideEty">
+		SELECT * from shoppingguide
+		WHERE 1=1 
+		<if test="shoppingID != null "> AND shoppingID=#{shoppingID}</if>
+		<if test="shoppingName != null  and shoppingName != ''"> AND shoppingName=#{shoppingName}</if>
+		<if test="shoppingTEL != null  and shoppingTEL != ''"> AND shoppingTEL=#{shoppingTEL}</if>
+		<if test="shoppingAge != null "> AND shoppingAge=#{shoppingAge}</if>
+		<if test="shoppingsex != null  and shoppingsex != ''"> AND shoppingsex=#{shoppingsex}</if>
+		<if test="customername != null  and customername != ''"> AND customername=#{customername}</if>
+		<if test="shoppingintention != null  and shoppingintention != ''"> AND shoppingintention=#{shoppingintention}</if>
+		<if test="shoppingCustomerinfor != null  and shoppingCustomerinfor != ''"> AND shoppingCustomerinfor=#{shoppingCustomerinfor}</if>
+		<if test="extLimit == null"> order by shoppingID desc</if>
+		<if test="extLimit != null">
+			<if test="extLimit.sort == null"> order by shoppingID desc</if>
+			<if test="extLimit.sort != null"> order by ${extLimit.sort} ${extLimit.dir}</if>
+			<if test="extLimit.limit != null"> limit ${extLimit.start}, ${extLimit.limit}</if>
+		</if>
+	</select>
+
+	<select id="selectLimitCount" parameterType="com.commer.dao.entity.ShoppingguideEty" resultType="java.lang.Integer">
+		SELECT count(1) from shoppingguide
+		WHERE 1=1 
+		<if test="shoppingID != null "> AND shoppingID=#{shoppingID}</if>
+		<if test="shoppingName != null  and shoppingName != ''"> AND shoppingName=#{shoppingName}</if>
+		<if test="shoppingTEL != null  and shoppingTEL != ''"> AND shoppingTEL=#{shoppingTEL}</if>
+		<if test="shoppingAge != null "> AND shoppingAge=#{shoppingAge}</if>
+		<if test="shoppingsex != null  and shoppingsex != ''"> AND shoppingsex=#{shoppingsex}</if>
+		<if test="customername != null  and customername != ''"> AND customername=#{customername}</if>
+		<if test="shoppingintention != null  and shoppingintention != ''"> AND shoppingintention=#{shoppingintention}</if>
+		<if test="shoppingCustomerinfor != null  and shoppingCustomerinfor != ''"> AND shoppingCustomerinfor=#{shoppingCustomerinfor}</if>
+	</select>
+</mapper>

@@ -1,0 +1,63 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+<div class="modal-header">
+	<div class="row">
+		<div class="col-sm-7">
+			<h4 class="modal-title">{{title}}</h4>
+		</div>
+		<div class="col-sm-5">
+			<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		</div>
+	</div>
+</div>
+<div class="modal-body" style="margin: 5px;">
+	<form class="form-horizontal" role="form" novalidate name="myForm">
+		<input type="hidden" name="userPeopleID" ng-model="editForm.userPeopleID">
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">用户名：</label>
+			<div class="col-md-9">
+					<input type="text" disabled="true"　readOnly="true"  name="userpeopleName" class="form-control" placeholder="" ng-model="editForm.userpeopleName" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">用户邮箱：</label>
+			<div class="col-md-9">
+					<input type="text" name="userpeopleMail" class="form-control" placeholder="" ng-model="editForm.userpeopleMail" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">电话：</label>
+			<div class="col-md-9">
+					<input type="text" name="userpeopleTEL" class="form-control" placeholder="" ng-model="editForm.userpeopleTEL" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">年龄：</label>
+			<div class="col-md-9">
+					<input type="text" name="userPeopleAge" class="form-control" placeholder="" ng-model="editForm.userPeopleAge" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">性别：</label>
+			<div class="col-md-9">
+					<input type="text" name="userPeoplesex" class="form-control" placeholder="" ng-model="editForm.userPeoplesex" required>
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label class="col-md-3 control-label">用户密码：</label>
+			<div class="col-md-9">
+					<input type="password" name="userPeoplePasswrod" class="form-control" placeholder="" ng-model="editForm.userPeoplePasswrod" required>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<div class="form-group">
+		<div class="col-md-offset-4 col-md-2 col-sm-offset-4 col-sm-2 col-xs-offset-4 col-xs-2">
+			<button type="submit" class="btn btn-primary" ng-click="save()" ng-disabled="myForm.$invalid">保存</button>
+		</div>
+		<div class="col-md-2 col-sm-2 col-xs-2">
+			<button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+		</div>
+	</div>
+</div>
+</div>

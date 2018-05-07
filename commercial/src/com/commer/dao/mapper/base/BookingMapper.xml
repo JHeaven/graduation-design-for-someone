@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commer.dao.mapper.base.BookingMapper">
+
+	<insert id="insert" parameterType="com.commer.dao.entity.BookingEty">
+		insert into booking(
+			bookingID,bookingName,bookingTel,bookingDate,bookingtype,bookingfloorUnitnumber,bookinginformation,bookingShoppingName)
+		values (
+			#{bookingID},#{bookingName},#{bookingTel},#{bookingDate},#{bookingtype},#{bookingfloorUnitnumber},#{bookinginformation},#{bookingShoppingName}
+		)
+	</insert>
+
+	<select id="selectById" parameterType="int" resultType="com.commer.dao.entity.BookingEty">
+		select * from booking where bookingID=#{value}
+	</select>
+
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM booking WHERE bookingID=#{value}
+	</delete>
+
+	<select id="selectByEntity" parameterType="com.commer.dao.entity.BookingEty" resultType="com.commer.dao.entity.BookingEty">
+		SELECT * from booking
+		WHERE 1=1 
+		<if test="bookingID != null "> AND bookingID=#{bookingID}</if>
+		<if test="bookingName != null  and bookingName != ''"> AND bookingName=#{bookingName}</if>
+		<if test="bookingTel != null  and bookingTel != ''"> AND bookingTel=#{bookingTel}</if>
+		<if test="bookingDate != null "> AND bookingDate=#{bookingDate}</if>
+		<if test="bookingtype != null  and bookingtype != ''"> AND bookingtype=#{bookingtype}</if>
+		<if test="bookingfloorUnitnumber != null  and bookingfloorUnitnumber != ''"> AND bookingfloorUnitnumber=#{bookingfloorUnitnumber}</if>
+		<if test="bookinginformation != null  and bookinginformation != ''"> AND bookinginformation=#{bookinginformation}</if>
+		<if test="bookingShoppingName != null  and bookingShoppingName != ''"> AND bookingShoppingName=#{bookingShoppingName}</if>
+		<if test="extLimit == null"> order by bookingID desc</if>
+		<if test="extLimit != null">
+			<if test="extLimit.sort == null"> order by bookingID desc</if>
+			<if test="extLimit.sort != null"> order by ${extLimit.sort} ${extLimit.dir}</if>
+			<if test="extLimit.limit != null"> limit ${extLimit.start}, ${extLimit.limit}</if>
+		</if>
+	</select>
+
+	<update id="updateById" parameterType="com.commer.dao.entity.BookingEty">
+		UPDATE booking SET
+		<if test="bookingID != null">bookingID=#{bookingID},</if>
+		<if test="bookingName != null">bookingName=#{bookingName},</if>
+		<if test="bookingTel != null">bookingTel=#{bookingTel},</if>
+		<if test="bookingDate != null">bookingDate=#{bookingDate},</if>
+		<if test="bookingtype != null">bookingtype=#{bookingtype},</if>
+		<if test="bookingfloorUnitnumber != null">bookingfloorUnitnumber=#{bookingfloorUnitnumber},</if>
+		<if test="bookinginformation != null">bookinginformation=#{bookinginformation},</if>
+		<if test="bookingShoppingName != null">bookingShoppingName=#{bookingShoppingName},</if>
+		 bookingID=#{bookingID}
+		WHERE
+		 bookingID=#{bookingID}
+	</update>
+
+	<select id="selectByLimit" parameterType="com.commer.dao.entity.BookingEty" resultType="com.commer.dao.entity.BookingEty">
+		SELECT * from booking
+		WHERE 1=1 
+		<if test="bookingID != null "> AND bookingID=#{bookingID}</if>
+		<if test="bookingName != null  and bookingName != ''"> AND bookingName=#{bookingName}</if>
+		<if test="bookingTel != null  and bookingTel != ''"> AND bookingTel=#{bookingTel}</if>
+		<if test="bookingDate != null "> AND bookingDate=#{bookingDate}</if>
+		<if test="bookingtype != null  and bookingtype != ''"> AND bookingtype=#{bookingtype}</if>
+		<if test="bookingfloorUnitnumber != null  and bookingfloorUnitnumber != ''"> AND bookingfloorUnitnumber=#{bookingfloorUnitnumber}</if>
+		<if test="bookinginformation != null  and bookinginformation != ''"> AND bookinginformation=#{bookinginformation}</if>
+		<if test="bookingShoppingName != null  and bookingShoppingName != ''"> AND bookingShoppingName=#{bookingShoppingName}</if>
+		<if test="extLimit == null"> order by bookingID desc</if>
+		<if test="extLimit != null">
+			<if test="extLimit.sort == null"> order by bookingID desc</if>
+			<if test="extLimit.sort != null"> order by ${extLimit.sort} ${extLimit.dir}</if>
+			<if test="extLimit.limit != null"> limit ${extLimit.start}, ${extLimit.limit}</if>
+		</if>
+	</select>
+
+	<select id="selectLimitCount" parameterType="com.commer.dao.entity.BookingEty" resultType="java.lang.Integer">
+		SELECT count(1) from booking
+		WHERE 1=1 
+		<if test="bookingID != null "> AND bookingID=#{bookingID}</if>
+		<if test="bookingName != null  and bookingName != ''"> AND bookingName=#{bookingName}</if>
+		<if test="bookingTel != null  and bookingTel != ''"> AND bookingTel=#{bookingTel}</if>
+		<if test="bookingDate != null "> AND bookingDate=#{bookingDate}</if>
+		<if test="bookingtype != null  and bookingtype != ''"> AND bookingtype=#{bookingtype}</if>
+		<if test="bookingfloorUnitnumber != null  and bookingfloorUnitnumber != ''"> AND bookingfloorUnitnumber=#{bookingfloorUnitnumber}</if>
+		<if test="bookinginformation != null  and bookinginformation != ''"> AND bookinginformation=#{bookinginformation}</if>
+		<if test="bookingShoppingName != null  and bookingShoppingName != ''"> AND bookingShoppingName=#{bookingShoppingName}</if>
+	</select>
+</mapper>

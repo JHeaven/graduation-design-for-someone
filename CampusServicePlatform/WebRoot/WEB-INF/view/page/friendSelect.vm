@@ -1,0 +1,71 @@
+<div class="row">
+	<div class="col-md-9 col-sm-7">
+		<h2>我的好友</h2>
+	</div>
+	
+	<div class="col-md-3 col-sm-5">
+		
+		<form method="get" role="form" class="search-form-full">
+		
+			<div class="form-group">
+				<input type="text" class="form-control" name="s" id="search-input" placeholder="搜索...">
+				<i class="entypo-search"></i>
+			</div>
+			
+		</form>
+		
+	</div>
+</div>
+	
+<!-- Member Entries -->
+#foreach($friend in $allfriend)
+<!-- Single Member -->
+<div class="member-entry">
+		
+	<a href="#" class="member-img">
+		<img src="${friend.user.image}" class="img-rounded">
+		<i class="entypo-forward"></i>
+	</a>
+	
+	<div class="member-details">
+		<h4>
+			<a href="#/userOtherProfile/${friend.user.id}">${friend.user.nickName}</a>
+		</h4>
+		
+		<!-- Details with Icons -->
+		<div class="row info-list">
+			
+			<div class="col-sm-4">
+				<i class="entypo-location"></i>
+				积分：${friend.user.score}
+			</div>
+			
+			<div class="col-sm-4">
+				<i class="entypo-mail"></i>
+				注册：${friend.user.registerDay}
+			</div>
+			
+			<div class="col-sm-4">
+				<i class="entypo-user"></i>
+				等级：${friend.user.userLevel.name}
+			</div>
+			
+			<div class="col-sm-4">
+				<i class="entypo-linkedin"></i>
+				上次登陆：${friend.user.lastloginDay}
+			</div>
+		</div>
+	</div>
+	
+</div>
+#end
+
+<!--foot-->
+<div class="row">
+	<div class="col-md-12">
+		<ul class="pager">
+			<li><a href="#"><i class="entypo-left-thin"></i> 前一页</a></li>
+			<li><a href="#">下一页 <i class="entypo-right-thin"></i></a></li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maheng.dao.CheckMapper" >
+  <resultMap id="BaseResultMap" type="com.maheng.model.Check" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="process" property="process" jdbcType="INTEGER" />
+    <result column="goutong_sc" property="goutongSc" jdbcType="INTEGER" />
+    <result column="zhixing_sc" property="zhixingSc" jdbcType="INTEGER" />
+    <result column="xinli_sc" property="xinliSc" jdbcType="INTEGER" />
+    <result column="shijian_sc" property="shijianSc" jdbcType="INTEGER" />
+    <result column="zhiye_sc" property="zhiyeSc" jdbcType="INTEGER" />
+    <result column="pinzhi_sc" property="pinzhiSc" jdbcType="INTEGER" />
+    <result column="jishu_sc" property="jishuSc" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="telphone" property="telphone" jdbcType="VARCHAR" />
+    <result column="inpost_type" property="inpostType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, staff_id, start_date, end_date, process, goutong_sc, zhixing_sc, xinli_sc, shijian_sc, 
+    zhiye_sc, pinzhi_sc, jishu_sc, remark
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+	mycheck.id,
+	mycheck.staff_id,
+	mycheck.start_date,
+	mycheck.end_date,
+	mycheck.process,
+	mycheck.goutong_sc,
+	mycheck.zhixing_sc,
+	mycheck.xinli_sc,
+	mycheck.shijian_sc,
+	mycheck.zhiye_sc,
+	mycheck.pinzhi_sc,
+	mycheck.jishu_sc,
+	mycheck.remark,
+	staff.`name`,
+	staff.email,
+	staff.telphone,
+	staff.inpost_type
+	FROM
+	mycheck
+	INNER JOIN staff ON mycheck.id = staff.id 
+    where mycheck.staff_id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- list -->
+  <select id="selectAllofIng" resultMap="BaseResultMap" >
+    SELECT
+	mycheck.id,
+	mycheck.staff_id,
+	mycheck.start_date,
+	mycheck.end_date,
+	mycheck.process,
+	mycheck.goutong_sc,
+	mycheck.zhixing_sc,
+	mycheck.xinli_sc,
+	mycheck.shijian_sc,
+	mycheck.zhiye_sc,
+	mycheck.pinzhi_sc,
+	mycheck.jishu_sc,
+	mycheck.remark,
+	staff.`name`,
+	staff.email,
+	staff.telphone,
+	staff.inpost_type
+	FROM
+	mycheck
+	INNER JOIN staff ON mycheck.id = staff.id
+
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mycheck
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.maheng.model.Check" >
+    insert into mycheck (id, staff_id, start_date, 
+      end_date, process, goutong_sc, 
+      zhixing_sc, xinli_sc, shijian_sc, 
+      zhiye_sc, pinzhi_sc, jishu_sc, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{process,jdbcType=INTEGER}, #{goutongSc,jdbcType=INTEGER}, 
+      #{zhixingSc,jdbcType=INTEGER}, #{xinliSc,jdbcType=INTEGER}, #{shijianSc,jdbcType=INTEGER}, 
+      #{zhiyeSc,jdbcType=INTEGER}, #{pinzhiSc,jdbcType=INTEGER}, #{jishuSc,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maheng.model.Check" >
+    insert into mycheck
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="process != null" >
+        process,
+      </if>
+      <if test="goutongSc != null" >
+        goutong_sc,
+      </if>
+      <if test="zhixingSc != null" >
+        zhixing_sc,
+      </if>
+      <if test="xinliSc != null" >
+        xinli_sc,
+      </if>
+      <if test="shijianSc != null" >
+        shijian_sc,
+      </if>
+      <if test="zhiyeSc != null" >
+        zhiye_sc,
+      </if>
+      <if test="pinzhiSc != null" >
+        pinzhi_sc,
+      </if>
+      <if test="jishuSc != null" >
+        jishu_sc,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="process != null" >
+        #{process,jdbcType=INTEGER},
+      </if>
+      <if test="goutongSc != null" >
+        #{goutongSc,jdbcType=INTEGER},
+      </if>
+      <if test="zhixingSc != null" >
+        #{zhixingSc,jdbcType=INTEGER},
+      </if>
+      <if test="xinliSc != null" >
+        #{xinliSc,jdbcType=INTEGER},
+      </if>
+      <if test="shijianSc != null" >
+        #{shijianSc,jdbcType=INTEGER},
+      </if>
+      <if test="zhiyeSc != null" >
+        #{zhiyeSc,jdbcType=INTEGER},
+      </if>
+      <if test="pinzhiSc != null" >
+        #{pinzhiSc,jdbcType=INTEGER},
+      </if>
+      <if test="jishuSc != null" >
+        #{jishuSc,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maheng.model.Check" >
+    update mycheck
+    <set >
+      <if test="staffId != null" >
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="process != null" >
+        process = #{process,jdbcType=INTEGER},
+      </if>
+      <if test="goutongSc != null" >
+        goutong_sc = #{goutongSc,jdbcType=INTEGER},
+      </if>
+      <if test="zhixingSc != null" >
+        zhixing_sc = #{zhixingSc,jdbcType=INTEGER},
+      </if>
+      <if test="xinliSc != null" >
+        xinli_sc = #{xinliSc,jdbcType=INTEGER},
+      </if>
+      <if test="shijianSc != null" >
+        shijian_sc = #{shijianSc,jdbcType=INTEGER},
+      </if>
+      <if test="zhiyeSc != null" >
+        zhiye_sc = #{zhiyeSc,jdbcType=INTEGER},
+      </if>
+      <if test="pinzhiSc != null" >
+        pinzhi_sc = #{pinzhiSc,jdbcType=INTEGER},
+      </if>
+      <if test="jishuSc != null" >
+        jishu_sc = #{jishuSc,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maheng.model.Check" >
+    update mycheck
+    set staff_id = #{staffId,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      process = #{process,jdbcType=INTEGER},
+      goutong_sc = #{goutongSc,jdbcType=INTEGER},
+      zhixing_sc = #{zhixingSc,jdbcType=INTEGER},
+      xinli_sc = #{xinliSc,jdbcType=INTEGER},
+      shijian_sc = #{shijianSc,jdbcType=INTEGER},
+      zhiye_sc = #{zhiyeSc,jdbcType=INTEGER},
+      pinzhi_sc = #{pinzhiSc,jdbcType=INTEGER},
+      jishu_sc = #{jishuSc,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

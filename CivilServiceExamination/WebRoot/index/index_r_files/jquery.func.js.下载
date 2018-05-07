@@ -1,0 +1,123 @@
+/**
+ * Placeholder 
+ */
+(function(e){"use strict";e.extend({placeholder:{settings:{focusClass:"placeholderFocus",activeClass:"placeholder",overrideSupport:false,preventRefreshIssues:true}}});e.support.placeholder="placeholder"in document.createElement("input");e.fn.plVal=e.fn.val;e.fn.val=function(t){var n;if(typeof t==="undefined"){n=e(this[0]);if(n.hasClass(e.placeholder.settings.activeClass)&&n.plVal()===n.attr("placeholder")){return""}return e.fn.plVal.call(this)}else{n=e(this[0]);var r=n.plVal();var i=e(this).plVal(t);if(n.hasClass(e.placeholder.settings.activeClass)&&r===n.attr("placeholder")){n.removeClass(e.placeholder.settings.activeClass);return i}return e.fn.plVal.call(this,t)}};e(window).bind("beforeunload.placeholder",function(){var t=e("input."+e.placeholder.settings.activeClass);if(t.length>0){t.val("").attr("autocomplete","off")}});e.fn.placeholder=function(t){t=e.extend({},e.placeholder.settings,t);if(!t.overrideSupport&&e.support.placeholder){return this}return this.each(function(){var n=e(this);if(!n.is("[placeholder]")){return}if(n.is(":password")){return}if(t.preventRefreshIssues){n.attr("autocomplete","off")}n.bind("focus.placeholder",function(){var n=e(this);if(this.value===n.attr("placeholder")&&n.hasClass(t.activeClass)){n.val("").removeClass(t.activeClass).addClass(t.focusClass)}});n.bind("blur.placeholder",function(){var n=e(this);n.removeClass(t.focusClass);if(this.value===""){n.val(n.attr("placeholder")).addClass(t.activeClass)}});n.triggerHandler("blur");n.parents("form").submit(function(){n.triggerHandler("focus.placeholder")})})}})(jQuery);
+/**
+ * 设置浏览器首页
+ */
+function setHomepage(e){e=e||location.href;if(document.all){document.body.style.behavior="url(#default#homepage)";document.body.setHomePage(e)}else if(window.sidebar){if(window.netscape){try{netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect")}catch(t){alert("该操作被浏览器拒绝，如果想启用该功能，请在地址栏内输入 about:config,然后将项 signed.applets.codebase_principal_support 值该为true")}}var n=Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);n.setCharPref("browser.startup.homepage",e)}}
+/**
+ * 添加收藏
+ */
+function addToFavorite(){if(document.all){window.external.addFavorite(location.href,"国家公务员考试网")}else if(window.sidebar){window.sidebar.addPanel("国家公务员考试网",location.href,"")}}
+/**
+ * 添加收藏
+ * @param {String} link
+ * @param {String} title 
+ */
+function addToFav(e,t){if(navigator.appName.indexOf("Internet Explorer")==-1){alert("非IE浏览器请使用Ctrl+D来收藏本网页!");return false}if(document.all){window.external.addFavorite(e,t)}else if(window.sidebar){window.sidebar.addPanel(t,e,"")}}
+/**
+ * 切换tab
+ * @param {Object} obj
+ */
+function SwitchMenu(e){var t=document.getElementById(e);var n=document.getElementById("masterdiv").getElementsByTagName("ul");if(t.style.display!="block"){for(var r=0;r<n.length;r++){n[r].style.display="none"}t.style.display="block"}else{t.style.display="none"}}
+function showOrNot(e){$(".year .pp_list").not("#"+e).hide();if(document.getElementById(e).style.display=="none"){document.getElementById(e).style.display="block"}else{document.getElementById(e).style.display="none"}}
+/**
+ * 设置模型 
+ * @param {Object} value
+ * @param {Object} id
+ * @param {Object} siteid
+ * @param {Object} q
+ */
+function setmodel(e,t,n,r){$("#typeid").val(e);$("#search a").removeClass();t.addClass("on");if(r!=null&&r!=""){window.location="?m=search&c=index&a=init&siteid="+n+"&typeid="+e+"&q="+r}}
+/**
+ * 切换tab 
+ */
+var tab1_cur = "k1",tab2_cur = "k1",tab3_cur = "k1",tab4_cur = "k1",tab5_cur = "k1",tab6_cur = "k1",tab7_cur = "k1",tab8_cur = "k1",tab9_cur = "k1",tab10_cur = "k1",tab11_cur = "k1",tab12_cur = "k1";
+function change_tab(tab,item){var curItem,curK,curV;eval("curItem = "+tab+"_cur;");if(curItem!=""&&curItem==item)return false;if(curItem!=""){curK=tab+"_"+curItem;curV=tab+"_"+curItem+"_v";document.getElementById(curK).className="tab";document.getElementById(curV).style.display="none"}curItem=item;curK=tab+"_"+curItem;curV=tab+"_"+curItem+"_v";document.getElementById(curK).className="tab_on";document.getElementById(curV).style.display="block";eval(tab+"_cur = item")}
+/**
+ * 内容页字体大小设置
+ * @param  {Integer} size 字体大小，像素
+ * @return {void}
+ */
+function resetSize(e){var t=(10+e*2).toString();$(".t_"+t).addClass("t_now").siblings().removeClass("t_now");$("#article_content").css("font-size",t+"px")}
+/**
+ * 设置搜索下拉框的值 
+ * @param {String} name
+ * @param {String} v
+ */
+function setDropdown(name, v){$('select[name='+name+']').val(v);}
+// scroll to top
+function scroll2Top(){var s2t=$('#gotopbtn');$(window).scroll(function(){if($(this).scrollTop()>100){s2t.fadeIn()}else{s2t.fadeOut()}});s2t.find('a').click(function(){$('body,html').animate({scrollTop:0},'easeInSine');return false})}
+/**
+ * 检查输入值是否为空或者是否为placeholder 
+ * @param {Object} sel
+ */
+function checkInputPlaceholder(e){var t=$(e);t.parent("form").submit(function(){if(t.val()==""||t.val()==t.attr("placeholder")){alert("请输入查询关键词");return false}})}
+/**
+ * 检测ask表单
+ */
+function checkform(){if($("#title").val()==""){alert("标题不能为空!");$("#title").focus();return false}if($("#catid").val()==0){alert("请选择分类!");$("#catid").focus();return false}return true}
+function get_related_articles(e){if(!e)return false;$.ajax({url:window.appPath+'index.php?m=content&c=index&a=ajax_search&pc_hash='+window.hash,cache:true,beforeSend:function(e){$("#related_articles").fadeOut()},data:{title:e},success:function(e,t,n){if(e){$("#raul").html(e);$("#related_articles").fadeIn()}}})}
+function get_related_resolved_questions(e){if(e){$.ajax({url:window.appPath+'index.php?m=ask&c=load&a=ajax_search&pc_hash='+window.hash,cache:true,beforeSend:function(e){$("#relate_question").hide();$("#loading23").show()},data:{title:e},success:function(e,t,n){$("#relate_question").html(e);$("#relate_question").slideDown("slow","linear");$('#quest_tip').show()},complete:function(e,t){$("#loading23").hide()}})}}
+function category_load(e){$.get(window.appPath+'index.php?m=ask&c=load&a=f_category&pc_hash='+window.hash,{id:e},function(e){$("#load_catid").append(e)})}
+function category_reload(){$("#load_catid").html("<span>*分&nbsp;&nbsp;&nbsp;&nbsp;类：</span>");$("#catid").val("");category_load(0)}
+function searchSubmit(){var e=$("#asktitle").val(),t=$("#catid").val(),n=$("#ask_keywords").val();if(!t&&!e&&!n){$("#asktitle").focus();alert("请填写您要搜索的问题.");return false}location.href=window.appPath+"index.php?m=ask&c=load&a=search&keywords="+e+"&catid="+t+"&ask_keywords="+n}
+function ask_keywords_load(e){$.get(window.appPath+"index.php?m=ask&c=load&a=exam_keywords",{type:e},function(e){$("#exam_keywords").append(e)})}
+function nofilter(){$("#ask_keywords").val("");clearclasse();$("#nofilter").addClass("current")}
+function clearclasse(){$("#ask_keywords_text a").each(function(){$(this).removeClass()})}
+function selectkeywords(e){$("#ask_keywords").val($("#keywords_"+e).html());clearclasse();$("#keywords_"+e).addClass("current");$("#nofilter").removeClass();window.location.href=window.appPath+"index.php?m=ask&c=load&a=search&keywords="+$("#keywords_"+e).text()}
+function ask_hot_load(e){$.get(window.appPath+"index.php?m=ask&c=load&a=get_keywords",{type:e},function(e){$("#ask_keywords_text").append(e);});}
+function hide_code(){if($("#yzmText").data("hide")==0){$("#yzm").hide();}}
+function on_submit(){$("#loading").show();return true;}
+function redirect(e){if(e.lastIndexOf("/.")>0){e=e.replace(/\/(\.[a-zA-Z]+)([0-9]+)$/g,"/$2$1");}else if(e.match(/\/([a-z]+).html([0-9]+)$/)){e=e.replace(/\/([a-z]+).html([0-9]+)$/,"/$1-$2.html");}else if(e.match(/-.html([0-9]+)$/)){e=e.replace(/-.html([0-9]+)$/,"-$1.html");}if(e.indexOf("://")==-1&&e.substr(0,1)!="/"&&e.substr(0,1)!="?")e=$("base").attr("href")+e;location.href=e;}
+function ask_listk_load(e){$.get(window.appPath+"index.php?m=ask&c=load&a=ask_exam_keywords",{type:e},function(e){$("#exam_keywords").append(e);});}
+function get_param(name){return decodeURIComponent((new RegExp('[?|&]'+name+'='+'([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g,'%20'))||null;}
+var isMobile={confirm:function(){return window.location.search!='?mobile'},android:function(){return navigator.userAgent.match(/Android/i)&&this.confirm()?true:false},blackberry:function(){return navigator.userAgent.match(/BlackBerry/i)&&this.confirm()?true:false},ios:function(){return navigator.userAgent.match(/iPhone|iPad|iPod/i)&&this.confirm()?true:false},wp:function(){return navigator.userAgent.match(/IEMobile/i)&&this.confirm()?true:false},any:function(){return(this.android()||this.blackberry()||this.ios()||this.wp())}};
+/**
+ * settings 
+ */
+if(!window.console || !console.firebug){var names=["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml","group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];window.console={};for (var i=0;i<names.length;++i) window.console[names[i]] = function(){};}
+
+$(document).ready(function(){
+	//scroll top
+	scroll2Top();
+	//表格hover
+    $("tr").hover(function(){$(this).addClass("hilite");},function(){$(this).removeClass("hilite");});
+    //topnav hover
+    $("#jq_topmenu li").hover(function(){if($(this).find("div.jq_hidebox").length>0){$(this).addClass("hover").find("div.jq_hidebox").show();}},function(){$(this).removeClass("hover").find("div.jq_hidebox").hide();});
+    //dropdick
+    //$('select[rel=dk]').dropkick();
+    //share job
+    $('#job_share').bind('click',function(){$('#bdshare').find('img').eq(0).trigger('click');});
+    //placeholder
+    $(":input[placeholder]").placeholder();
+    //check input value with placeholder
+	checkInputPlaceholder(':input[name="word"]');
+	//检测字符
+	$("#message").keyup(function(){var maxlimit=100;data=document.getElementById("message").value.length;if(data>maxlimit){alert("问题补充不能超过100字");document.getElementById("message").value=document.getElementById("message").value.substring(0,maxlimit);return false;}else{var e=maxlimit-data;$("#message_len").html(e);}return true;});
+	$("#message_content").keyup(function(){var maxlimit=10000;data=document.getElementById("message_content").value.length;if(data>maxlimit){document.getElementById("message_content").value=document.getElementById("message_content").value.substring(0,maxlimit);}else{var e=maxlimit-data;$("#remLen").val(e);}});
+	$("#title").blur(function(){if(this.value.length<5)return false;get_related_resolved_questions($(this).val());get_related_articles($(this).val());});
+	$("#root_category").change(function(){var e=parseInt($(this).val());if(e>0){var t=[88,89,2241,2233,2251];if(jQuery.inArray(e,t)!=-1)location.href=window.appPath+"ask/list-"+e+"-all-1.html";else{category_load(e);$("#load_catid #root_category").nextAll().remove();}}else{$("#root_category").nextAll().remove();}});
+	$("#sub_category").change(function(){location.href=window.appPath+"ask/list-"+$(this).val()+"-all-1.html";});
+	$('#sms_submit').click(function(){var p=$('#sscp').val();if(/^0?1((3|8)[0-9]|5[0-35-9]|4[57])\d{8}$/.test(p)){window.location.href='http://www.gwyscs.com/tuiguang/index_4.html?cp='+p+'&hmsr=gj&hmmd=duanxin&hmpl=&hmkw=&hmci=#smsform';}else{window.location.href="http://www.gwyscs.com/tuiguang/index_4.html?hmsr=gj&hmmd=duanxin";return false;}});
+	var u=get_param('u');if(/^[0-9]+$/.test(u)){$.post('index.php?m=content&c=index&a=set_cookie',{uid:u});};
+	//角标
+	/*
+	$.get(window.appPath+'api.php?op=jiaobiao&job=check',{},function(data){console.log(data);if(data.isSet) $('#jiaobiao').hide();},'json');
+	$('#jiaocai').find('a').click(function(){$.ajax(window.appPath+'api.php?op=jiaobiao&job=set',{
+		async:false,
+		success:function(data){
+			$('#jiaobiao').hide();
+			window.open('http://www.gwyscs.com/zixun.php','_blank');
+		}
+	});});*/
+	$('.tkz_jump').click(function(){var p=window.location.pathname,a=p.split('.');u=a[0]+'_2'+'.'+a[1];window.location.href=u;});
+});
+
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();

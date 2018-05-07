@@ -1,0 +1,67 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+
+<form class="form-horizontal" role="form">
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">客户姓名</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.bookingName" placeholder="客户姓名">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">客户电话</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.bookingTel" placeholder="客户电话">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">预约看房时间</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<p class="input-group input-group-sm">
+					<input type="text" class="form-control btn-sm" placeholder="日期" datepicker-localdate uib-datepicker-popup ng-model="searchForm.bookingDate" is-open="bookingDateOpened" datepicker-options="{formatYear: 'yy',startingDay: 1}" ng-required="false" current-text="今天"  clear-text="清空" close-text="关闭" />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default btn-sm" ng-click="bookingDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">预约类型</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.bookingtype" placeholder="预约类型">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">预约楼号单元</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.bookingfloorUnitnumber" placeholder="预约楼号单元">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">预约其他信息</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.bookinginformation" placeholder="预约其他信息">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">导购员名</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.bookingShoppingName" placeholder="导购员名">
+	    </div>
+		<div class="col-md-8">
+			<div class="form-group form-group-sm">
+				<div class="pull-right" style="padding-right:20px;">
+					<button type="submit" class="btn btn-danger btn-sm" ng-click="search();">查询</button>
+					<button type="button" class="btn btn-default btn-sm" ng-click="clearSearch();">清空</button>
+					<button type="button" class="btn btn-success btn-sm" style="margin-left:30px;" ng-click="edit()">新建</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<ac-table>
+    <ac-table-column header="客户姓名" field="bookingName" sortable="true"></ac-table-column>
+    <ac-table-column header="客户电话" field="bookingTel" sortable="true"></ac-table-column>
+    <ac-table-column header="预约看房时间" field="bookingDate" sortable="true"></ac-table-column>
+    <ac-table-column header="预约类型" field="bookingtype" sortable="true"></ac-table-column>
+    <ac-table-column header="预约楼号单元" field="bookingfloorUnitnumber" sortable="true"></ac-table-column>
+    <ac-table-column header="预约其他信息" field="bookinginformation" sortable="true"></ac-table-column>
+    <ac-table-column header="导购员名" field="bookingShoppingName" sortable="true"></ac-table-column>
+    <ac-table-column-op content="<i class='fa fa-pencil'></i>" op="edit" tooltip="编辑"></ac-table-column-op>
+    <ac-table-column-op content="<i class='fa fa-trash'></i>" op="del" tooltip="删除"></ac-table-column-op>
+	<ac-table-grid items="dataList" selectable="false" multiple="false" id-field="id" selected-items="selectedItems" paging="pagination" on-sort-change="search()"></ac-table-grid>
+</ac-table>
+<pagination total-items="dataList.total" paging="pagination" ng-model="pagination.currentPage" on-page-change="pageChanged()"></pagination>
+</div>

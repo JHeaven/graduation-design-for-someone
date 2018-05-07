@@ -1,0 +1,36 @@
+
+<div class="row">
+	<div class="col-sm-12">
+		<a href="#/activityInsert" class="btn btn-green btn-lg">发布活动</a>
+    </div>
+</div>
+	<hr/>
+
+#foreach($act in $allAct)
+<a href="http://182.254.222.206/CampusServicePlatform/weichartwall/getFirstSite">
+<div class="row">
+	<div class="col-sm-12">
+		<div class="tile-progress tile-${act.colorActivity}">
+			<div class="tile-header">
+				<h3>${act.title}</h3>
+				<p>${act.content}</p>
+				<h3><i class="entypo-clock"></i>开始时间：$!date.format('yyyy-MM-dd HH:mm ',$act.beginTime)<i class="entypo-clock"></i>结束时间:$!date.format('yyyy-MM-dd HH:mm ',$act.endTime)</h3>
+				
+			</div>
+			
+			<div class="tile-progressbar">
+				<span data-fill="65.5%" style="width: 35.5%;"></span>
+			</div>
+			
+			<div class="tile-footer">
+				<h4>
+					<span class="pct-counter">${act.user.nickName}</span><span class="label label-info">${act.user.userLevel.name}</span>
+				</h4>
+				
+				<span>【点击数：${act.clickCount}】发布于：$!date.format('yyyy-MM-dd HH:mm:ss ',$act.outTime)</span>
+			</div>
+		</div>
+    </div>
+</div>
+</a>
+#end

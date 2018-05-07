@@ -1,0 +1,267 @@
+<div class="profile-env">
+			
+			<header class="row">
+				
+				<div class="col-sm-2">
+					
+					<a href="#/cropimage" class="profile-picture">
+						<img src="${user.image}" class="img-responsive img-circle">
+					</a>
+					
+				</div>
+				
+				<div class="col-sm-7">
+					
+					<ul class="profile-info-sections">
+						<li>
+							<div class="profile-name">
+								<strong>
+									<a href="#">${user.nickName}</a>
+									<a href="#" class="user-status is-online tooltip-primary" data-toggle="tooltip" data-placement="top" data-original-title="Online"></a>
+									<!-- User statuses available classes "is-online", "is-offline", "is-idle", "is-busy" -->						</strong>
+								<span><a href="#">${user.email}</a></span>
+							</div>
+						</li>
+						
+						<li>
+							<div class="profile-stat">
+								<h3>${user.score}</h3>
+								<span><a href="#">积分</a></span>
+							</div>
+						</li>
+						
+						<li>
+							<div class="profile-stat">
+								<h3>${user.userLevel.name}</h3>
+								<span><a href="#">等级</a></span>
+							</div>
+						</li>
+					</ul>
+					
+				</div>
+				
+				<div class="col-sm-3">
+					
+					<div class="profile-buttons">
+						
+						<a href="#/friendSelectofMy" class="btn btn-default">
+							<i class="entypo-user-add"></i>
+							我的好友
+						</a>
+					</div>
+				</div>
+				
+			</header>
+			
+			<section class="profile-info-tabs">
+				
+				<div class="row">
+					
+					<div class="col-sm-offset-2 col-sm-10">
+						
+						<ul class="user-details">
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									性别：#if($user.gender == 0)
+											男
+										 #else
+											女
+										 #end
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									登录名：${user.loginName}
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									生日：$!date.format('yyyy-MM-dd',$user.birthday)
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									注册日期：$!date.format('yyyy-MM-dd HH:mm:ss ',$user.registerDay)
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									最后登陆：$!date.format('yyyy-MM-dd HH:mm:ss ',$user.lastloginDay)
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									手机：${user.mobilePhone}
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									QQ：${user.qq}
+								</a>
+							</li>
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									角色：#if($user.role == 1)
+											学生
+										 #else
+											老师
+										 #end
+								</a>
+							</li>
+							
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									学号：${user.stuNumber}
+								</a>
+							</li>
+							
+							
+							<li>
+								<a href="#">
+									<i class="entypo-location"></i>
+									自我介绍：${user.introduction}
+								</a>
+							</li>
+							
+							
+						</ul>
+						
+						
+						<!-- tabs for the profile links -->
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#profile-info">资料卡
+							</a></li>
+							<li><a href="#/userProfileEdit">修改</a></li>
+						</ul>
+						
+					</div>
+					
+				</div>
+				
+			</section>
+			
+			
+			<section class="profile-feed">
+				
+				
+				
+				<!-- profile stories -->
+				<div class="profile-stories">
+					#foreach($meet in $allMeetMyFriend)
+						<div class="alert alert-danger">
+							<strong><a href="#/userOtherProfile/${meet.user.id}">【${meet.user.nickName}】</a>想加你为好友！!</strong> <button onclick="accept(${meet.id},${meet.user.id});" class="btn btn-success">同意</button>  <button onclick="fuckyou(${meet.id},${meet.user.id});" class="btn btn-red">拒绝</button>
+						</div>
+					#end
+					
+					<script>
+					var accept = function(meetId,userId){
+						$.ajax({
+            				cache: true,
+                            type: "POST",
+                            url: "/CampusServicePlatform/friend/meetFriendAccept/"+meetId+"/"+userId,
+                            async: false,
+                            error: function(request) {
+                                alert('出错啦:'+request);
+                            },
+                            success: function(data) {
+								alert(data);
+    							window.location.go(-1);
+                            }
+        				});
+					}
+					
+					var fuckyou = function(meetId,userId){
+						$.ajax({
+            				cache: true,
+                            type: "POST",
+                            url: "/CampusServicePlatform/friend/meetFriendfuckyou/"+meetId+"/"+userId,
+                            async: false,
+                            error: function(request) {
+                                alert('出错啦:'+request);
+                            },
+                            success: function(data) {
+								alert(data);
+    							window.location.go(-1);
+                            }
+        				});
+					}
+                    </script>
+					
+					#foreach($message in $messages)
+    					<article class="story">
+    						
+    						<aside class="user-thumb">
+    							<a href="#/userOtherProfile/${message.user.id}">
+    								<img src="${message.user.image}" alt="" class="img-circle" width="50">
+    							</a>
+    						</aside>
+    						
+    						<div class="story-content">
+    							
+    							<!-- story header -->
+    							<header>
+    								
+    								<div class="publisher">
+    									<a href="#/userOtherProfile/${message.user.id}">${message.user.nickName}</a> &nbsp; 发送于 &nbsp; $!date.format('yyyy-MM-dd HH:mm:ss ',$message.outTime)
+    								</div>
+    								
+    								<div class="story-type">
+    									<i class="entypo-feather"></i>
+    								</div>
+    								
+    							</header>
+    							
+    							<div class="story-main-content">
+    								<p>${message.content}</p>
+    							</div>
+    							
+    							<!-- story like and comment link -->
+    							<footer>
+    								<a href="#" class="liked">
+    									<i class="entypo-heart"></i>
+    									#if($message.readTime)
+    										<span>朕已阅</span>
+    									#else
+    										<span>朕未阅</span>
+    									#end
+    								</a>
+    							</footer>
+    							
+    							<!-- separator -->
+    							<hr>
+    							
+    						</div>
+    						
+    					</article>
+					#end
+					
+					
+					
+					<div class="text-center">
+						<a href="#" class="btn btn-default btn-icon icon-left">
+							<i class="entypo-hourglass"></i>
+							更多 …
+						</a>
+					</div>
+					
+				</div>
+				
+			</section>
+		</div>

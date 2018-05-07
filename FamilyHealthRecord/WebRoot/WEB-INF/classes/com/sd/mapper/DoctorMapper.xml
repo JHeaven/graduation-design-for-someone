@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sd.dao.DoctorMapper" >
+  <resultMap id="BaseResultMap" type="com.sd.model.Doctor" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="NVARCHAR" />
+    <result column="sex" property="sex" jdbcType="NVARCHAR" />
+    <result column="mid" property="mid" jdbcType="NVARCHAR" />
+    <result column="zhiye_id" property="zhiyeId" jdbcType="NVARCHAR" />
+    <result column="phone" property="phone" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, sex, mid, zhiye_id, phone
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from doctor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from doctor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sd.model.Doctor" >
+    insert into doctor (id, name, sex, 
+      mid, zhiye_id, phone
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=NVARCHAR}, #{sex,jdbcType=NVARCHAR}, 
+      #{mid,jdbcType=NVARCHAR}, #{zhiyeId,jdbcType=NVARCHAR}, #{phone,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sd.model.Doctor" >
+    insert into doctor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="zhiyeId != null" >
+        zhiye_id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=NVARCHAR},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=NVARCHAR},
+      </if>
+      <if test="zhiyeId != null" >
+        #{zhiyeId,jdbcType=NVARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sd.model.Doctor" >
+    update doctor
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=NVARCHAR},
+      </if>
+      <if test="mid != null" >
+        mid = #{mid,jdbcType=NVARCHAR},
+      </if>
+      <if test="zhiyeId != null" >
+        zhiye_id = #{zhiyeId,jdbcType=NVARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sd.model.Doctor" >
+    update doctor
+    set name = #{name,jdbcType=NVARCHAR},
+      sex = #{sex,jdbcType=NVARCHAR},
+      mid = #{mid,jdbcType=NVARCHAR},
+      zhiye_id = #{zhiyeId,jdbcType=NVARCHAR},
+      phone = #{phone,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

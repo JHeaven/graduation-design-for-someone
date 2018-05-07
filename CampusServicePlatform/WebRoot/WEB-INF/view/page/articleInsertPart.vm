@@ -1,0 +1,32 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<div class="panel-title">
+			图片、文件等选取
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-6">
+				<button type="button" class="btn btn-blue" style="width:100%;" onclick="refresh($!{folder.id});">刷新</button>
+            </div>
+			<div class="col-sm-6">
+				<button type="button" class="btn btn-red" style="width:100%;" onclick="jQuery('#modalFile-$!{folder.id}').modal('show');">上传</button>
+            </div>
+        </div>
+		<br>
+		<div class="row">
+			<div class="col-sm-12">
+			<p>$!{firstTime}</p>
+			<p>
+			#foreach($file in $fileList)
+				<button type="button" style="width:100%" class="btn btn-default btn-icon icon-left" onclick="javascript:prompt('请手动复制路径，可在本网站中随意触发资源','/CampusServicePlatform/file/downloadFile/${file.id}');">
+					$file.sharefileName
+					<i class="${file.color}"></i>
+				</button>
+				<br><br>
+			#end
+			</p>
+			</div>
+		</div>
+    </div>
+</div>

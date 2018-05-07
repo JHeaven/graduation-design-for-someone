@@ -1,0 +1,62 @@
+<div cg-busy="{promise:promise,templateUrl:'',message:'正在加载...',backdrop:true,delay:0,minDuration:0}">
+
+<form class="form-horizontal" role="form">
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">导购员名称</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.shoppingName" placeholder="导购员名称">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">导购员电话</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.shoppingTEL" placeholder="导购员电话">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">年龄</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.shoppingAge" placeholder="年龄">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">性别</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.shoppingsex" placeholder="性别">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">客户名称</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.customername" placeholder="客户名称">
+	    </div>
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">购买意向</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.shoppingintention" placeholder="购买意向">
+	    </div>
+	</div>
+	<div class="form-group form-group-sm" style="margin-bottom:5px;">
+		<label class="control-label col-md-1 col-sm-2 col-xs-4 text-right">客户沟通记录</label>
+		<div class="col-md-3 col-sm-4 col-xs-8">
+				<input type="text" class="form-control input-sm" ng-model="searchForm.shoppingCustomerinfor" placeholder="客户沟通记录">
+	    </div>
+		<div class="col-md-8">
+			<div class="form-group form-group-sm">
+				<div class="pull-right" style="padding-right:20px;">
+					<button type="submit" class="btn btn-danger btn-sm" ng-click="search();">查询</button>
+					<button type="button" class="btn btn-default btn-sm" ng-click="clearSearch();">清空</button>
+					<button type="button" class="btn btn-success btn-sm" style="margin-left:30px;" ng-click="edit()">新建</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<ac-table>
+    <ac-table-column header="导购员名称" field="shoppingName" sortable="true"></ac-table-column>
+    <ac-table-column header="导购员电话" field="shoppingTEL" sortable="true"></ac-table-column>
+    <ac-table-column header="年龄" field="shoppingAge" sortable="true"></ac-table-column>
+    <ac-table-column header="性别" field="shoppingsex" sortable="true"></ac-table-column>
+    <ac-table-column header="客户名称" field="customername" sortable="true"></ac-table-column>
+    <ac-table-column header="购买意向" field="shoppingintention" sortable="true"></ac-table-column>
+    <ac-table-column header="客户沟通记录" field="shoppingCustomerinfor" sortable="true"></ac-table-column>
+    <ac-table-column-op content="<i class='fa fa-pencil'></i>" op="edit" tooltip="编辑"></ac-table-column-op>
+    <ac-table-column-op content="<i class='fa fa-trash'></i>" op="del" tooltip="删除"></ac-table-column-op>
+	<ac-table-grid items="dataList" selectable="false" multiple="false" id-field="id" selected-items="selectedItems" paging="pagination" on-sort-change="search()"></ac-table-grid>
+</ac-table>
+<pagination total-items="dataList.total" paging="pagination" ng-model="pagination.currentPage" on-page-change="pageChanged()"></pagination>
+</div>
